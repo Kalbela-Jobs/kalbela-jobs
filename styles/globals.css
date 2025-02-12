@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 215 20.2% 65.1%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
+
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 216 34% 17%;
+
+    --radius: 0.5rem;
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border font-sans
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}
+body {
+      font-family: 'Open Sans', sans-serif;
+}
+
+/* You can apply different fonts to specific sections */
+h1,
+h2,
+h3,
+button,
+a,
+Link,
+h4,
+h5,
+Button,
+.montserrat-font {
+      font-family: 'Montserrat','Tajawal',sans-serif;
+}
+
+p,
+.tajawal-font {
+      font-family: 'Montserrat', 'Tajawal', sans-serif;
+}
+
+
+@layer utilities {
+}
+
+.ql-toolbar.ql-snow {
+  @apply block w-full rounded-t-md border border-gray-800 bg-transparent py-2 pl-5 pr-10 text-base font-normal text-white placeholder-gray-500 focus:border-white focus:ring-1 focus:ring-white;
+}
+
+.ql-container.ql-snow {
+  @apply block min-h-20 w-full rounded-b-md border border-gray-800 bg-transparent text-base font-normal text-gray-400 placeholder-gray-500 focus:border-white focus:ring-1 focus:ring-white;
+}
+
+
+.jodit-editor ul,
+.jodit-editor ol {
+      padding-left: 20px;
+}
+
+.jodit-editor ul li,
+.jodit-editor ol li {
+      list-style-type: disc;
+      margin-bottom: 5px;
+}
+
+.jodit-editor ol li {
+      list-style-type: decimal;
+}
+
+/* Targeting unordered and ordered lists within JoditEditor */
+.jodit-wysiwyg ul,
+.jodit-wysiwyg ol {
+      padding-left: 20px;
+      /* Adjust as needed */
+}
+
+/* Default unordered list item */
+.jodit-wysiwyg ul li {
+      list-style-type: disc;
+      /* Unordered list marker style */
+      margin-bottom: 5px;
+      /* Adjust as needed */
+}
+
+/* Specific styles for different unordered list types */
+.jodit-wysiwyg ul.circle li {
+      list-style-type: circle;
+      /* Circle marker style */
+}
+
+.jodit-wysiwyg ul.square li {
+      list-style-type: square;
+      /* Square marker style */
+}
+
+/* Default ordered list item */
+.jodit-wysiwyg ol li {
+      list-style-type: decimal;
+      /* Ordered list marker style */
+      margin-bottom: 5px;
+      /* Adjust as needed */
+}
+
+/* Specific styles for different ordered list types */
+.jodit-wysiwyg ol.lower-alpha li {
+      list-style-type: lower-alpha;
+      /* Lowercase alphabetic marker style */
+}
+
+.jodit-wysiwyg ol.lower-greek li {
+      list-style-type: lower-greek;
+      /* Lowercase Greek marker style */
+}
+
+
+.scrollbar-hide::-webkit-scrollbar {
+      display: none;
+}
+
+.scrollbar-hide {
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+}
+
+.custom-outline {
+      -webkit-text-stroke: 1px black;
+      color: transparent;
+}
+
+.custom-outline-light {
+      -webkit-text-stroke: 1px white;
+      color: transparent;
+}
+
+/* Dark mode support */
+.dark .custom-outline {
+      -webkit-text-stroke: 1px white;
+}
+
+.dark .custom-outline-light {
+      -webkit-text-stroke: 1px black;
+}
