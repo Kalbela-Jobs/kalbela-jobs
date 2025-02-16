@@ -40,7 +40,7 @@ export function EditModal({
                                           )}
                                     </DialogHeader>
                                     <div
-                                          className="z-40 max-h-[500px] overflow-y-auto "
+                                          className="z-50 max-h-[500px] overflow-y-auto "
                                           style={{ scrollbarWidth: "none" }}
                                     >
                                           {children}
