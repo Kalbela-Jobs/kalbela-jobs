@@ -22,7 +22,7 @@ const FeaturedJobs: React.FC = () => {
             <section>
                   <MaxWidthWrapper className="py-6 md:py-10">
                         <h2 className="mb-4 flex items-center text-xl font-bold md:text-3xl">
-                              <span className="mr-2 text-red-500">🔥</span> Featured Jobs
+                              <span className="mr-2 text-red-500">🔥</span> Hot Jobs
                         </h2>
                         <div className="grid grid-cols-1 lg:gap-4 sm:grid-cols-1 lg:grid-cols-4">
 

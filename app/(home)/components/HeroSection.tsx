@@ -156,7 +156,7 @@ const HeroSection = () => {
                               </p>
                         </div>
 
-                        {/* <div className="z-50 flex w-full max-w-3xl items-center space-x-2 rounded-sm border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200 md:px-6 relative">
+                        <div className="z-40 flex w-full max-w-3xl items-center space-x-2 rounded-sm border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200 md:px-6 relative">
                               <div className=" flex w-full items-center space-x-2">
                                     <Search className="size-6 text-gray-500 dark:text-slate-200" />
                                     <Input
@@ -244,8 +244,8 @@ const HeroSection = () => {
                               </div>
 
                               <PrimaryBtn onClick={handleSearch}>Search</PrimaryBtn>
-                        </div> */}
-                        <SearchModal searchQuery={searchQuery}
+                        </div>
+                        {/* <SearchModal searchQuery={searchQuery}
                               setSearchQuery={setSearchQuery}
                               filteredSkills={filteredSkills}
                               filteredSearchHistory={filteredSearchHistory}
@@ -255,7 +255,7 @@ const HeroSection = () => {
                               location={location}
                               setLocation={setLocation}
                               data={data}
-                              theme={theme} />
+                              theme={theme} /> */}
                         <Job_type_tag />
                         <div className="mx-auto px-4 py-0 lg:py-8">
                               <div className="grid grid-cols-2 gap-x-20 gap-y-4 sm:grid-cols-6 lg:gap-x-4">
