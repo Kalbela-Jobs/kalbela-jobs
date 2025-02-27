@@ -13,23 +13,28 @@ type Attachment = {
       preview: string
 }
 
+
 function MessageInput({
       onSendMessage,
 }: { onSendMessage: (message: { text: string; attachments: Attachment[]; audio: Blob | null }) => void }) {
       const [message, setMessage] = useState<string>("")
-      const [showEmoji, setShowEmoji] = useState<boolean>(false)
+      const [showEmoji, setShowEmoji] = useState(false);
       const [attachments, setAttachments] = useState<Attachment[]>([])
       const [isRecording, setIsRecording] = useState<boolean>(false)
       const [recordingTime, setRecordingTime] = useState<number>(0)
       const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
       const fileInputRef = useRef<HTMLInputElement>(null)
-      const recordingInterval = useRef<NodeJS.Timeout | null>(null)
+      // const recordingInterval = useRef<NodeJS.Timeout | null>(null)
+
+      // const recordingInterval = useRef<number | null>(null);
+      const recordingInterval = useRef<number | null>(null);
+
       const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-      const emojiPickerRef = useRef<HTMLDivElement>(null)
-      const emojiButtonRef = useRef<HTMLButtonElement>(null)
+
+      const emojiPickerRef = useRef<HTMLDivElement | null>(null);
+      const emojiButtonRef = useRef<HTMLButtonElement | null>(null);
 
       const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, "0")}`
-
       useEffect(() => {
             const handleClickOutside = (event: MouseEvent) => {
                   if (
@@ -38,16 +43,17 @@ function MessageInput({
                         emojiButtonRef.current &&
                         !emojiButtonRef.current.contains(event.target as Node)
                   ) {
-                        setShowEmoji(false)
+                        setShowEmoji(false);
                   }
-            }
+            };
 
-            document.addEventListener("mousedown", handleClickOutside)
+            const listener = handleClickOutside as unknown as EventListener;
+            document.addEventListener('mousedown', listener);
 
             return () => {
-                  document.removeEventListener("mousedown", handleClickOutside)
-            }
-      }, [])
+                  document.removeEventListener('mousedown', listener);
+            };
+      }, []);
 
       const handleSend = () => {
             if (message.trim() || attachments.length > 0 || audioBlob) {
@@ -82,20 +88,36 @@ function MessageInput({
                   mediaRecorder.start()
                   setIsRecording(true)
                   setRecordingTime(0)
-                  recordingInterval.current = setInterval(() => setRecordingTime((prev) => prev + 1), 1000)
+                  // recordingInterval.current = setInterval(() => setRecordingTime((prev) => prev + 1), 1000);
+
+                  recordingInterval.current = window.setInterval(() => setRecordingTime((prev) => prev + 1), 1000);
+
+
+
             } catch (error) {
                   console.error("Error accessing microphone:", error)
             }
       }
 
+      // const stopRecording = () => {
+      //       if (mediaRecorderRef.current) {
+      //             mediaRecorderRef.current.stop()
+      //             mediaRecorderRef.current.stream.getTracks().forEach((track) => track.stop())
+      //       }
+      //       setIsRecording(false)
+      //       clearInterval(recordingInterval.current)
+      // }
+
       const stopRecording = () => {
             if (mediaRecorderRef.current) {
-                  mediaRecorderRef.current.stop()
-                  mediaRecorderRef.current.stream.getTracks().forEach((track) => track.stop())
+                  mediaRecorderRef.current.stop();
+                  mediaRecorderRef.current.stream.getTracks().forEach((track) => track.stop());
             }
-            setIsRecording(false)
-            clearInterval(recordingInterval.current)
-      }
+            setIsRecording(false);
+            if (recordingInterval.current) {
+                  clearInterval(recordingInterval.current);
+            }
+      };
 
       const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
             const files = Array.from(e.target.files || [])
@@ -236,14 +258,26 @@ function AudioPlayer({ audioUrl }: { audioUrl: string }) {
             }
       }, [])
 
+      // const togglePlay = () => {
+      //       if (isPlaying) {
+      //             audioRef.current.pause()
+      //       } else {
+      //             audioRef.current.play()
+      //       }
+      //       setIsPlaying((prev) => !prev)
+      // }
+
       const togglePlay = () => {
-            if (isPlaying) {
-                  audioRef.current.pause()
-            } else {
-                  audioRef.current.play()
+            if (audioRef.current) {
+                  if (isPlaying) {
+                        audioRef.current.pause();
+                  } else {
+                        audioRef.current.play();
+                  }
+                  setIsPlaying((prev) => !prev);
             }
-            setIsPlaying((prev) => !prev)
-      }
+      };
+
 
       return (
             <div className="audio-player flex items-center gap-2">

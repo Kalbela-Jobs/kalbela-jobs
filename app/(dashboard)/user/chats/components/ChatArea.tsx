@@ -12,11 +12,12 @@ import MessageInput from './MessageInput';
 interface ChatAreaProps {
       messages: any;
       selectedUser: any;
-      onSendMessage: (message: string) => any;
+      onSendMessage: (message: any) => any;
       candidate: any;
       refetch: () => any;
       isLoading: any;
 }
+
 
 const ChatArea = ({ messages, selectedUser, onSendMessage, candidate, refetch, isLoading }: ChatAreaProps) => {
       const [user] = useUserData();
@@ -28,6 +29,7 @@ const ChatArea = ({ messages, selectedUser, onSendMessage, candidate, refetch, i
 
       const getInitials = (name?: string) =>
             name?.split(' ').map(word => word[0]).join('').toUpperCase();
+
 
       return (
             <div className="message-area h-screen">
