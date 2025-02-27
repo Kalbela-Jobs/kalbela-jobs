@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { set_user_data } from "@/utils/encript_decript"
+import { set_user_data, useUserData } from "@/utils/encript_decript"
 import { Eye, EyeOff } from "lucide-react"
 
 import PrimaryBtn from "@/components/PrimaryBtn"
@@ -24,6 +24,7 @@ const RegistrationPage = () => {
       const [loading, setLoading] = useState(false)
       const [error_message, set_error_message] = useState("")
       const router = useRouter() // Next.js Router
+      const [user] = useUserData()
 
       const [formData, setFormData] = useState<FormData>({
             fullName: "",
@@ -63,6 +64,11 @@ const RegistrationPage = () => {
             }
       }
 
+
+      const handleLogin = async () => {
+            await googleLogin();
+
+      };
 
 
       return (
@@ -214,7 +220,7 @@ const RegistrationPage = () => {
                                     <div className="mt-3 space-y-3">
                                           <SecondaryBtn
                                                 // onClick={handlerGoogleLogin}
-                                                onClick={() => googleLogin()}
+                                                onClick={() => handleLogin()}
                                                 className="relative w-full py-3"
                                           >
                                                 <div className="absolute inset-y-0 left-0 px-4 py-2">
@@ -248,7 +254,7 @@ const RegistrationPage = () => {
                                                       <div className="absolute inset-y-0 left-0 px-4 py-2">
                                                             <img
                                                                   className="size-7 text-[#2563EB]"
-                                                                  src="https://imgs.search.brave.com/RbrzDbIcgygKJUkeGfYiEqFlX5iFPxmG6zP1UbjsTZs/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly95dDMu/Z29vZ2xldXNlcmNv/bnRlbnQuY29tLzBk/UDloRzFoLTdxekYy/Uk5VN3dfUTFrVmhf/WU9uUDlMUzlyLXYx/RmdMdDl0bDZUcl9P/UUhNRjlkeFRFdEVN/U3FtY08yRV9kTE9I/TT1zOTAwLWMtay1j/MHgwMGZmZmZmZi1u/by1yag"
+                                                                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn2JeSiT3SLCTDzuGWCjPSkiQOdByB1LByDA&s"
                                                                   alt=""
                                                             />
                                                       </div>

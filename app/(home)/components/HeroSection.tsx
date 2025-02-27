@@ -258,10 +258,10 @@ const HeroSection = () => {
                               theme={theme} /> */}
                         <Job_type_tag />
                         <div className="mx-auto px-4 py-0 lg:py-8">
-                              <div className="grid grid-cols-2 gap-x-20 gap-y-4 sm:grid-cols-6 lg:gap-x-4">
+                              <div className="grid grid-cols-2 gap-x-20  gap-y-4 sm:grid-cols-6 lg:gap-x-4">
                                     {statistics.map((stat) => (
                                           <Link href={stat.link} key={stat.title} className="flex items-center">
-                                                <div className="mr-3 rounded-full bg-[#001968] p-2 lg:p-3">
+                                                <div className="mr-3 rounded-full bg-[#001968] z-[35] p-2 lg:p-3">
                                                       <stat.icon className="h-4 w-4 text-white" />
                                                 </div>
                                                 <div>

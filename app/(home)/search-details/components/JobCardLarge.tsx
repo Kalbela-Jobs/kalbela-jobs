@@ -1,3 +1,5 @@
+
+"use client"
 import Link from "next/link"
 import { Heart } from "lucide-react"
 
@@ -5,20 +7,62 @@ import { formatDate } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 import fallback_image from "../../../../public/fallback_img.png"
+import { useUserData } from "@/utils/encript_decript"
+import { toast } from "react-toastify"
+import useApiForPost from "@/app/hooks/useApiForPost"
+import { googleLogin } from "@/app/hooks/firebse"
+import { useRouter } from "next/navigation"
 
 interface JobcardLargeProps {
       job: any
 }
 
 const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
+
+      const [user] = useUserData()
+      const { apiRequest } = useApiForPost()
+
+      const router = useRouter()
+
+      const save_jobs = async (job_id: any) => {
+            if (!user) {
+                  toast.warning("You need to login to save jobs")
+                  router.push("/login")
+                  return
+            }
+            const upload_data = {
+                  user_id: user._id,
+                  job_id,
+            }
+            if (!user._id) {
+                  toast.info("You need to login to save jobs")
+                  return
+            }
+            if (!job_id) {
+                  toast.error("Something went wrong")
+                  return
+            }
+            const { data, error } = await apiRequest<any>(
+                  `api/v1/user/save-jobs`,
+                  "POST",
+                  upload_data
+            )
+            if (error) {
+                  toast.error(error.message)
+            } else {
+                  toast.success(data.message)
+            }
+      }
       return (
-            <Link
-                  href={`/jobs/${job.url}`}
+            <div
                   className="block rounded border p-4 shadow-sm focus:outline-none focus:ring focus:ring-offset-2"
                   key={job._id}
             >
                   <article>
-                        <div className="relative border-b border-gray-400 pb-2">
+                        <Link
+                              href={`/jobs/${job.url}`}
+                              className="relative border-b border-gray-400 pb-2"
+                        >
                               <header>
                                     <div className="max-w-64 md:max-w-xl">
                                           <h2 className="text-lg font-bold">{job.job_title}</h2>
@@ -54,7 +98,7 @@ const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
                                           alt={`${job.company_info?.name} logo`}
                                     />
                               </div>
-                        </div>
+                        </Link>
                         <footer className="flex items-center justify-between pt-1">
                               <p className="text-sm">
                                     <strong>Deadline:</strong> {formatDate(job.expiry_date)}
@@ -63,13 +107,13 @@ const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
                                     className="text-sm hover:no-underline"
                                     size="sm"
                                     variant="link"
-                                    onClick={(e) => e.stopPropagation()}
+                                    onClick={() => save_jobs(job._id)}
                               >
                                     <Heart className="me-1 size-4" /> Save for later
                               </Button>
                         </footer>
                   </article>
-            </Link>
+            </div>
       )
 }
 

@@ -3,6 +3,7 @@ import { useUserData } from "@/utils/encript_decript"
 
 import useApiRequest from "@/app/hooks/useApiRequest"
 import Link from "next/link"
+import { CalendarIcon, CircleIcon } from "lucide-react"
 
 type Job = {
       _id: string
@@ -11,6 +12,7 @@ type Job = {
                   name: string
                   logo: string
             }
+            job_type: string
             job_title: string
             job_location: string
             salary: string
@@ -66,72 +68,40 @@ const ApplySort = () => {
                               </div>
                         </div>
                   </div>
-                  <div className="divide-y divide-gray-200">
-                        {data?.data?.slice(0, 5)?.map((job: any) => (
-                              <div className="grid grid-cols-3 gap-y-4 py-4 lg:grid-cols-6 lg:gap-0">
-                                    <div className="col-span-2 px-4 sm:px-6 lg:col-span-1 lg:py-4">
-                                          <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-900">
-                                                <svg
-                                                      className="-ml-1 mr-1.5 h-2.5 w-2.5 text-green-500"
-                                                      fill="currentColor"
-                                                      viewBox="0 0 8 8"
-                                                >
-                                                      <circle cx={4} cy={4} r={3} />
-                                                </svg>
-                                                {job.status}
-                                          </span>
-                                    </div>
-                                    <div className="px-4 text-right sm:px-6 lg:order-last lg:py-4">
-                                          <button
-                                                type="button"
-                                                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 transition-all duration-200 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-                                          >
-                                                <svg
-                                                      className="h-6 w-6"
-                                                      xmlns="http://www.w3.org/2000/svg"
-                                                      fill="none"
-                                                      viewBox="0 0 24 24"
-                                                      stroke="currentColor"
-                                                      strokeWidth={2}
-                                                >
-                                                      <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-                                                      />
-                                                </svg>
-                                          </button>
-                                    </div>
-                                    <div className="px-4 sm:px-6 lg:col-span-2 lg:py-4">
-                                          <p className="text-sm font-bold">
-                                                {job?.job_post?.job_title}
-                                          </p>
-                                          <p className="mt-1 text-sm font-medium text-gray-500">
-                                                {job?.job_post?.company_info?.name}
-                                          </p>
-                                    </div>
-                                    <div className="px-4 sm:px-6 lg:py-4">
-                                          <p className="text-sm font-bold">
-                                                {job.job_post?.job_type}
-                                          </p>
-                                          <p className="mt-1 whitespace-nowrap text-sm font-medium text-gray-500">
-                                                {new Date(job?.created_at).toLocaleDateString(
-                                                      "en-US",
-                                                      {
-                                                            year: "numeric",
-                                                            month: "long",
-                                                            day: "numeric",
-                                                      }
-                                                )}
-                                          </p>
-                                    </div>
-                                    <div className="px-4 sm:px-6 lg:py-4">
-                                          <p className="mt-1 text-sm font-medium text-gray-500">
-                                                {job?.job_post?.company_info?.name}
-                                          </p>
-                                    </div>
-                              </div>
-                        ))}
+                  <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+
+                              <tbody className="divide-y divide-gray-200">
+                                    {data?.data?.slice(0, 5)?.map((job: Job, index: number) => (
+                                          <Link key={index} className="hover:bg-gray-50" href={`/user/applied-jobs/${job?._id}`}>
+                                                {/* <td className="px-4 py-4">
+                                                      <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-900">
+                                                            <CircleIcon className="mr-1 h-2 w-2 text-green-500" />
+                                                            {job.status}
+                                                      </span>
+                                                </td> */}
+                                                <td className="px-4 py-4">
+                                                      <p className="text-sm font-semibold text-gray-900">{job.job_post.job_title}</p>
+                                                      <p className="text-sm text-gray-700">{job.job_post.company_info.name}</p>
+                                                </td>
+                                                <td className="px-4 py-4">
+                                                      <p className="text-sm whitespace-nowrap text-gray-700">{job?.job_post?.job_type}</p>
+                                                </td>
+
+                                                <td className="px-4 py-4">
+                                                      <div className="flex items-center whitespace-nowrap text-sm text-gray-500">
+                                                            <CalendarIcon className="mr-1.5 h-4 w-4" />
+                                                            {new Date(job.created_at).toLocaleDateString("en-US", {
+                                                                  year: "numeric",
+                                                                  month: "long",
+                                                                  day: "numeric",
+                                                            })}
+                                                      </div>
+                                                </td>
+                                          </Link>
+                                    ))}
+                              </tbody>
+                        </table>
                   </div>
             </div>
 

@@ -186,6 +186,9 @@ const Page = ({ params }: { params: { slag: string } }) => {
                                                                                     <p className="text-sm text-muted-foreground">
                                                                                           ADV NO: {singleJobData.data.advertisementNo}
                                                                                     </p>
+                                                                                    {singleJobData.data.publicationDate && <p className="text-sm text-muted-foreground">
+                                                                                          Published Date: {format(new Date(singleJobData.data.publicationDate), "dd MMM yyyy")}
+                                                                                    </p>}
                                                                               </div>
 
                                                                         </div>

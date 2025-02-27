@@ -48,16 +48,22 @@ const FeaturedJobs: React.FC = () => {
                                                 >
                                                       <div className="">
                                                             <div className="h-16 w-16">
-                                                                  <img
-                                                                        className="h-full w-20 rounded border-2 border-gray-300 bg-white object-contain p-2 shadow-md"
-                                                                        src={
-                                                                              job?.company_info?.logo ||
-                                                                              "https://via.placeholder.com/64"
-                                                                        }
-                                                                        alt={job?.company_info?.name || "Company Logo"}
-                                                                  />
+                                                                  {job?.company_info?.logo ? (
+                                                                        <img
+                                                                              className="h-full w-20 rounded border-2 border-gray-300 bg-white object-contain p-2 shadow-md"
+                                                                              src={job.company_info.logo}
+                                                                              alt={job.company_info.name || "Company Logo"}
+                                                                        />
+                                                                  ) : (
+                                                                        <div className="flex justify-center items-center h-full rounded border-2 border-gray-300 bg-white object-contain p-2 shadow-md">
+                                                                              <span className="text-xl font-semibold text-gray-600">
+                                                                                    {job?.company_info?.name?.charAt(0).toUpperCase() || "C"}
+                                                                              </span>
+                                                                        </div>
+                                                                  )}
                                                             </div>
                                                       </div>
+
                                                       <div className="flex-grow  gap-1 text-center md:text-start">
                                                             <h3 className="font-semibold text-sm capitalize group-hover:text-blue-500">
 

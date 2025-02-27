@@ -1,24 +1,32 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, type ChangeEvent, type KeyboardEvent, type MouseEvent } from "react"
 import EmojiPicker from "emoji-picker-react"
 import "../message/style/chat.css"
 import "../message/style/messenger.css"
 import "../message/style/sidebar.css"
 import { Pause, Play, Send, Trash } from "lucide-react"
 
-function MessageInput({ onSendMessage }: any) {
-      const [message, setMessage] = useState("")
-      const [showEmoji, setShowEmoji] = useState(false)
-      const [attachments, setAttachments] = useState([])
-      const [isRecording, setIsRecording] = useState(false)
-      const [recordingTime, setRecordingTime] = useState(0)
-      const [audioBlob, setAudioBlob] = useState(null)
-      const fileInputRef = useRef(null)
-      const recordingInterval = useRef(null)
-      const mediaRecorderRef = useRef(null)
-      const emojiPickerRef = useRef(null)
-      const emojiButtonRef = useRef(null)
+type Attachment = {
+      id: string
+      file: File
+      preview: string
+}
+
+function MessageInput({
+      onSendMessage,
+}: { onSendMessage: (message: { text: string; attachments: Attachment[]; audio: Blob | null }) => void }) {
+      const [message, setMessage] = useState<string>("")
+      const [showEmoji, setShowEmoji] = useState<boolean>(false)
+      const [attachments, setAttachments] = useState<Attachment[]>([])
+      const [isRecording, setIsRecording] = useState<boolean>(false)
+      const [recordingTime, setRecordingTime] = useState<number>(0)
+      const [audioBlob, setAudioBlob] = useState<Blob | null>(null)
+      const fileInputRef = useRef<HTMLInputElement>(null)
+      const recordingInterval = useRef<NodeJS.Timeout | null>(null)
+      const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+      const emojiPickerRef = useRef<HTMLDivElement>(null)
+      const emojiButtonRef = useRef<HTMLButtonElement>(null)
 
       const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, "0")}`
 
@@ -26,9 +34,9 @@ function MessageInput({ onSendMessage }: any) {
             const handleClickOutside = (event: MouseEvent) => {
                   if (
                         emojiPickerRef.current &&
-                        !emojiPickerRef.current?.contains(event.target) &&
+                        !emojiPickerRef.current.contains(event.target as Node) &&
                         emojiButtonRef.current &&
-                        !emojiButtonRef.current?.contains(event.target)
+                        !emojiButtonRef.current.contains(event.target as Node)
                   ) {
                         setShowEmoji(false)
                   }
@@ -50,7 +58,7 @@ function MessageInput({ onSendMessage }: any) {
             }
       }
 
-      const handleKeyDown = (e) => {
+      const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
             if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault()
                   handleSend()
@@ -62,7 +70,7 @@ function MessageInput({ onSendMessage }: any) {
                   const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
                   const mediaRecorder = new MediaRecorder(stream)
                   mediaRecorderRef.current = mediaRecorder
-                  const audioChunks = []
+                  const audioChunks: Blob[] = []
 
                   mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data)
 
@@ -89,9 +97,9 @@ function MessageInput({ onSendMessage }: any) {
             clearInterval(recordingInterval.current)
       }
 
-      const handleFileChange = (e) => {
+      const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
             const files = Array.from(e.target.files || [])
-            const newAttachments = files.map((file) => ({
+            const newAttachments: Attachment[] = files.map((file) => ({
                   id: Math.random().toString(),
                   file,
                   preview: URL.createObjectURL(file),
@@ -99,7 +107,7 @@ function MessageInput({ onSendMessage }: any) {
             setAttachments((prev) => [...prev, ...newAttachments])
       }
 
-      const removeAttachment = (id) => setAttachments((prev) => prev.filter((att) => att.id !== id))
+      const removeAttachment = (id: string) => setAttachments((prev) => prev.filter((att) => att.id !== id))
 
       const toggleEmojiPicker = () => setShowEmoji((prev) => !prev)
 
@@ -204,13 +212,13 @@ function MessageInput({ onSendMessage }: any) {
 
 export default MessageInput
 
-function AudioPlayer({ audioUrl }) {
-      const audioRef = useRef(null)
-      const [isPlaying, setIsPlaying] = useState(false)
-      const [currentTime, setCurrentTime] = useState(0)
-      const [duration, setDuration] = useState(0)
+function AudioPlayer({ audioUrl }: { audioUrl: string }) {
+      const audioRef = useRef<HTMLAudioElement>(null)
+      const [isPlaying, setIsPlaying] = useState<boolean>(false)
+      const [currentTime, setCurrentTime] = useState<number>(0)
+      const [duration, setDuration] = useState<number>(0)
 
-      const formatTime = (seconds) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, "0")}`
+      const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, "0")}`
 
       useEffect(() => {
             const audio = audioRef.current

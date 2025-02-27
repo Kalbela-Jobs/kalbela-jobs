@@ -28,10 +28,9 @@ export const set_user_data = (userData: any) => {
 }
 
 export const logout = () => {
-      const router = useRouter()
       logout_google()
       Cookies.remove("kalbelajobs_user")
-      router.push("/login")
+      // router.push("/login")
 }
 
 
