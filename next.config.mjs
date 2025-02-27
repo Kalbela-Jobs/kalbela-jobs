@@ -33,6 +33,7 @@ const nextConfig = {
   },
 }
 
+// Wrap nextConfig with nextPwa
 export default nextPwa({
   dest: "public",
   register: true,
