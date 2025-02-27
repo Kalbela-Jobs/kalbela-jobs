@@ -9,6 +9,7 @@ import {
       FileText,
       LayoutDashboard,
       LogOut,
+      MessageSquare,
       ShoppingCart,
       Users,
 } from "lucide-react"
@@ -25,6 +26,7 @@ const sidebarItems = [
       { name: "Profile", href: "/user/profile", icon: Users },
       { name: "Products", href: "/user/products", icon: ShoppingCart },
       { name: "Reports", href: "/user/reports", icon: FileText },
+      { name: "Chats", href: "/user/chats", icon: MessageSquare },
 ]
 
 export function Sidebar({

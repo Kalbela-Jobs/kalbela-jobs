@@ -22,7 +22,7 @@ const FeaturedJobs: React.FC = () => {
             <section>
                   <MaxWidthWrapper className="py-6 md:py-10">
                         <h2 className="mb-4 flex items-center text-xl font-bold md:text-3xl">
-                              <span className="mr-2 text-red-500">🔥</span> Featured Jobs
+                              <span className="mr-2 text-red-500">🔥</span> Hot Jobs
                         </h2>
                         <div className="grid grid-cols-1 lg:gap-4 sm:grid-cols-1 lg:grid-cols-4">
 
@@ -48,16 +48,22 @@ const FeaturedJobs: React.FC = () => {
                                                 >
                                                       <div className="">
                                                             <div className="h-16 w-16">
-                                                                  <img
-                                                                        className="h-full w-20 rounded border-2 border-gray-300 bg-white object-contain p-2 shadow-md"
-                                                                        src={
-                                                                              job?.company_info?.logo ||
-                                                                              "https://via.placeholder.com/64"
-                                                                        }
-                                                                        alt={job?.company_info?.name || "Company Logo"}
-                                                                  />
+                                                                  {job?.company_info?.logo ? (
+                                                                        <img
+                                                                              className="h-full w-20 rounded border-2 border-gray-300 bg-white object-contain p-2 shadow-md"
+                                                                              src={job.company_info.logo}
+                                                                              alt={job.company_info.name || "Company Logo"}
+                                                                        />
+                                                                  ) : (
+                                                                        <div className="flex justify-center items-center h-full rounded border-2 border-gray-300 bg-white object-contain p-2 shadow-md">
+                                                                              <span className="text-xl font-semibold text-gray-600">
+                                                                                    {job?.company_info?.name?.charAt(0).toUpperCase() || "C"}
+                                                                              </span>
+                                                                        </div>
+                                                                  )}
                                                             </div>
                                                       </div>
+
                                                       <div className="flex-grow  gap-1 text-center md:text-start">
                                                             <h3 className="font-semibold text-sm capitalize group-hover:text-blue-500">
 

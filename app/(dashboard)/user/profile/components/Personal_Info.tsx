@@ -269,7 +269,7 @@ export default function ProfilePage() {
                                                       <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-primary">
                                                             {user?.profile_picture ? (
                                                                   <Image
-                                                                        src={user.profile_picture || "/placeholder.svg"}
+                                                                        src={user?.profile_picture || "/placeholder.svg"}
                                                                         alt="Profile Picture"
                                                                         fill
                                                                         className="object-scale-down "

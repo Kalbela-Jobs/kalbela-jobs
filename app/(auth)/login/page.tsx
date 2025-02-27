@@ -4,7 +4,7 @@ import { useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { set_user_data } from "@/utils/encript_decript"
+import { set_user_data, useUserData } from "@/utils/encript_decript"
 import { Eye, EyeOff } from "lucide-react"
 import { signIn } from "next-auth/react"
 
@@ -27,6 +27,7 @@ const RegistrationPage = () => {
       const router = useRouter() // Next.js Router
       const [error_message, set_error_message] = useState("")
       const [loading, setLoading] = useState(false)
+      const [user, setUserData] = useUserData()
 
       const [formData, setFormData] = useState<FormData>({
             email: "",
@@ -64,6 +65,14 @@ const RegistrationPage = () => {
                   router.push("/user")
             }
       }
+
+      const handleLogin = async () => {
+            await googleLogin();
+            const get_user = user
+            if (get_user) {
+                  router.push('/user');
+            }
+      };
 
       return (
             <section>
@@ -192,7 +201,7 @@ const RegistrationPage = () => {
                                     <div className="mt-3 space-y-3">
                                           <SecondaryBtn
                                                 // onClick={handlerGoogleLogin}
-                                                onClick={() => googleLogin()}
+                                                onClick={handleLogin}
                                                 className="relative w-full py-3"
                                           >
                                                 <div className="absolute inset-y-0 left-0 px-4 py-2">
