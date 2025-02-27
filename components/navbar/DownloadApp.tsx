@@ -33,20 +33,17 @@ interface BeforeInstallPromptEvent extends Event {
 
 const DownloadApp: React.FC<PropsType> = ({ size }) => {
     const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-    const [isInstallable, setIsInstallable] = useState<boolean>(true);
+    const [isInstallable, setIsInstallable] = useState<boolean>(false);
 
     useEffect(() => {
-        // Listener for the 'beforeinstallprompt' event
         const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
-            e.preventDefault(); // Prevent the default prompt
-            setDeferredPrompt(e); // Store the event
-            setIsInstallable(true); // Make the install button visible
+            e.preventDefault();
+            setDeferredPrompt(e);
+            setIsInstallable(true);
         };
 
-        // Add the event listener to handle the install prompt
         window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
-        // Cleanup listener when component unmounts
         return () => {
             window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
         };
