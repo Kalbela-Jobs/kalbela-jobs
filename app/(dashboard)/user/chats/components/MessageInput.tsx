@@ -13,9 +13,7 @@ type Attachment = {
       preview: string
 }
 
-function MessageInput({
-      onSendMessage,
-}: { onSendMessage: (message: { text: string; attachments: Attachment[]; audio: Blob | null }) => void }) {
+function MessageInput(onSendMessage: any) {
       const [message, setMessage] = useState<string>("")
       const [showEmoji, setShowEmoji] = useState<boolean>(false)
       const [attachments, setAttachments] = useState<Attachment[]>([])
@@ -42,10 +40,10 @@ function MessageInput({
                   }
             }
 
-            document.addEventListener("mousedown", handleClickOutside)
+            document.addEventListener("mousedown", handleClickOutside as any)
 
             return () => {
-                  document.removeEventListener("mousedown", handleClickOutside)
+                  document.removeEventListener("mousedown", handleClickOutside as any)
             }
       }, [])
 
@@ -94,7 +92,7 @@ function MessageInput({
                   mediaRecorderRef.current.stream.getTracks().forEach((track) => track.stop())
             }
             setIsRecording(false)
-            clearInterval(recordingInterval.current)
+            clearInterval(recordingInterval.current as any)
       }
 
       const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -237,13 +235,16 @@ function AudioPlayer({ audioUrl }: { audioUrl: string }) {
       }, [])
 
       const togglePlay = () => {
-            if (isPlaying) {
-                  audioRef.current.pause()
+            if (!audioRef.current) return;
+
+            if (isPlaying || currentTime === (duration as number)) {
+                  audioRef.current.pause();
             } else {
-                  audioRef.current.play()
+                  audioRef.current.play();
             }
-            setIsPlaying((prev) => !prev)
-      }
+
+            setIsPlaying((prev) => !prev);
+      };
 
       return (
             <div className="audio-player flex items-center gap-2">
