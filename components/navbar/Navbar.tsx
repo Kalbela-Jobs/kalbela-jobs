@@ -78,16 +78,10 @@ const Navbar: React.FC = () => {
                         } shadow-none`}
             >
                   <MaxWidthWrapper className="flex h-[64px] items-center justify-between">
-                        <Button
-                              onClick={() => setIsMobileNavOpen(true)}
-                              variant="outline"
-                              size="icon"
-                              className={`text-gray-900 dark:border-gray-700 dark:text-slate-200 dark:hover:bg-gray-900 md:hidden`}
-                        >
-                              <Menu
-                                    className={`w-full text-gray-900 dark:border-gray-700 dark:text-slate-200 dark:hover:bg-gray-900`}
-                              />
-                        </Button>
+                        <div className="items-center lg:hidden block">
+                              {loading ? <Skeleton className="h-8 w-8 rounded-full" /> : <UserNav loading={loading} user={user} />}
+                        </div>
+
 
                         <div>
                               <Link href="/">
@@ -104,7 +98,9 @@ const Navbar: React.FC = () => {
                         </div>
 
                         <div className="flex  items-center justify-end">
-                              <UserNav loading={loading} user={user} />
+                              <div className="items-center lg:block hidden ">
+                                    <UserNav loading={loading} user={user} />
+                              </div>
 
                               {!user && !loading && (
                                     <div className="hidden items-center justify-between space-x-4 md:me-0 lg:flex">
@@ -130,6 +126,18 @@ const Navbar: React.FC = () => {
                                           </SecondaryBtn>
                                     </div>
                               )}
+                              <Button
+                                    onClick={() => setIsMobileNavOpen(true)}
+                                    variant="outline"
+                                    size="icon"
+                                    className={`text-gray-900 dark:border-gray-700 dark:text-slate-200 dark:hover:bg-gray-900 md:hidden`}
+                              >
+                                    <Menu
+                                          className={`w-full text-gray-900 dark:border-gray-700 dark:text-slate-200 dark:hover:bg-gray-900`}
+                                    />
+                              </Button>
+
+
                               <div className="ml-2">
                                     <ThemeToggle />
                               </div>
@@ -144,7 +152,7 @@ const Navbar: React.FC = () => {
                               </SheetTrigger>
 
                               <SheetContent
-                                    side="left"
+                                    side="right"
                                     className={`h-full w-80 overflow-y-auto pt-[14px] text-gray-800 dark:bg-gray-900 dark:text-slate-200`}
                               >
                                     <SheetHeader>

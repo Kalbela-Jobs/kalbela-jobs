@@ -1,6 +1,6 @@
 "use client"
 
-import { Fragment } from "react"
+import { Fragment, useEffect, useState } from "react"
 import Link from "next/link"
 import { Briefcase, LogIn, User, UserPlus } from "lucide-react"
 
@@ -23,6 +23,18 @@ import { useRouter } from "next/navigation"
 
 const UserNav = ({ loading, user }: { loading: boolean; user: any }) => {
       const router = useRouter()
+      const [alignment, setAlignment] = useState("start");
+      useEffect(() => {
+            const handleResize = () => {
+                  setAlignment(window.innerWidth >= 1024 ? "end" : "start");
+            };
+
+            window.addEventListener("resize", handleResize);
+            handleResize(); // Set initial alignment
+            return () => window.removeEventListener("resize", handleResize);
+      }, []);
+
+
       return (
             <DropdownMenu>
                   <div className="flex items-center">
@@ -51,7 +63,7 @@ const UserNav = ({ loading, user }: { loading: boolean; user: any }) => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                               className="w-56 rounded-sm border border-gray-300"
-                              align="end"
+                              align={alignment as any}
                               forceMount
                         >
                               {!loading && user ? (
@@ -123,7 +135,7 @@ const UserNav = ({ loading, user }: { loading: boolean; user: any }) => {
                               )}
                         </DropdownMenuContent>
                   </div>
-            </DropdownMenu>
+            </DropdownMenu >
       )
 }
 
