@@ -20,6 +20,8 @@ import PrimaryBtn from "../PrimaryBtn"
 import SecondaryBtn from "../SecondaryBtn"
 import { logout } from "@/utils/encript_decript"
 import { useRouter } from "next/navigation"
+import Cookies from "js-cookie"
+import { toast } from "@/hooks/use-toast"
 
 const UserNav = ({ loading, user }: { loading: boolean; user: any }) => {
       const router = useRouter()
@@ -34,6 +36,22 @@ const UserNav = ({ loading, user }: { loading: boolean; user: any }) => {
             return () => window.removeEventListener("resize", handleResize);
       }, []);
 
+
+      const handleLogout = () => {
+            logout()
+            // router.push("/login")
+
+            setTimeout(() => {
+                  const get_user = Cookies.get("kalbelajobs_user");
+                  console.log("get_user::::::::::::", get_user);
+                  if (!get_user) {
+                        toast({
+                              title: "Successfully logged out",
+                        })
+                        router.push('/login');
+                  }
+            }, 500);
+      }
 
       return (
             <DropdownMenu>
@@ -98,7 +116,7 @@ const UserNav = ({ loading, user }: { loading: boolean; user: any }) => {
                                           </DropdownMenuGroup>
                                           <DropdownMenuSeparator />
                                           <DropdownMenuItem
-                                                onClick={() => { logout(), window.location.reload() }}
+                                                onClick={handleLogout}
                                                 className="cursor-pointer"
                                           >
                                                 Log out

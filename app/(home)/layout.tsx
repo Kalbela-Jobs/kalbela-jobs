@@ -9,6 +9,7 @@ import BottomNav from "@/components/BottomNav"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import Footer from "@/components/footer/Footer"
 import Navbar from "@/components/navbar/Navbar"
+import DownloadApp from "@/components/DownloadApp"
 
 export const metadata: Metadata = {
       metadataBase: new URL(siteConfig.url),
@@ -102,6 +103,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                                     </header>
                                     <main className="flex-1">
                                           {children}
+                                          <DownloadApp />
                                           <ToastContainer />
                                     </main>
                                     <Footer />

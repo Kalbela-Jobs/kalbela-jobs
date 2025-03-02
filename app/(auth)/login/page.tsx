@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -14,6 +14,7 @@ import useApiForPost from "@/app/hooks/useApiForPost"
 
 import AuthAnimation from "../components/AuthAnimation"
 import { googleLogin } from "@/app/hooks/firebse"
+import Cookies from "js-cookie"
 
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false })
@@ -66,13 +67,34 @@ const RegistrationPage = () => {
             }
       }
 
+      // const handleLogin = async () => {
+      //       await googleLogin();
+      //       const get_user = user
+      //       console.log("get_user::::::::::::", get_user);
+      //       if (get_user) {
+      //             router.push('/user');
+      //       }
+      // };
+
+
       const handleLogin = async () => {
             await googleLogin();
-            const get_user = user
-            if (get_user) {
+
+            setTimeout(() => {
+                  const get_user = Cookies.get("kalbelajobs_user");
+                  console.log("get_user::::::::::::", get_user);
+                  if (get_user) {
+                        router.push('/user');
+                  }
+            }, 500);
+      };
+
+      useEffect(() => {
+            if (user) {
                   router.push('/user');
             }
-      };
+      }, [user]);
+
 
       return (
             <section>

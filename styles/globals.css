@@ -209,3 +209,39 @@ p,
 .dark .custom-outline-light {
       -webkit-text-stroke: 1px black;
 }
+
+/********************************
+ * scroll bar
+ ********************************/
+.chat-aside::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-aside::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.chat-aside::-webkit-scrollbar-thumb {
+  background: rgb(235, 231, 231);
+  border-radius: 10px;
+}
+
+.chat-aside::-webkit-scrollbar-thumb:hover {
+  background: #cfcdcd;
+}
+
+/* chat box scroll */
+.chat-box::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-box::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+  background: rgb(235, 231, 231);
+  border-radius: 10px;
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+  background: #cfcdcd;
+}

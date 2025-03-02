@@ -8,7 +8,7 @@ const upload_audio = async (file: any) => {
             const formData = new FormData();
             formData.append("audio", file);
 
-            const url = `http://localhost:5005/api/v1/image/upload-audio`;
+            const url = `${process.env.NEXT_APP_BASE_URL}/api/v1/image/upload-audio`;
             const response = await fetch(url, {
                   method: "PUT",
                   body: formData,

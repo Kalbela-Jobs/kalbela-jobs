@@ -28,23 +28,51 @@ export const set_user_data = (userData: any) => {
 }
 
 export const logout = () => {
-      logout_google()
-      Cookies.remove("kalbelajobs_user")
-      // router.push("/login")
+  logout_google()
+  Cookies.remove("kalbelajobs_user")
+  // router.push("/login")
 }
 
 
 // Custom Hook to manage user data
+// export const useUserData = () => {
+//   const [user, setUserData] = useState<any>(null)
+
+//   useEffect(() => {
+//     const encryptedUserData = Cookies.get("kalbelajobs_user");
+//     console.log("encryptedUserData", encryptedUserData);
+//     if (encryptedUserData) {
+//       const decryptedData = decryptData(encryptedUserData)
+//       setUserData(decryptedData)
+//     }
+//   }, [])
+
+//   return [user, setUserData]
+// }
+
+
 export const useUserData = () => {
-  const [user, setUserData] = useState<any>(null)
+  const [user, setUserData] = useState<any>(null);
 
   useEffect(() => {
-    const encryptedUserData = Cookies.get("kalbelajobs_user")
-    if (encryptedUserData) {
-      const decryptedData = decryptData(encryptedUserData)
-      setUserData(decryptedData)
-    }
-  }, [])
+    const checkUserData = () => {
+      const encryptedUserData = Cookies.get("kalbelajobs_user");
+      if (encryptedUserData) {
+        const decryptedData = decryptData(encryptedUserData);
+        setUserData(decryptedData);
+      } else {
+        setUserData(null);
+      }
+    };
 
-  return [user, setUserData]
-}
+    checkUserData();
+
+    const interval = setInterval(() => {
+      checkUserData();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return [user, setUserData];
+};

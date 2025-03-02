@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
 import { Download } from "lucide-react";
+import { Alert } from "./ui/alert";
+import { Button } from "./ui/button";
 /// <reference lib="webworker" />
 
 interface BeforeInstallPromptEvent extends Event {
@@ -33,7 +34,8 @@ interface BeforeInstallPromptEvent extends Event {
 
 const DownloadApp: React.FC<PropsType> = ({ size }) => {
     const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-    const [isInstallable, setIsInstallable] = useState<boolean>(false);
+    const [isInstallable, setIsInstallable] = useState<boolean>(true);
+    const [isSticky, setIsSticky] = useState(false);
 
     useEffect(() => {
         const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
@@ -65,13 +67,39 @@ const DownloadApp: React.FC<PropsType> = ({ size }) => {
         }
     };
 
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const documentHeight = document.documentElement.scrollHeight;
+
+            // If the user scrolls to the bottom, make it sticky
+            setIsSticky(scrollPosition >= documentHeight - 200);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+
     return (
         <>
-            {isInstallable && (
-                <Button className="!rounded hover:shadow-lg duration-300" onClick={handleInstallClick} variant="outline" size={size}>
-                    {size === "icon" ? "" : "Install App"} <Download />
-                </Button>
-            )}
+            {isInstallable && <div
+                className={`w-full px-3 flex justify-center transition-all duration-300 z-10 ${isSticky ? "sticky bottom-[300px]" : "fixed bottom-5"
+                    }`}
+            >
+                <div className="md:!w-[700px] w-full">
+                    <Alert className="bg-[#efebeb] !shadow-lg !rounded-sm !flex !items-center !justify-between">
+                        <div className="flex items-center gap-2">
+                            <Download className="" />
+                            <h1>Download Our App</h1>
+                        </div>
+                        <Button className="bg-primary !text-[white] !rounded hover:shadow-lg duration-300" onClick={handleInstallClick} variant="outline" size={size}>
+                            {size === "icon" ? "" : "Install App"} <Download />
+                        </Button>
+                    </Alert>
+                </div>
+            </div>}
         </>
     );
 };
