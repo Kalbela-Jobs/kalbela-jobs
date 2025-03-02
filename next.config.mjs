@@ -1,37 +1,43 @@
+import nextPwa from "next-pwa"
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-      reactStrictMode: true,
-
-      images: {
-            remotePatterns: [
-                  {
-                        protocol: 'https',
-                        hostname: 'i.ibb.co.com',
-                        port: '',
-                        pathname: '/**',
-                  },
-                  {
-                        protocol: 'https',
-                        hostname: 'image.kalbelajobs.com',
-                        port: '',
-                        pathname: '/api/v1/image/**',
-                  },
-                  {
-                        protocol: 'https',
-                        hostname: 'lh3.googleusercontent.com',
-                        port: '',
-                        pathname: '/**',
-                  },
-
-
-            ],
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.ibb.co",
+        port: "",
+        pathname: "/**",
       },
-      env: {
-            NEXT_APP_BASE_URL: process.env.NEXT_APP_BASE_URL,
+      {
+        protocol: "https",
+        hostname: "image.kalbelajobs.com",
+        port: "",
+        pathname: "/api/v1/image/**",
       },
-      eslint: {
-            ignoreDuringBuilds: true,
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
       },
+    ],
+  },
+  env: {
+    NEXT_APP_BASE_URL: process.env.NEXT_APP_BASE_URL,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
-export default nextConfig
+// Wrap nextConfig with nextPwa
+export default nextPwa({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+  mode: "production",
+})(nextConfig)

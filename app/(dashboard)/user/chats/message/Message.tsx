@@ -33,8 +33,6 @@ function Message() {
             enabled: !!user?._id && !!process.env.NEXT_APP_BASE_URL,
       });
 
-
-
       const [selectedUser, setSelectedUser] = useState<any>(null);
 
       useEffect(() => {
@@ -42,7 +40,6 @@ function Message() {
                   setSelectedUser(users[0]);
             }
       }, [users]);
-
 
       const { data: messages = [], isLoading: isMessagesLoading, error: messagesError, refetch: refetchMessages } = useQuery({
             queryKey: ["chat", user?._id, selectedUser?.user_id],
