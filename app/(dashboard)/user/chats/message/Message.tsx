@@ -1,9 +1,7 @@
 "use client"
 
 import React, { useContext, useEffect, useState } from 'react';
-import './style/chat.css';
-import './style/messenger.css';
-import './style/sidebar.css';
+
 
 import { useUserData } from '@/utils/encript_decript';
 import useApiRequest from '@/app/hooks/useApiRequest';
