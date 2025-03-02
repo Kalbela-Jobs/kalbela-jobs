@@ -72,15 +72,12 @@ const UserIdentity = () => {
             const data = {
                   selectedNationality,
                   identificationType,
-                  image: nidImage,
+                  image: await uploadImage(nidImage),
                   ...(identificationType?.label === "NID" && { back_image: await uploadImage(nidImageBack) }),
                   number: nidNumber,
                   issue_date: nidIssueDate,
             }
-
-
-
-            // setEditNationalityOpen(false)
+            console.log(data);
       }
 
 

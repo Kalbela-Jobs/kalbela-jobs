@@ -13,7 +13,7 @@ type Attachment = {
       preview: string
 }
 
-function MessageInput(onSendMessage: any) {
+function MessageInput({ onSendMessage }: { onSendMessage: any }) {
       const [message, setMessage] = useState<string>("")
       const [showEmoji, setShowEmoji] = useState<boolean>(false)
       const [attachments, setAttachments] = useState<Attachment[]>([])
