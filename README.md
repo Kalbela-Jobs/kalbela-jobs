@@ -7,6 +7,11 @@ This is the **frontend** repository for the **Kalbela Jobs User Panel** built wi
 ```
 /kalbela-jobs-frontend
 ├── app/            # Application pages and routing
+│   ├── (auth)/     # Authentication-related pages
+│   ├── (dashboard)/user/  # User dashboard
+│   ├── (home)/     # Home page
+│   ├── (kalbela_chat)/chat/  # Chat feature
+│   ├── hooks/      # Custom hooks specific to the app
 ├── components/     # Reusable UI components
 ├── config/         # Configuration files and settings
 ├── hooks/          # Custom React hooks
