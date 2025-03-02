@@ -75,7 +75,6 @@ export default function ProfilePage() {
       const [image_file, setImageFile] = useState(null)
       const [loading, setLoading] = useState(false)
       const [error_message, set_error_message] = useState("")
-
       const [name, setName] = useState(user?.fullName)
       const [languages, setLanguages] = useState(user?.languages || [])
       const [new_language, setNewLanguage] = useState(user?.languages)
@@ -205,6 +204,27 @@ export default function ProfilePage() {
                   setEditContactOpen(false)
             }
       }
+      const {
+            data: certificationsData = [],
+            isLoading,
+            error,
+      } = useQuery({
+            queryKey: ["certificationsData", user?._id],
+            queryFn: async () => {
+                  if (!user?._id) return []
+                  const res = await fetch(
+                        `${process.env.NEXT_APP_BASE_URL}/api/v1/user/get-certification?user_id=${user._id}`
+                  )
+
+                  if (!res.ok) {
+                        throw new Error("Failed to fetch certifications")
+                  }
+
+                  const data = await res.json()
+                  return data.data
+            },
+            enabled: !!user?._id,
+      })
 
       const { data: educations = [] } = useQuery({
             queryKey: ["educations_data", user?._id],
@@ -229,16 +249,18 @@ export default function ProfilePage() {
 
       useEffect(() => {
             let completion = 0
-            if (user?.fullName?.length) completion += 10
-            if (user?.email) completion += 10
-            if (user?.phone_number?.length > 5) completion += 10
-            if (user?.profile_picture) completion += 10
-            if (user?.languages?.length) completion += 10
-            if (user?.title?.length > 1) completion += 10
-            if (user?.description?.length > 4) completion += 10
-            if (user?.date_of_birth) completion += 10
-            if (user?.gender) completion += 10
-            if (educations.length) completion += 10
+            if (user?.fullName?.length) completion += 8
+            if (user?.email) completion += 8
+            if (user?.phone_number?.length > 5) completion += 8
+            if (user?.profile_picture) completion += 8
+            if (user?.languages?.length) completion += 8
+            if (user?.title?.length > 1) completion += 8
+            if (user?.description?.length > 4) completion += 8
+            if (user?.date_of_birth) completion += 8
+            if (user?.gender) completion += 8
+            if (user?.career_objective?.length > 4) completion += 8
+            if (educations.length) completion += 8
+            if (certificationsData.length) completion += 8
             setCompletion(completion)
       }, [
             user?.title,
@@ -250,7 +272,9 @@ export default function ProfilePage() {
             user?.languages,
             user?.date_of_birth,
             user?.gender,
+            user?.career_objective,
             educations,
+            certificationsData
       ])
 
       return (
