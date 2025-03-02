@@ -20,6 +20,7 @@ import Job_type_tag from "./Job_type_tag"
 
 import Link from "next/link"
 import SearchModal from "./Search"
+import Image from "next/image"
 
 const locationSuggestions = ["dhaka", "chattogram", "khulna", "rajshahi", "sylhet", "barishal", "mymensingh", "rangpur"]
 
@@ -156,95 +157,111 @@ const HeroSection = () => {
                               </p>
                         </div>
 
-                        <div className="z-40 flex w-full max-w-3xl items-center space-x-2 rounded-sm border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200 md:px-6 relative">
-                              <div className=" flex w-full items-center space-x-2">
-                                    <Search className="size-6 text-gray-500 dark:text-slate-200" />
-                                    <Input
-                                          type="text"
-                                          value={searchQuery}
-                                          onChange={handleSkillChange}
-                                          placeholder="Enter skills / designations / companies"
-                                          className="!placeholder:font-medium w-full border-none font-medium placeholder-gray-500 shadow-none outline-none focus-visible:ring-0 dark:placeholder-slate-200"
-                                    />
-                                    {showSkillDropdown && (filteredSkills.length > 0 || filteredSearchHistory.length > 0) && (
-                                          <ul
-                                                className={cn(
-                                                      "absolute top-16 -left-2 z-10 mt-1 max-h-72 w-full overflow-y-auto rounded-sm border shadow-md",
-                                                      {
-                                                            "border-gray-700 bg-gray-800": theme === "dark",
-                                                            "bg-white": theme !== "dark",
-                                                      },
-                                                )}
-                                                style={{ scrollbarWidth: "thin" }}
-                                          >
-                                                {filteredSearchHistory.length > 0 && (
-                                                      <>
-                                                            {filteredSearchHistory.map((item) => (
-                                                                  <li
-                                                                        key={`history-${item}`}
-                                                                        onClick={() => {
-                                                                              setSearchQuery(item)
-                                                                              setShowSkillDropdown(false)
-                                                                        }}
-                                                                        className="group m-1 flex items-start justify-between cursor-pointer p-1.5 capitalize rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-                                                                  >
-                                                                        <div className="flex items-center gap-2">
-                                                                              <Clock className="h-4 w-4 text-[#001968]" />
-                                                                              <div>
-                                                                                    <span className="text-[#001968]">{highlightMatch(item, searchQuery)}</span>
-                                                                              </div>
-                                                                        </div>
-                                                                        <button
-                                                                              onClick={(e) => removeFromHistory(item, e)}
-                                                                              className="hidden group-hover:block p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
-                                                                        >
-                                                                              <X className="h-4 w-4 text-gray-400" />
-                                                                        </button>
-                                                                  </li>
+
+                        {/* <div className="z-40  w-full max-w-3xl rounded-sm border border-gray-200 bg-[white] px-4 py-3 text-gray-900 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-slate-200 md:px-6 relative">
+
+                              {showSkillDropdown && <Image
+                                    src={'/logo.png'}
+                                    alt="kalbela-logo"
+                                    width={100}
+                                    height={100}
+                                    className="m-auto pt-6 pb-8 w-[220px]"
+                              />
+                              }
+                              <div onClick={() => setShowSkillDropdown(!showSkillDropdown)} className={`flex w-full items-center space-x-2 ${showSkillDropdown ? "border p-2 rounded" : "cursor-not-allowed"}`}>
+                                    <div className=" flex w-full items-center space-x-2">
+                                          <Search className="size-6 text-gray-500 dark:text-slate-200" />
+                                          <Input
+                                                type="text"
+                                                value={searchQuery}
+                                                onChange={handleSkillChange}
+                                                placeholder="Enter skills / designations / companies"
+                                                className="!placeholder:font-medium w-full border-none font-medium placeholder-gray-500 shadow-none outline-none focus-visible:ring-0 dark:placeholder-slate-200"
+                                          />
+                                    </div>
+
+                                    <div className="hidden items-center md:flex">
+                                          <Separator orientation="vertical" className="mx-2 h-10 w-0.5 bg-slate-400" />
+
+                                          <Select onValueChange={(value: any) => setLocation(value)}>
+                                                <SelectTrigger className="w-40 border-none font-medium text-gray-600 shadow-none outline-none focus:ring-0 dark:bg-gray-800 dark:text-slate-200">
+                                                      <SelectValue placeholder="Select location" />
+                                                </SelectTrigger>
+                                                <SelectContent className="max-h-72 bg-white text-gray-900 dark:bg-gray-800 dark:text-slate-200">
+                                                      <SelectGroup>
+                                                            {data?.data?.map((location: any) => (
+                                                                  <SelectItem key={location.name} value={location.name} className="capitalize">
+                                                                        {location.name}
+                                                                  </SelectItem>
                                                             ))}
-                                                            {filteredSkills.filter((skill) => !filteredSearchHistory.includes(skill)).length > 0 && <Separator className="my-2" />}
-                                                      </>
-                                                )}
-                                                {filteredSkills.filter((skill) => !filteredSearchHistory.includes(skill)).map((skill) => (
-                                                      <li
-                                                            key={`skill-${skill}`}
-                                                            onClick={() => {
-                                                                  setSearchQuery(skill)
-                                                                  setShowSkillDropdown(false)
-                                                            }}
-                                                            className="m-1 flex items-center rounded gap-2 cursor-pointer p-1.5 capitalize hover:bg-gray-100 dark:hover:bg-gray-700"
-                                                      >
-                                                            <Search className="h-4 w-4 text-gray-400" />
-                                                            <div>
-                                                                  <span>{highlightMatch(skill, searchQuery)}</span>
-                                                            </div>
-                                                      </li>
-                                                ))}
-                                          </ul>
-                                    )}
+                                                      </SelectGroup>
+                                                </SelectContent>
+                                          </Select>
+                                    </div>
+
+                                    <PrimaryBtn onClick={handleSearch}>Search</PrimaryBtn>
                               </div>
 
-                              <div className="hidden items-center md:flex">
-                                    <Separator orientation="vertical" className="mx-2 h-10 w-0.5 bg-slate-400" />
-
-                                    <Select onValueChange={(value: any) => setLocation(value)}>
-                                          <SelectTrigger className="w-40 border-none font-medium text-gray-600 shadow-none outline-none focus:ring-0 dark:bg-gray-800 dark:text-slate-200">
-                                                <SelectValue placeholder="Select location" />
-                                          </SelectTrigger>
-                                          <SelectContent className="max-h-72 bg-white text-gray-900 dark:bg-gray-800 dark:text-slate-200">
-                                                <SelectGroup>
-                                                      {data?.data?.map((location: any) => (
-                                                            <SelectItem key={location.name} value={location.name} className="capitalize">
-                                                                  {location.name}
-                                                            </SelectItem>
+                              {showSkillDropdown && (filteredSkills.length > 0 || filteredSearchHistory.length > 0) && (
+                                    <ul
+                                          className={cn(
+                                                " max-h-72 w-full overflow-y-auto bg-white ",
+                                                {
+                                                      "border-gray-700 ": theme === "dark",
+                                                      "": theme !== "dark",
+                                                },
+                                          )}
+                                          style={{ scrollbarWidth: "thin" }}
+                                    >
+                                          {filteredSearchHistory.length > 0 && (
+                                                <>
+                                                      {filteredSearchHistory.map((item) => (
+                                                            <li
+                                                                  key={`history-${item}`}
+                                                                  onClick={() => {
+                                                                        setSearchQuery(item)
+                                                                        setShowSkillDropdown(false)
+                                                                  }}
+                                                                  className="group m-1 flex items-start justify-between cursor-pointer p-1.5 capitalize rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                            >
+                                                                  <div className="flex items-center gap-2">
+                                                                        <Clock className="h-4 w-4 text-[#001968]" />
+                                                                        <div>
+                                                                              <span className="text-[#001968]">{highlightMatch(item, searchQuery)}</span>
+                                                                        </div>
+                                                                  </div>
+                                                                  <button
+                                                                        onClick={(e) => removeFromHistory(item, e)}
+                                                                        className="hidden group-hover:block p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
+                                                                  >
+                                                                        <X className="h-4 w-4 text-gray-400" />
+                                                                  </button>
+                                                            </li>
                                                       ))}
-                                                </SelectGroup>
-                                          </SelectContent>
-                                    </Select>
-                              </div>
+                                                      {filteredSkills.filter((skill) => !filteredSearchHistory.includes(skill)).length > 0 && <Separator className="my-2" />}
+                                                </>
+                                          )}
+                                          {filteredSkills.filter((skill) => !filteredSearchHistory.includes(skill)).map((skill) => (
+                                                <li
+                                                      key={`skill-${skill}`}
+                                                      onClick={() => {
+                                                            setSearchQuery(skill)
+                                                            setShowSkillDropdown(false)
+                                                      }}
+                                                      className="m-1 flex items-center rounded gap-2 cursor-pointer p-1.5 capitalize hover:bg-gray-100 dark:hover:bg-gray-700"
+                                                >
+                                                      <Search className="h-4 w-4 text-gray-400" />
+                                                      <div>
+                                                            <span>{highlightMatch(skill, searchQuery)}</span>
+                                                      </div>
+                                                </li>
+                                          ))}
+                                    </ul>
+                              )}
+                        </div> */}
 
-                              <PrimaryBtn onClick={handleSearch}>Search</PrimaryBtn>
-                        </div>
+
+
                         {/* <SearchModal searchQuery={searchQuery}
                               setSearchQuery={setSearchQuery}
                               filteredSkills={filteredSkills}

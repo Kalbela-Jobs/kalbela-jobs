@@ -5,7 +5,7 @@ import Message from "./message/Message";
 
 
 const page = () => {
-      const queryClient = new QueryClient()
+      const queryClient = new QueryClient();
       return (
             <div>
                   <QueryClientProvider client={queryClient}>
