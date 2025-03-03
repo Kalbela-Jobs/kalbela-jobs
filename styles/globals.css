@@ -277,3 +277,31 @@ audio::-webkit-media-controls-time-remaining-display {
 audio::-webkit-media-controls-timeline {
  @apply dark:!bg-[#2e3444] !bg-[#fff]
 }
+
+
+/********************************
+ * Chat Bot Scroll Customization
+ ********************************/
+.chat-bot::-webkit-scrollbar {
+    width: 6px!important; /* Adjust width */
+}
+.chat-bot-chat-area::-webkit-scrollbar {
+    width: 0px!important; /* Adjust width */
+}
+
+/* Track */
+.chat-bot::-webkit-scrollbar-track {
+    background: #44363600!important; 
+    border-radius: 10px!important;
+}
+
+/* Handle */
+.chat-bot::-webkit-scrollbar-thumb {
+    background: #d8d4d4!important;
+    border-radius: 10px!important;
+}
+
+/* Handle on hover */
+.chat-bot::-webkit-scrollbar-thumb:hover {
+    background: #e6e4e4!important;
+}

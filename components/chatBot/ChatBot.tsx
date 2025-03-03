@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import ChatBotContainer from './ChatBotContainer';
 
 const ChatBot = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -16,14 +16,14 @@ const ChatBot = () => {
 
         if (isOpen) {
             window.addEventListener('keydown', handleKeyDown);
-            document.body.classList.add('overflow-hidden');
+            document.body.style.overflow = 'hidden';
         } else {
-            document.body.classList.remove('overflow-hidden');
+            document.body.style.overflow = '';
         }
 
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
-            document.body.classList.remove('overflow-hidden');
+            document.body.style.overflow = ''; // Ensure scroll is re-enabled on cleanup
         };
     }, [isOpen]);
 
@@ -55,7 +55,7 @@ const ChatBot = () => {
                             exit={{ scale: 0.8, opacity: 0 }}
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                         >
-                            <ChatBotContainer />
+                            <ChatBotContainer isOpen={isOpen} setIsOpen={setIsOpen} />
                         </motion.div>
                     </motion.div>
                 )}

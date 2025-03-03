@@ -89,7 +89,7 @@ const BottomNav: React.FC = () => {
                                     </div>
 
                                     {/* Search */}
-                                    <BottomSearch pathname={pathname} />
+                                    <BottomSearch />
                                     {/* <div className="flex items-center justify-center">
                                           <Link href="/user/reports">
                                                 <div

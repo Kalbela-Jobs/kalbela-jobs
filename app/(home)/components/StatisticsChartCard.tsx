@@ -2,15 +2,17 @@
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import { Button } from "@/components/ui/button"; // Adjust based on your UI library
-import { AnimatePresence } from 'framer-motion';
+import { Button } from "@/components/ui/button";
+import { AnimatePresence } from "framer-motion";
+import { ApexOptions } from "apexcharts"; // Import the correct type
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-
-
 const StatisticsChartCard: React.FC = () => {
-    const [chartData, setChartData] = useState({
+    const [chartData, setChartData] = useState<{
+        series: { name: string; data: number[] }[];
+        options: ApexOptions;
+    }>({
         series: [
             {
                 name: "New Job Listings",
@@ -23,7 +25,7 @@ const StatisticsChartCard: React.FC = () => {
         ],
         options: {
             chart: {
-                type: "area",
+                type: "area", // Explicitly set a valid type
                 height: 350,
                 toolbar: { show: false },
                 zoom: { enabled: false },
@@ -41,13 +43,11 @@ const StatisticsChartCard: React.FC = () => {
     });
 
     return (
-        <div className=" bg-white">
-            <div className="">
-                <div className=" mx-auto bg-white border border-gray-200 rounded-md px-2 shadow-lg">
-                    <h2 className="text-sm font-semibold mt-3 ml-3">Job Information</h2>
-                    <div className="m-2 p-0">
-                        <Chart AnimatePresence={Chart} options={chartData.options} series={chartData.series} type="area" height={260} />
-                    </div>
+        <div className="bg-white">
+            <div className="mx-auto bg-white border border-gray-200 rounded-md px-2 shadow-lg">
+                <h2 className="text-sm font-semibold mt-3 ml-3">Job Information</h2>
+                <div className="m-2 p-0">
+                    <Chart options={chartData.options} series={chartData.series} type="area" height={260} />
                 </div>
             </div>
         </div>

@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
                               </Link>
                         </div>
 
-                        <div className="hidden md:block lg:ml-[170px]">
+                        <div className="hidden md:block ">
                               <Navigations />
                         </div>
 

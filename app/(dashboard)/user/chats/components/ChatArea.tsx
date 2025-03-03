@@ -34,13 +34,10 @@ const ChatArea = ({ messages, selectedUser, onSendMessage, candidate, refetch, i
             name?.split(' ').map(word => word[0]).join('').toUpperCase();
 
 
-      console.log("------------->", messages);
 
       return (
             <div className="">
-
-
-                  {/* <div className="message-area h-screen">
+                  <div className="message-area h-screen">
                         <div className="community-header primary-bg">
                               <div className="community-info">
                                     <div className="community-avatar">
@@ -111,7 +108,7 @@ const ChatArea = ({ messages, selectedUser, onSendMessage, candidate, refetch, i
                         </div>
 
                         <MessageInput onSendMessage={onSendMessage} />
-                  </div> */}
+                  </div>
             </div>
       );
 };
