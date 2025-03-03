@@ -68,6 +68,7 @@ const Navbar: React.FC = () => {
             }
       }, [])
 
+      console.log({ user });
       return (
             <section
                   className={`${isScrolled
@@ -93,7 +94,7 @@ const Navbar: React.FC = () => {
                               </Link>
                         </div>
 
-                        <div className="hidden md:block">
+                        <div className="hidden md:block lg:ml-[170px]">
                               <Navigations />
                         </div>
 
@@ -126,16 +127,7 @@ const Navbar: React.FC = () => {
                                           </SecondaryBtn>
                                     </div>
                               )}
-                              <Button
-                                    onClick={() => setIsMobileNavOpen(true)}
-                                    variant="outline"
-                                    size="icon"
-                                    className={`text-gray-900 dark:border-gray-700 dark:text-slate-200 dark:hover:bg-gray-900 md:hidden`}
-                              >
-                                    <Menu
-                                          className={`w-full text-gray-900 dark:border-gray-700 dark:text-slate-200 dark:hover:bg-gray-900`}
-                                    />
-                              </Button>
+
 
 
                               <div className="ml-2">
@@ -152,7 +144,7 @@ const Navbar: React.FC = () => {
                               </SheetTrigger>
 
                               <SheetContent
-                                    side="right"
+                                    side="left"
                                     className={`h-full w-80 overflow-y-auto pt-[14px] text-gray-800 dark:bg-gray-900 dark:text-slate-200`}
                               >
                                     <SheetHeader>

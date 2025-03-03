@@ -22,6 +22,8 @@ import Link from "next/link"
 import SearchModal from "./Search"
 import Image from "next/image"
 import SearchBox from "./SearchBox"
+import StatisticsList from "./StatisticsList"
+import { Button } from "@/components/ui/button"
 
 const locationSuggestions = ["dhaka", "chattogram", "khulna", "rajshahi", "sylhet", "barishal", "mymensingh", "rangpur"]
 
@@ -45,6 +47,7 @@ const HeroSection = () => {
       const [location, setLocation] = useState("")
       const [filteredSkills, setFilteredSkills] = useState<string[]>([])
       const [showSkillDropdown, setShowSkillDropdown] = useState(false)
+      const [isOpen, setIsOpen] = useState<boolean>(false);
 
       // Fetch skills from the API
       const fetchSkills = async (query: string) => {
@@ -143,7 +146,7 @@ const HeroSection = () => {
                   <MaxWidthWrapper className="flex flex-col items-center space-y-4 py-6 md:py-2 md:pb-4 lg:pb-4">
                         <div className="rounded-md pt-4 pb-2">
                               <h1
-                                    className="mt-4 bg-clip-text animate-marquee text-center text-3xl font-bold leading-tight sm:text-4xl md:text-4xl lg:mt-10 lg:text-5xl"
+                                    className="mt-4 bg-clip-text animate-marquee text-center text-[27px] font-bold leading-tight  md:text-4xl lg:mt-10 lg:text-5xl"
                                     style={{
                                           backgroundImage: "linear-gradient(to right, #001968, #0a4d92)",
                                           WebkitBackgroundClip: "text",
@@ -153,9 +156,29 @@ const HeroSection = () => {
                                     {/* <TypingRandomizedTextEffect text="Find Your Dream Jobs" /> */}
                               </h1>
 
-                              <p className="!mb-2 mt-4 max-w-4xl text-balance text-center text-lg font-medium md:text-sm">
+                              <p className="!mb-2 mt-4 md:block hidden border md:max-w-4xl text-balance text-center text-lg font-medium md:text-sm">
                                     Your Career Starts Here with Kalbela Jobs! Discover the latest job opportunities in Bangladesh.
                               </p>
+                              <p className="!mb-2 mt-4 md:hidden  block  md:max-w-4xl  text-center text-sm font-medium md:text-sm">
+                                    Your Career Starts Here with Kalbela  Jobs! <br />Discover the latest job opportunities in Bangladesh.
+                              </p>
+                        </div>
+
+                        {/* display search */}
+                        <div className="bg-white relative md:w-[740px] w-full z-10 !opacity-100 px-2 md:py-2 rounded border shadow-xl shadow-[#80808018]">
+                              <div
+                                    onClick={() => setIsOpen(!isOpen)}
+                                    className="flex bg-white justify-between w-full  lg:text-xl text-xs items-center md:gap-2 font-sans">
+
+                                    <div className="flex md:ml-3 items-center gap-1">
+                                          <Search />
+                                          <div className=" border-gray-300 p-2 md:w-full w-[100px] text-nowrap overflow-hidden flex items-center md:gap-2  gap-1"> Enter skills / designations / companies</div>
+
+                                    </div>
+                                    {/* <div className=" p-2 md:flex hidden items-center gap-1">Select Location <ChevronDown strokeWidth={0.8} /> </div> */}
+
+                                    <Button size={"sm"} className='m-2'>Search</Button>
+                              </div>
                         </div>
 
                         <SearchBox
@@ -173,6 +196,9 @@ const HeroSection = () => {
                               setSearchQuery={setSearchQuery}
                               removeFromHistory={removeFromHistory}
                               highlightMatch={highlightMatch}
+                              isOpen={isOpen}
+                              setIsOpen={setIsOpen}
+
                         />
 
 
@@ -188,20 +214,8 @@ const HeroSection = () => {
                               data={data}
                               theme={theme} /> */}
                         <Job_type_tag />
-                        <div className="mx-auto px-4 py-0 lg:py-8">
-                              <div className="grid grid-cols-2 gap-x-20  gap-y-4 sm:grid-cols-6 lg:gap-x-4">
-                                    {statistics.map((stat) => (
-                                          <Link href={stat.link} key={stat.title} className="flex items-center">
-                                                <div className="mr-3 rounded-full bg-[#001968] z-[35] p-2 lg:p-3">
-                                                      <stat.icon className="h-4 w-4 text-white" />
-                                                </div>
-                                                <div>
-                                                      <p className="text-xs font-bold text-gray-900 dark:text-slate-200">{stat.title}</p>
-                                                      <p className="text-sm font-bold text-gray-600 dark:text-slate-300">{stat.value}</p>
-                                                </div>
-                                          </Link>
-                                    ))}
-                              </div>
+                        <div className="mt-6 overflow-hidden">
+                              <StatisticsList />
                         </div>
                   </MaxWidthWrapper>
             </div>

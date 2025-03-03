@@ -13,7 +13,7 @@ const ReviewCard = ({ name, logo }: { name: string; logo: string }) => {
     >
       <div className="flex flex-col items-center justify-center gap-2">
         <img
-          className="hidden h-20 w-12 object-contain md:block lg:w-20"
+          className="hidden h-10 w-12 object-contain md:block lg:w-20"
           alt="logo"
           src={logo}
         />
