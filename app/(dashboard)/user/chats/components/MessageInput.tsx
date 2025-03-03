@@ -110,7 +110,7 @@ function MessageInput({ onSendMessage }: { onSendMessage: any }) {
       const toggleEmojiPicker = () => setShowEmoji((prev) => !prev)
 
       return (
-            <div className="message-input-container relative">
+            <div className="message-input-container primary-bg relative">
                   {attachments.length > 0 && (
                         <div className="attachment-preview">
                               {attachments.map((att) => (

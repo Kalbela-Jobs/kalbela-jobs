@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/ThemeProvider"
 import Footer from "@/components/footer/Footer"
 import Navbar from "@/components/navbar/Navbar"
 import DownloadApp from "@/components/DownloadApp"
+import ChatBot from "@/components/chatBot/ChatBot"
 
 export const metadata: Metadata = {
       metadataBase: new URL(siteConfig.url),
@@ -109,6 +110,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                                     <Footer />
                               </div>
                               <BottomNav />
+                              <ChatBot />
                         </ThemeProvider>
                   </body>
             </html>
