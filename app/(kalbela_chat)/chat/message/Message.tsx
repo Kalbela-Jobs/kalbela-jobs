@@ -19,7 +19,6 @@ type ApiResponse = {
 }
 
 function Message() {
-
       const [user] = useUserData()
 
       const { data: users = [], isLoading, error, refetch } = useQuery({

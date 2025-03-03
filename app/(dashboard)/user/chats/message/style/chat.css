@@ -192,10 +192,7 @@
       background: transparent;
 }
 
-.messages-container::-webkit-scrollbar-thumb {
-      background-color: #2A3347;
-      border-radius: 3px;
-}
+
 
 .message-bubble {
       position: relative;

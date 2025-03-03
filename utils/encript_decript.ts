@@ -51,6 +51,32 @@ export const logout = () => {
 // }
 
 
+// export const useUserData = () => {
+//   const [user, setUserData] = useState<any>(null);
+
+//   useEffect(() => {
+//     const checkUserData = () => {
+//       const encryptedUserData = Cookies.get("kalbelajobs_user");
+//       if (encryptedUserData) {
+//         const decryptedData = decryptData(encryptedUserData);
+//         setUserData(decryptedData);
+//       } else {
+//         setUserData(null);
+//       }
+//     };
+
+//     checkUserData();
+
+//     const interval = setInterval(() => {
+//       checkUserData();
+//     }, 1000);
+
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   return [user, setUserData];
+// };
+
 export const useUserData = () => {
   const [user, setUserData] = useState<any>(null);
 
@@ -67,11 +93,11 @@ export const useUserData = () => {
 
     checkUserData();
 
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       checkUserData();
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearTimeout(timeout);
   }, []);
 
   return [user, setUserData];
