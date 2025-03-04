@@ -1,7 +1,12 @@
-import React, { Dispatch, FC, SetStateAction } from "react"
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import Select, { SingleValue, StylesConfig } from "react-select"
 
 import useApiRequest from "@/app/hooks/useApiRequest"
+import FilterProfileField from "./FilterProfileField"
+import { Checkbox } from "@/components/ui/checkbox"
+import SelaryRange from "./SelaryRange"
+import { set } from 'date-fns';
+import { useRouter } from "next/navigation"
 
 interface FilterSelectProps {
       customStyles: StylesConfig<any, false>
@@ -11,6 +16,7 @@ interface FilterSelectProps {
       setJobType: Dispatch<SetStateAction<string>>
       category: string
       setCategory: Dispatch<SetStateAction<string>>
+      setSalaryRange: Dispatch<SetStateAction<string>>
 }
 
 const FilterSelect: FC<FilterSelectProps> = ({
@@ -21,9 +27,20 @@ const FilterSelect: FC<FilterSelectProps> = ({
       setJobType,
       category,
       setCategory,
+      setSalaryRange
 }) => {
       const { data: jobTypes } = useApiRequest<any>("job-type", "GET")
       const { data: categories } = useApiRequest<any>("category", "GET")
+      const [more, setMore] = useState<boolean>(false);
+      const [initialJobType, setInitialJobTye] = useState<any>([]);
+
+      useEffect(() => {
+            if (jobTypes) {
+                  setInitialJobTye(jobTypes);
+            } else {
+                  setInitialJobTye([])
+            }
+      }, [jobTypes])
 
 
 
@@ -76,73 +93,19 @@ const FilterSelect: FC<FilterSelectProps> = ({
             )
       }
 
-      return (
-            <>
-                  {/* Job Type Filter */}
-                  <div className="mb-4">
-                        <h4 className="mb-1 text-sm font-medium">Job Type</h4>
-                        <Select
-                              value={
-                                    job_type
-                                          ? jobTypes?.data
-                                                ?.map((item: any) => ({
-                                                      value: item.slag,
-                                                      label: item.name,
-                                                      image: item.image || "",
-                                                }))
-                                                .find((item: any) => item.value === job_type) || null
-                                          : { value: "", label: "All", image: "/icons/all_job_type.jpg" }
-                              }
-                              onChange={handleFilterChange("job_type")}
-                              options={[
-                                    { value: "", label: "All", image: "/icons/all_job_type.jpg" },
-                                    ...(jobTypes?.data?.map((item: any) => ({
-                                          value: item.slag,
-                                          label: item.name,
-                                          image: item.image || "",
-                                    })) || []),
-                              ]}
-                              className="w-full capitalize"
-                              styles={customStyles}
-                              components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
-                              isSearchable
-                        />
-                  </div>
 
-                  {/* Categories */}
-                  <div className="mb-4">
-                        <h4 className="mb-1 text-sm font-medium">Categories</h4>
-                        <Select
-                              value={
-                                    category
-                                          ? categories?.data
-                                                ?.map((item: any) => ({
-                                                      value: item.slag,
-                                                      label: item.name,
-                                                      image: item.image || "",
-                                                }))
-                                                .find((item: any) => item.value === category) || null
-                                          : { value: "", label: "All", image: "/icons/category.png" }
-                              }
-                              onChange={handleFilterChange("category")}
-                              options={[
-                                    { value: "", label: "All", image: "/icons/category.png" },
-                                    ...(categories?.data?.map((item: any) => ({
-                                          value: item.slag,
-                                          label: item.name,
-                                          image: item.image || "",
-                                    })) || []),
-                              ]}
-                              className="w-full capitalize"
-                              styles={customStyles}
-                              components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
-                              isSearchable
-                        />
+
+      console.log('Debug : ', job_type, '||', jobTypes);
+
+      return (
+            <div>
+                  <div className="mb-5">
+                        <FilterProfileField />
                   </div>
 
                   {/* Location Filter */}
-                  <div className="mb-4">
-                        <h4 className="mb-1 text-sm font-medium">Location</h4>
+                  <div className="mb-5 -mt-2 space-y-1">
+                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Location</label>
                         <Select
                               value={{
                                     label: location === "" ? "All Locations" : location,
@@ -187,7 +150,106 @@ const FilterSelect: FC<FilterSelectProps> = ({
                               isSearchable
                         />
                   </div>
-            </>
+
+                  {/* <div className="mb-5 flex items-center space-x-2">
+                        <Checkbox onChange={() => setJobType('Remote')} id="work" />
+                        <label
+                              htmlFor="work"
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                              Work from home
+                        </label>
+                  </div> */}
+
+                  {/* <div className="mb-5 flex items-center space-x-2">
+                        <Checkbox id="part-time" />
+                        <label
+                              htmlFor="part-time"
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                              Part-time
+                        </label>
+                  </div> */}
+
+                  <div className="mb-5">
+                        <SelaryRange setSalaryRange={setSalaryRange} />
+                  </div>
+                  <br />
+
+                  {more && <div className="-mt-5">
+                        <div className="mb-5 space-y-1">
+                              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Job Type</label>
+                              <Select
+                                    value={
+                                          job_type.length
+                                                ? initialJobType?.data
+                                                      ?.map((item: any) => ({
+                                                            value: item.slag,
+                                                            label: item.name,
+                                                            image: item.image || "",
+                                                      }))
+                                                      .find((item: any) => item.value === job_type) || 'null'
+                                                : { value: "", label: "All", image: "/icons/all_job_type.jpg" }
+                                    }
+                                    onChange={handleFilterChange("job_type")}
+                                    options={[
+                                          { value: "", label: "All", image: "/icons/all_job_type.jpg" },
+                                          ...(initialJobType?.data?.map((item: any) => ({
+                                                value: item.slag,
+                                                label: item.name,
+                                                image: item.image || "",
+                                          })) || []),
+                                    ]}
+                                    className="w-full capitalize"
+                                    styles={customStyles}
+                                    components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
+                                    isSearchable
+                              />
+                        </div>
+
+                        {/* Categories */}
+                        <div className="mb-5 space-y-1">
+                              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Categories</label>
+                              <Select
+                                    value={
+                                          category
+                                                ? categories?.data
+                                                      ?.map((item: any) => ({
+                                                            value: item.slag,
+                                                            label: item.name,
+                                                            image: item.image || "",
+                                                      }))
+                                                      .find((item: any) => item.value === category) || null
+                                                : { value: "", label: "All", image: "/icons/category.png" }
+                                    }
+                                    onChange={handleFilterChange("category")}
+                                    options={[
+                                          { value: "", label: "All", image: "/icons/category.png" },
+                                          ...(categories?.data?.map((item: any) => ({
+                                                value: item.slag,
+                                                label: item.name,
+                                                image: item.image || "",
+                                          })) || []),
+                                    ]}
+                                    className="w-full capitalize"
+                                    styles={customStyles}
+                                    components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
+                                    isSearchable
+                              />
+                        </div>
+                  </div>}
+
+                  <p onClick={() => setMore(!more)} className="text-[#008BDC] cursor-pointer">{
+                        more ? "Hide filters" : "View more filters"
+                  } </p>
+
+
+                  <br />
+                  <div className="flex justify-end">
+                        <button className="ml-auto text-[#008BDC] text-end">Clear All</button>
+                  </div>
+
+            </div>
       )
 }
 

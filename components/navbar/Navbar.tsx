@@ -72,11 +72,11 @@ const Navbar: React.FC = () => {
       return (
             <section
                   className={`${isScrolled
-                        ? "border-b bg-white/75 backdrop-blur-lg dark:border-b-gray-500 dark:bg-black"
+                        ? "border-b bg-white/75 backdrop-blur-lg dark:border-b-gray-800 dark:bg-black"
                         : isHomePage
                               ? "bg-transparent"
                               : "dark:bg-[#121a2d]"
-                        } shadow-none`}
+                        } shadow-none lg:py-2 md:py-1 py-1`}
             >
                   <MaxWidthWrapper className="flex h-[64px] items-center justify-between">
                         <div className="items-center lg:hidden block">
@@ -94,11 +94,11 @@ const Navbar: React.FC = () => {
                               </Link>
                         </div>
 
-                        <div className="hidden md:block ">
+                        <div className="hidden md:block ml-[-100px]">
                               <Navigations />
                         </div>
 
-                        <div className="flex  items-center justify-end">
+                        <div className="flex gap-2 items-center justify-end">
                               <div className="items-center lg:block hidden ">
                                     <UserNav loading={loading} user={user} />
                               </div>
@@ -118,7 +118,7 @@ const Navbar: React.FC = () => {
                                                 Registration
                                           </SecondaryBtn>
                                           <SecondaryBtn
-                                                className="whitespace-nowrap px-4 py-2"
+                                                className="whitespace-nowrap px-4 py-2 size-10"
                                                 onClick={() =>
                                                       window.open("https://app.kalbelajobs.com/admin", "_blank")
                                                 }

@@ -21,7 +21,6 @@ interface ChatAreaProps {
       isLoading: any;
 }
 
-
 const ChatArea = ({ messages, selectedUser, onSendMessage, candidate, refetch, isLoading }: ChatAreaProps) => {
       const [user] = useUserData();
       const messagesEndRef = useRef<HTMLDivElement>(null);

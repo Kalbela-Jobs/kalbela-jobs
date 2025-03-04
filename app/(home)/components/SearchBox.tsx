@@ -108,40 +108,25 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 
 
                             <div className='border md:p-2 p-1 border-gray-300 rounded'>
-                                <div onClick={() => setShowSkillDropdown(!showSkillDropdown)} className={`flex w-full items-center space-x-2 ${showSkillDropdown ? "" : "cursor-not-allowed"}`}>
-                                    <div className=" flex w-full items-center gap-2">
-                                        <Search className="size-6 text-gray-500 dark:text-slate-200" />
-                                        <Input
-                                            type="text"
-                                            value={searchQuery}
-                                            onChange={handleSkillChange}
-                                            placeholder="Enter skills / designations / companies"
-                                            className="!px-1 !placeholder:font-medium w-full border-none font-medium placeholder-gray-500 shadow-none outline-none focus-visible:ring-0 dark:placeholder-slate-200"
-                                        />
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    handleSearch()
+                                }}>
+                                    <div onClick={() => setShowSkillDropdown(!showSkillDropdown)} className={`flex w-full items-center space-x-2 ${showSkillDropdown ? "" : "cursor-not-allowed"}`}>
+                                        <div className=" flex w-full items-center gap-2">
+                                            <Search className="size-6 text-gray-500 dark:text-slate-200" />
+                                            <Input
+                                                type="text"
+                                                value={searchQuery}
+                                                onChange={handleSkillChange}
+                                                placeholder="Enter skills / designations / companies"
+                                                className="!px-1 !placeholder:font-medium w-full border-none font-medium placeholder-gray-500 shadow-none outline-none focus-visible:ring-0 dark:placeholder-slate-200"
+                                            />
+                                        </div>
+                                        {/* <PrimaryBtn onClick={handleSearch}>Search</PrimaryBtn> */}
+                                        {/* <Button size={'sm'} onClick={}>Search</Button> */}
                                     </div>
-
-                                    {/* <div className="hidden items-center md:flex">
-                                <Separator orientation="vertical" className="mx-2 h-10 !w-[0.5px] !bg-gray-300" />
-
-                                <Select onValueChange={(value: any) => setLocation(value)}>
-                                    <SelectTrigger className="w-40 border-none font-medium text-gray-600 shadow-none outline-none focus:ring-0 dark:bg-gray-800 dark:text-slate-200">
-                                        <SelectValue placeholder="Select location" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-72 bg-white text-gray-900 dark:bg-gray-800 dark:text-slate-200">
-                                        <SelectGroup>
-                                            {data?.data?.map((location: any) => (
-                                                <SelectItem key={location.name} value={location.name} className="capitalize">
-                                                    {location.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div> */}
-
-                                    {/* <PrimaryBtn onClick={handleSearch}>Search</PrimaryBtn> */}
-                                    <Button size={'sm'} onClick={handleSearch}>Search</Button>
-                                </div>
+                                </form>
 
                                 {showSkillDropdown && (filteredSkills.length > 0 || filteredSearchHistory.length > 0) && (
                                     <ul
