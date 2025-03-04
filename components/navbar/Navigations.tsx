@@ -57,7 +57,7 @@ export function Navigations() {
       }
 
       return (
-            <section className="hidden text-gray-900 dark:text-slate-200 lg:block">
+            <section className="hidden  text-gray-900 dark:text-slate-200 lg:block">
                   <nav className="flex justify-center gap-4">
 
                         <div

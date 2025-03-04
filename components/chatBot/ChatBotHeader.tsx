@@ -1,18 +1,19 @@
 import Image from 'next/image';
 import React from 'react';
 import { Button } from '../ui/button';
-import { ChevronLeftIcon, Menu, Video } from 'lucide-react';
+import { ChevronLeftIcon, Menu, User, Video } from 'lucide-react';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 
 interface ChatBotAreaType {
     open: boolean,
     modalClose: boolean,
+    candidate: any,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
     setModalClose: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ChatBotHeader: React.FC<ChatBotAreaType> = ({ open, setOpen, modalClose, setModalClose }) => {
+const ChatBotHeader: React.FC<ChatBotAreaType> = ({ open, setOpen, modalClose, setModalClose, candidate }) => {
     return (
         <div className='bg-[white] h-[68px] flex items-center justify-between px-4 border-b'>
             <div className="flex items-center gap-1">
@@ -29,10 +30,21 @@ const ChatBotHeader: React.FC<ChatBotAreaType> = ({ open, setOpen, modalClose, s
                     onClick={() => setOpen(true)} ><Menu /></button>
                 <Link href="#">
                     <div className="flex items-center uppercase gap-2">
-                        <Image
-                            className='rounded-full w-10 h-10 border p-1'
-                            src="https://yt3.googleusercontent.com/DdtUl06VkqvZvr9aDFP6iX-qxWxV5Aqlk1d4mTUdD1E34wwX333DKo56iJiSJ3hojEeeW_kVzEc=s900-c-k-c0x00ffffff-no-rj" alt="logo" width={40} height={40} />
-                        <h4 className=' text-sm '>ChatBot</h4>
+                        {
+                            candidate?.profile_picture ? <Image
+                                src={candidate?.profile_picture}
+                                width={300}
+                                height={300}
+                                alt={'user'}
+                                className='w-10 h-10 uppercase  rounded-full border object-cover'
+                            /> : <div className='w-10 h-10 uppercase  rounded-full border border-gray-300 object-cover bg-gray-200 flex items-center justify-center'>
+                                <User strokeWidth={1} size={30} />
+                            </div>
+                        }
+                        <div className="">
+                            <h4 className=' text-sm  font-semibold'>{candidate?.fullName}</h4>
+                            <div className="community-status text-xs text-green-500">Active now</div>
+                        </div>
                     </div>
 
                 </Link>

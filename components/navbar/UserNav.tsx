@@ -62,7 +62,7 @@ const UserNav = ({ loading, user }: { loading: boolean; user: any }) => {
                                           variant="ghost"
                                           className="relative h-8 w-8 rounded-full border bg-gray-100"
                                     >
-                                          <Avatar className="h-8 w-8 border">
+                                          <Avatar className="size-9 border">
                                                 <AvatarImage src={user?.profile_picture} alt={user?.fullName} />
                                                 <AvatarFallback className="bg-gray-100 dark:text-black">
                                                       {user?.fullName?.charAt(0)}

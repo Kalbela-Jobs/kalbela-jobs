@@ -143,8 +143,8 @@ const HeroSection = () => {
 
       return (
             <div className="z-50">
-                  <MaxWidthWrapper className="flex flex-col items-center space-y-4 py-6 md:py-2 md:pb-4 lg:pb-4">
-                        <div className="rounded-md pt-4 pb-2">
+                  <MaxWidthWrapper className="flex flex-col  items-center space-y-4 py-6 md:py-2 md:pb-4 lg:pb-4">
+                        <div className="rounded-md pt-4 pb-2 ">
                               <h1
                                     className="mt-4 bg-clip-text animate-marquee text-center text-[27px] font-bold leading-tight  md:text-4xl lg:mt-10 lg:text-5xl"
                                     style={{
@@ -156,7 +156,7 @@ const HeroSection = () => {
                                     {/* <TypingRandomizedTextEffect text="Find Your Dream Jobs" /> */}
                               </h1>
 
-                              <p className="!mb-2 mt-4 md:block hidden border md:max-w-4xl text-balance text-center text-lg font-medium md:text-sm">
+                              <p className="!mb-2 mt-4 md:block hidden  md:max-w-4xl text-balance text-center text-lg font-medium md:text-sm">
                                     Your Career Starts Here with Kalbela Jobs! Discover the latest job opportunities in Bangladesh.
                               </p>
                               <p className="!mb-2 mt-4 md:hidden  block  md:max-w-4xl  text-center text-sm font-medium md:text-sm">
@@ -165,14 +165,14 @@ const HeroSection = () => {
                         </div>
 
                         {/* display search */}
-                        <div className="bg-white relative md:w-[740px] w-full z-10 !opacity-100 px-2 md:py-2 rounded border shadow-xl shadow-[#80808018]">
+                        <div className="dark:bg-[#040913] bg-white relative md:w-[740px] w-full z-10 !opacity-100 px-2 lg:py-2 py-0 rounded border shadow-xl dark:shadow-[#2d384f18] shadow-[#80808018]">
                               <div
                                     onClick={() => setIsOpen(!isOpen)}
-                                    className="flex bg-white justify-between w-full  lg:text-xl text-xs items-center md:gap-2 font-sans">
+                                    className="flex  justify-between w-full  lg:text-xl text-xs items-center md:gap-2 font-sans">
 
                                     <div className="flex md:ml-3 items-center gap-1">
                                           <Search />
-                                          <div className=" border-gray-300 p-2 md:w-full w-[100px] text-nowrap overflow-hidden flex items-center md:gap-2  gap-1"> Enter skills / designations / companies</div>
+                                          <div className=" border-gray-300 p-2 md:w-full w-[100px] text-nowrap overflow-hidden text-sm flex items-center md:gap-2  gap-1"> Enter skills / designations / companies</div>
 
                                     </div>
                                     {/* <div className=" p-2 md:flex hidden items-center gap-1">Select Location <ChevronDown strokeWidth={0.8} /> </div> */}
@@ -214,7 +214,7 @@ const HeroSection = () => {
                               data={data}
                               theme={theme} /> */}
                         <Job_type_tag />
-                        <div className="mt-6 overflow-hidden">
+                        <div className="mt-6 overflow-hidden pb-12">
                               <StatisticsList />
                         </div>
                   </MaxWidthWrapper>

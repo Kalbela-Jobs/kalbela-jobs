@@ -1,6 +1,29 @@
-import React from 'react';
+import AudioPlayer from '@/app/(dashboard)/user/chats/components/AudioPlay';
+import { useUserData } from '@/utils/encript_decript';
+import Image from 'next/image';
+import React, { useEffect, useRef } from 'react';
+interface ChatAreaProps {
+    messages: any;
+    selectedUser: any;
+    onSendMessage: (message: any) => any;
+    candidate: any;
+    refetch: () => any;
+    isLoading: any;
+}
 
-const ChatAreaBox: React.FC = () => {
+
+const ChatAreaBox = ({ messages, selectedUser, onSendMessage, candidate, refetch, isLoading }: ChatAreaProps) => {
+    const [user] = useUserData();
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
+
+    const getInitials = (name?: string) =>
+        name?.split(' ').map(word => word[0]).join('').toUpperCase();
+
+
     const myId = '121';
     const chatData = [
         {
@@ -161,11 +184,47 @@ const ChatAreaBox: React.FC = () => {
             time: '10:34 AM',
         },
     ];
+    console.log('message : ');
 
     return (
         <div className="space-y-3 bg-gray-100 h-full p-4">
+
+            {Array.isArray(messages) && messages.map((message) => {
+                const hasHTML = /<\/?[a-z][\s\S]*>/i.test(message.content);
+                const isUserSender = message.sender === user?._id;
+
+                return (
+                    <div key={message._id} className={`message-bubble ${isUserSender ? 'sent' : 'received'}`}>
+                        {hasHTML ? (
+                            <span dangerouslySetInnerHTML={{ __html: message.content }} />
+                        ) : (
+                            <span>{message.content}</span>
+                        )}
+
+                        {message.attachments?.map((att: string, i: number) => (
+                            <Image
+                                key={i}
+                                src={att}
+                                alt="attachment"
+                                width={200}
+                                height={200}
+                                className="rounded-md mt-2"
+                            />
+                        ))}
+
+
+                        {message.audio && <AudioPlayer audioUrl={message.audio} />}
+
+                        <div className="message-status flex justify-between mt-1 text-xs text-gray-400">
+                            <span>{new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</span>
+                            {isUserSender && <span className="flex items-center gap-1">Sent <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5" /></svg></span>}
+                        </div>
+                    </div>
+                );
+            })}
+            <div ref={messagesEndRef} />
             {chatData.map((chat, index) => (
-                <div key={index} className={`flex items-end ${chat.id === myId ? 'justify-end' : 'justify-start'}`}>
+                <div key={index} className={`hidden items-end ${chat.id === myId ? 'justify-end' : 'justify-start'}`}>
 
                     {/* Receiver's Image */}
                     {chat.id !== myId && (

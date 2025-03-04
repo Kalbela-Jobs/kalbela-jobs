@@ -305,3 +305,51 @@ audio::-webkit-media-controls-timeline {
 .chat-bot::-webkit-scrollbar-thumb:hover {
     background: #e6e4e4!important;
 }
+
+
+/********************************
+ * react select customization
+ ********************************/
+ .css-1p3m7a8-multiValue {
+      background-color: #008BDC!important;
+      color: #fff!important;
+ }
+
+ .css-9jq23d {
+      color: white!important;
+ }
+
+ .css-v7duua:hover {
+      background-color: transparent!important;
+ }
+
+ .css-1u9des2-indicatorSeparator {
+      display: none!important;
+}
+
+.css-13cymwt-control:hover {
+      border: 1px solid #001968!important;
+}
+
+.custom-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: #008BDC; 
+  border: 4px solid #ffffff!important;
+  box-shadow: 0px 0px 0px 2px #008BDC;
+  padding: 1px!important;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+}
+
+.custom-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: red; /* Change thumb color to red */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+ 

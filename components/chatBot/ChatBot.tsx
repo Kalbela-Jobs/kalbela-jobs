@@ -3,9 +3,11 @@ import { MessageSquare, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import ChatBotContainer from './ChatBotContainer';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const ChatBot = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const queryClient = new QueryClient();
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -28,7 +30,7 @@ const ChatBot = () => {
     }, [isOpen]);
 
     return (
-        <>
+        <QueryClientProvider client={queryClient}>
             <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -60,7 +62,7 @@ const ChatBot = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-        </>
+        </QueryClientProvider>
     );
 };
 
