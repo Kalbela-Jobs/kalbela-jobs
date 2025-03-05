@@ -21,13 +21,13 @@ const ChatUserList: React.FC<ChatUserListProps> = ({ user, isSelected, hasHTML, 
                     width={300}
                     height={300}
                     alt={'user'}
-                    className='w-14 h-14 uppercase  rounded-full border object-cover'
-                /> : <div className='w-14 h-14 uppercase  rounded-full border border-gray-300 object-cover bg-gray-200 flex items-center justify-center'>
+                    className='lg:size-12 size-10 uppercase  rounded-full border object-cover'
+                /> : <div className='lg:size-12 size-10 uppercase  rounded-full border border-gray-300 object-cover bg-gray-200 flex items-center justify-center'>
                     <User size={30} />
                 </div>
             }
             <div className="">
-                <h4 className="text-lg font-semibold">{user?.fullName}  </h4>
+                <h4 className="text-sm font-semibold">{user?.fullName.slice(0, 7)} {user?.fullName.length > 10 && '...'}  </h4>
                 <div className="flex items-center w-full text-md justify-between">
                     {/* <p className="text-gray-500">Send a audio message</p> -
                     <p className="text-gray-500 ">11:02</p> */}

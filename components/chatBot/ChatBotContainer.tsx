@@ -87,10 +87,9 @@ const ChatBotContainer: React.FC<ChatBotContainerType> = ({ isOpen, setIsOpen })
     };
 
 
-    console.log("testing..........");
 
     return (
-        <div className="h-[calc(100vh-100px)] flex ">
+        <div className="lg:h-[620px] h-[540px] flex ">
             <ChatBotAside
                 users={users}
                 onSelectUser={setSelectedUser}
@@ -115,9 +114,10 @@ const ChatBotContainer: React.FC<ChatBotContainerType> = ({ isOpen, setIsOpen })
                         candidate={selectedUser}
                         refetch={refetchMessages}
                         isLoading={isMessagesLoading}
+                        users={users}
                     />
                 </div>
-                <ChatBotAction />
+                <ChatBotAction onSendMessage={handleSendMessage} />
             </div>
         </div>
     );

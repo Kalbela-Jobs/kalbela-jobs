@@ -90,31 +90,6 @@ const BottomNav: React.FC = () => {
 
                                     {/* Search */}
                                     <BottomSearch />
-                                    {/* <div className="flex items-center justify-center">
-                                          <Link href="/user/reports">
-                                                <div
-                                                      data-tooltip-target="tooltip-settings"
-                                                      className={cn(
-                                                            "group inline-flex h-10 w-10 flex-col items-center justify-center rounded-full",
-                                                            pathname === "/user/reports"
-                                                                  ? "bg-blue-600 text-white"
-                                                                  : "bg-gray-200 hover:bg-gray-300 dark:text-black"
-                                                      )}
-                                                >
-                                                      <TooltipProvider>
-                                                            <Tooltip>
-                                                                  <TooltipTrigger>
-                                                                        <Search className="h-5 w-5" />
-                                                                  </TooltipTrigger>
-                                                                  <TooltipContent>
-                                                                        <p>Notifications</p>
-                                                                  </TooltipContent>
-                                                            </Tooltip>
-                                                      </TooltipProvider>
-                                                </div>
-                                          </Link>
-                                    </div> */}
-
                                     {/* Profile */}
                                     <div className="flex items-center justify-center">
                                           <Link href="/user/profile">

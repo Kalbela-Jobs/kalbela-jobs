@@ -35,7 +35,7 @@ const ChatBot = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(true)}
-                className="fixed md:bottom-10 bottom-[100px] right-10 text-white z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#1c2426] shadow-xl"
+                className="fixed md:bottom-10 bottom-[80px] md:right-10 right-4 text-white  z-50 flex md:h-16 md:w-16 w-12 h-12 items-center justify-center rounded-xl border bg-[#001968] shadow-xl"
             >
                 <MessageSquare size={32} strokeWidth={0.7} />
             </motion.button>
@@ -51,7 +51,7 @@ const ChatBot = () => {
                     >
                         <motion.div
                             onClick={(e) => e.stopPropagation()}
-                            className="md:mx-0 mx-2 relative bg-white w-full max-w-6xl overflow-hidden rounded-lg shadow-lg"
+                            className="lg:mx-0 md:mx-8 mx-2 relative bg-white w-full max-w-6xl overflow-hidden rounded-lg shadow-lg"
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.8, opacity: 0 }}

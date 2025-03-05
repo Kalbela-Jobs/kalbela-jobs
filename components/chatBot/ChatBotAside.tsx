@@ -30,7 +30,7 @@ const ChatBotAside: React.FC<SidebarProps> = ({ users, onSelectUser, selectedUse
         user?.lastMessage?.toLowerCase().includes(searchQuery.toLowerCase())
     );
     return (
-        <div className={`md:relative absolute ${open ? 'md:translate-x-[-100%] translate-x-0 md:w-0 w-[90%]' : 'md:translate-x-0 translate-x-[-100%] md:w-[30%] w-[90%] '} overflow-hidden duration-300 top-0 left-0 bottom-0  bg-[#fff] border-r `}>
+        <div className={`md:relative absolute ${open ? 'md:translate-x-[-100%] translate-x-0 md:w-0 w-[100%]' : 'md:translate-x-0 translate-x-[-100%] md:w-[30%] w-[100%] '} overflow-hidden duration-300 top-0 left-0 bottom-0  bg-[#fff] border-r `}>
             <div className="flex  justify-between h-[68px] items-center gap-2 border-b px-4">
                 <div className="flex items-center">
                     <Image

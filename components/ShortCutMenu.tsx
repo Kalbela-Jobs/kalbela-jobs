@@ -15,7 +15,9 @@ const ShortCutMenu = () => {
     }, []);
 
     if (!mounted) {
-        return null;
+        return <button className='group ml-3 mt-[10px] inline-flex h-10 w-10 flex-col items-center justify-center rounded-full bg-gray-200 hover:bg-gray-300 dark:text-black'>
+            <LayoutDashboardIcon />
+        </button>;
     }
 
     const shortcuts = [

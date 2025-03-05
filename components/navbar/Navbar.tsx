@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
                               </Link>
                         </div>
 
-                        <div className="hidden md:block ml-[-100px]">
+                        <div className={`hidden md:block`}>
                               <Navigations />
                         </div>
 
@@ -117,14 +117,14 @@ const Navbar: React.FC = () => {
                                           >
                                                 Registration
                                           </SecondaryBtn>
-                                          <SecondaryBtn
-                                                className="whitespace-nowrap px-4 py-2 size-10"
+                                          <Button
+                                                className="whitespace-nowrap bg-[#001968] w-[120px] px-4 py-2 size-10"
                                                 onClick={() =>
                                                       window.open("https://app.kalbelajobs.com/admin", "_blank")
                                                 }
                                           >
                                                 For Employers
-                                          </SecondaryBtn>
+                                          </Button>
                                     </div>
                               )}
 

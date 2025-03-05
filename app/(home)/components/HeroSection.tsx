@@ -165,19 +165,19 @@ const HeroSection = () => {
                         </div>
 
                         {/* display search */}
-                        <div className="dark:bg-[#040913] bg-white relative md:w-[740px] w-full z-10 !opacity-100 px-2 lg:py-2 py-0 rounded border shadow-xl dark:shadow-[#2d384f18] shadow-[#80808018]">
+                        <div className="dark:bg-[#040913] bg-white relative md:w-[740px] w-full z-10 !opacity-100 px-2 lg:py-2 py-0 rounded-full border md:h-[70px] h-[50px] flex items-center shadow-xl dark:shadow-[#2d384f18] shadow-[#80808018] overflow-hidden">
                               <div
                                     onClick={() => setIsOpen(!isOpen)}
                                     className="flex  justify-between w-full  lg:text-xl text-xs items-center md:gap-2 font-sans">
 
                                     <div className="flex md:ml-3 items-center gap-1">
                                           <Search />
-                                          <div className=" border-gray-300 p-2 md:w-full w-[100px] text-nowrap overflow-hidden text-sm flex items-center md:gap-2  gap-1"> Enter skills / designations / companies</div>
+                                          <div className=" border-gray-300 p-2 w-full  text-nowrap overflow-hidden text-sm flex items-center md:gap-2  gap-1"> Enter skills / designations / companies</div>
 
                                     </div>
                                     {/* <div className=" p-2 md:flex hidden items-center gap-1">Select Location <ChevronDown strokeWidth={0.8} /> </div> */}
 
-                                    <Button size={"sm"} className='m-2'>Search</Button>
+                                    {/* <Button size={"sm"} className='m-2 !bg-[#001968]'>Search</Button> */}
                               </div>
                         </div>
 
