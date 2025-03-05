@@ -347,9 +347,72 @@ audio::-webkit-media-controls-timeline {
 .custom-range::-moz-range-thumb {
   width: 16px;
   height: 16px;
-  background-color: red; /* Change thumb color to red */
+  background-color: red;
   border-radius: 50%;
   cursor: pointer;
 }
 
- 
+/* audio */
+
+
+.my-recording-wave {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex: 1;
+}
+
+.wave-bar-play {
+      width: 2px;
+      height: 20px;
+      background-color: #4C7BFF;
+      animation: myWave 1s ease-in-out infinite;
+}
+
+.wave-bar-pause {
+      width: 2px;
+      height: 20px;
+      background-color: #4C7BFF;
+      /* animation: wave 1s ease-in-out infinite; */
+}
+
+@keyframes myWave {
+
+      0%,
+      100% {
+            transform: scaleY(0.5);
+      }
+
+      50% {
+            transform: scaleY(1);
+      }
+}
+
+
+.playing-bar {
+    width: 2px;
+    height: 20px;
+    background-color: #4C7BFF;
+    animation: waveAnimation 1s ease-in-out infinite;
+}
+
+.paused-bar {
+    width: 2px;
+    height: 20px;
+    background-color: #4C7BFF;
+}
+
+.my-recording-wave.paused .playing-bar {
+    animation: none; /* Stop wave animation when paused */
+}
+
+@keyframes waveAnimation {
+    0%,
+    100% {
+        transform: scaleY(0.5);
+    }
+
+    50% {
+        transform: scaleY(1);
+    }
+}

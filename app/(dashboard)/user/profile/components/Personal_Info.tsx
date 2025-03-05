@@ -64,6 +64,8 @@ import Gender from "./Gender"
 import Resume from "./Resume"
 import Skills from "./Skills"
 import UserIdentity from "./UserIdentity"
+import { encryptId } from "@/utils/encriptDecriptGenarator"
+import { useRouter } from "next/navigation"
 
 export default function ProfilePage() {
       const [user, setUserData] = useUserData()
@@ -81,6 +83,8 @@ export default function ProfilePage() {
       const [editContactOpen, setEditContactOpen] = useState(false)
       const [phone, setPhone] = useState<any>(user?.phone)
       const [email, setEmail] = useState(user?.email)
+
+      const router = useRouter();
 
       useEffect(() => {
             setNewLanguage(user?.languages)
@@ -276,6 +280,12 @@ export default function ProfilePage() {
             educations,
             certificationsData
       ])
+
+      const shareProfileHandler = (id: string) => {
+            const encryptedId = encodeURIComponent(encryptId(id));
+            router.push(`/user/profile/${encryptedId}`);
+
+      }
 
       return (
             <div>
@@ -596,9 +606,10 @@ export default function ProfilePage() {
                         </div>
 
                         <Card className="group h-fit mb-8">
-                              <CardHeader>
+                              <div className="w-full p-6 justify-between flex items-center gap-2">
                                     <CardTitle>Quick Links</CardTitle>
-                              </CardHeader>
+                                    <Button onClick={() => shareProfileHandler(user?._id)} size={"sm"}>Share Profile</Button>
+                              </div>
                               <CardContent>
                                     <Link
                                           href="#"
