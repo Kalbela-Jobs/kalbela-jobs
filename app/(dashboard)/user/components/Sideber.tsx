@@ -27,6 +27,7 @@ const sidebarItems = [
       { name: "Products", href: "/user/products", icon: ShoppingCart },
       { name: "Reports", href: "/user/reports", icon: FileText },
       { name: "Chats", href: "/user/chats", icon: MessageSquare },
+      { name: "Resume Builder", href: "/user/resume_builder", icon: FileText },
 ]
 
 export function Sidebar({
