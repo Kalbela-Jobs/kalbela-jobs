@@ -29,6 +29,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "d2vyhi5ouo1we3.cloudfront.net",
+      },
+      {
+        protocol: "https",
         hostname: "yt3.googleusercontent.com",
       },
     ],

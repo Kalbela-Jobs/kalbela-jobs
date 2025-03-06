@@ -19,6 +19,7 @@ import {
       Plus,
       Share2,
       Star,
+      Trash,
       Upload,
       Video,
 } from "lucide-react"
@@ -138,6 +139,24 @@ export default function ProfilePage() {
                   }
             }
       }
+
+
+
+      const [links, setLinks] = useState<string[]>([""]);
+
+      const addInputField = () => {
+            setLinks([...links, ""]);
+      };
+      const handleInputChange = (index: number, value: string) => {
+            const updatedLinks = [...links];
+            updatedLinks[index] = value;
+            setLinks(updatedLinks);
+      };
+
+      const handleUpload = () => {
+            console.log("Uploaded Links:", links);
+      };
+
 
       const user_name_update = async () => {
             setLoading(true)
@@ -286,6 +305,11 @@ export default function ProfilePage() {
             router.push(`/user/profile/${encryptedId}`);
 
       }
+
+      const deleteInputField = (index: number) => {
+            const updatedLinks = links.filter((_, i) => i !== index);
+            setLinks(updatedLinks);
+      };
 
       return (
             <div>
@@ -605,7 +629,7 @@ export default function ProfilePage() {
                               </EditModal>
                         </div>
 
-                        <Card className="group h-fit mb-8">
+                        {/* <Card className="group h-fit mb-8">
                               <div className="w-full p-6 justify-between flex items-center gap-2">
                                     <CardTitle>Quick Links</CardTitle>
                                     <Button onClick={() => shareProfileHandler(user?._id)} size={"sm"}>Share Profile</Button>
@@ -623,6 +647,51 @@ export default function ProfilePage() {
                                     </button>
                               </CardContent>
                         </Card>
+                         */}
+
+                        <Card className="group h-fit mb-8">
+                              <div className="w-full p-6 flex justify-between items-center gap-2">
+                                    <CardTitle>Quick Links</CardTitle>
+                                    <Button className="!bg-[#3F307B] *:" onClick={() => console.log(`Share Profile: ${user?._id}`)} size="sm">
+                                          Portfolio
+                                    </Button>
+                              </div>
+                              <CardContent>
+                                    {/* Dynamic Input Fields */}
+                                    <div className="mt-4 space-y-2">
+                                          {links.map((link, index) => (
+                                                <div key={index} className="flex items-center gap-2">
+                                                      <input
+                                                            type="text"
+                                                            value={link}
+                                                            onChange={(e) => handleInputChange(index, e.target.value)}
+                                                            className="w-full p-2 border rounded"
+                                                            placeholder="Enter link"
+                                                      />
+                                                      <Button
+                                                            onClick={() => deleteInputField(index)}
+                                                            size="icon"
+                                                            variant="destructive"
+                                                      >
+                                                            <Trash className="h-4 w-4" />
+                                                      </Button>
+                                                </div>
+                                          ))}
+                                    </div>
+
+                                    {/* Buttons */}
+                                    <div className="mt-4 flex gap-2">
+                                          <Button variant="outline" onClick={addInputField} className="flex w-full items-center gap-2">
+                                                <Plus className="h-4 w-4" /> Add Link
+                                          </Button>
+                                          <Button onClick={handleUpload} className="flex w-full items-center gap-2">
+                                                <Upload className="h-4 w-4" /> Upload
+                                          </Button>
+                                    </div>
+                              </CardContent>
+                        </Card>
+
+
                   </div>
             </div>
       )

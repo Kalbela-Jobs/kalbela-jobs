@@ -416,3 +416,25 @@ audio::-webkit-media-controls-timeline {
         transform: scaleY(1);
     }
 }
+
+
+/********************************
+ * table customize
+ ********************************/ 
+ @media (min-width: 640px) {
+   .profile-info table {
+      display: inline-table !important;
+    }
+
+   .profile-info thead tr:not(:first-child) {
+      display: none;
+    }
+  }
+
+ .profile-info td:not(:last-child) {
+    border-bottom: 0;
+  }
+
+ .profile-info th:not(:last-child) {
+    border-bottom: 2px solid rgba(0, 0, 0, .1);
+  }
