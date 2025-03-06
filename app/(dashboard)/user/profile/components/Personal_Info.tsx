@@ -142,7 +142,14 @@ export default function ProfilePage() {
 
 
 
-      const [links, setLinks] = useState<string[]>([""]);
+      const [links, setLinks] = useState<string[]>([]);
+
+      useEffect(() => {
+            if (user?.social_links.length) {
+                  setLinks(user?.social_links)
+            }
+      }, [user?.social_links]);
+
 
       const addInputField = () => {
             setLinks([...links, ""]);
@@ -153,9 +160,31 @@ export default function ProfilePage() {
             setLinks(updatedLinks);
       };
 
-      const handleUpload = () => {
+      const handleUpload = async () => {
             console.log("Uploaded Links:", links);
-      };
+
+
+            const { data, error } = await apiRequest<any>(
+                  `api/v1/user/update-profile?id=${user?._id}`,
+                  "PUT",
+                  {
+                        social_links: links,
+                  }
+            )
+
+            setLoading(false)
+            if (error) {
+                  set_error_message(error.message)
+                  return
+            }
+            if (data) {
+                  set_user_data(data.data)
+                  setUserData(data.data)
+                  set_error_message("")
+                  setEditImageOpen(false)
+            }
+      }
+
 
 
       const user_name_update = async () => {
@@ -629,25 +658,7 @@ export default function ProfilePage() {
                               </EditModal>
                         </div>
 
-                        {/* <Card className="group h-fit mb-8">
-                              <div className="w-full p-6 justify-between flex items-center gap-2">
-                                    <CardTitle>Quick Links</CardTitle>
-                                    <Button onClick={() => shareProfileHandler(user?._id)} size={"sm"}>Share Profile</Button>
-                              </div>
-                              <CardContent>
-                                    <Link
-                                          href="#"
-                                          className="flex items-center gap-2 text-muted-foreground transition-colors duration-300 ease-in-out hover:text-foreground"
-                                    >
-                                          <LinkIcon className="h-4 w-4" />
-                                          Portfolio
-                                    </Link>
-                                    <button className="mt-4 hidden scale-95 transform items-center justify-center gap-2 opacity-0 transition-all duration-300 ease-in-out group-hover:flex group-hover:scale-100 group-hover:opacity-100">
-                                          <Plus className="h-4 w-4" /> Update
-                                    </button>
-                              </CardContent>
-                        </Card>
-                         */}
+
 
                         <Card className="group h-fit mb-8">
                               <div className="w-full p-6 flex justify-between items-center gap-2">

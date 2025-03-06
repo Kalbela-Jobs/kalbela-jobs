@@ -32,7 +32,7 @@ const ModernTemplate = ({ userData }: { userData: any }) => {
                                           <img
                                                 src={userData.profile_picture || "/placeholder.svg"}
                                                 alt={userData.fullName}
-                                                className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
+                                                className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                                           />
                                     </div>
                               )}
