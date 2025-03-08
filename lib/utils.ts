@@ -9,9 +9,9 @@ export function cn(...inputs: ClassValue[]) {
 export const selectCustomStyles = (theme: string) => ({
   control: (provided: any, state: any) => ({
     ...provided,
-    backgroundColor: theme === "dark" ? "#1E293B" : "#FFFFFF",
+    backgroundColor: theme === "dark" ? "#1e293b0" : "#FFFFFF",
     color: theme === "dark" ? "#FFFFFF" : "#000000",
-    borderColor: theme === "dark" ? "#f2f2f2" : "#cbd5e1",
+    borderColor: theme === "dark" ? "#404854" : "#cbd5e1",
     boxShadow: state.isFocused
       ? theme === "dark"
         ? "0 0 0 1px #f2f2f2"
@@ -44,14 +44,14 @@ export const selectCustomStyles = (theme: string) => ({
   menu: (provided: any) => ({
     ...provided,
     border: theme === "dark" ? "1px solid #FFFFFF" : provided.border,
-    backgroundColor: theme === "dark" ? "#1E293B" : "#FFFFFF",
+    backgroundColor: theme === "dark" ? "#1E293B" : "#fff",
     color: theme === "dark" ? "#FFFFFF" : "#000000",
   }),
   option: (provided: any, state: any) => ({
     ...provided,
     backgroundColor: state.isSelected
       ? theme === "dark"
-        ? "#FFFFFF"
+        ? "#404854"
         : "#E2E8F0"
       : state.isFocused
         ? theme === "dark"

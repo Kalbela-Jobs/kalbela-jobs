@@ -165,19 +165,34 @@ const HeroSection = () => {
                         </div>
 
                         {/* display search */}
-                        <div className="dark:bg-[#040913] bg-white relative md:w-[740px] w-full z-10 !opacity-100 px-2 lg:py-2 py-0 rounded-full border md:h-[70px] h-[50px] flex items-center shadow-xl dark:shadow-[#2d384f18] shadow-[#80808018] overflow-hidden">
+                        <div className="dark:bg-[#040913] bg-white relative md:w-[740px] w-full z-10 !opacity-100 px-2 lg:py-2 py-0 rounded-full border md:h-[60px] h-[50px] flex items-center shadow-xl dark:shadow-[#2d384f18] shadow-[#80808018] overflow-hidden">
                               <div
                                     onClick={() => setIsOpen(!isOpen)}
                                     className="flex  justify-between w-full  lg:text-xl text-xs items-center md:gap-2 font-sans">
 
                                     <div className="flex md:ml-3 items-center gap-1">
                                           <Search />
-                                          <div className=" border-gray-300 p-2 w-full  text-nowrap overflow-hidden text-sm flex items-center md:gap-2  gap-1"> Enter skills / designations / companies</div>
+                                          <div className="flex items-center justify-between  w-full">
+                                                <div className=" border-gray-300 p-2 w-full text-gray-500 text-nowrap overflow-hidden text-sm flex items-center md:gap-2  gap-1"> Search By keyword</div>
 
+                                          </div>
                                     </div>
-                                    {/* <div className=" p-2 md:flex hidden items-center gap-1">Select Location <ChevronDown strokeWidth={0.8} /> </div> */}
 
-                                    {/* <Button size={"sm"} className='m-2 !bg-[#001968]'>Search</Button> */}
+                                    {/* <div className=" p-2 md:flex hidden items-center gap-1">Select Location <ChevronDown strokeWidth={0.8} /> </div> */}
+                                    <div className="flex gap-2 items-center pr-4">
+                                          <Image
+                                                src={'./icons/mic.svg'}
+                                                width={20}
+                                                height={20}
+                                                alt="mic"
+                                                className="cursor-pointer "
+                                          />
+
+
+                                          {/* <Button size={"sm"} className='mr-3 bg-gray-600 !px-3  text-white bg-primary !rounded-full !py-1'>
+                                                Search
+                                          </Button> */}
+                                    </div>
                               </div>
                         </div>
 
@@ -213,7 +228,10 @@ const HeroSection = () => {
                               setLocation={setLocation}
                               data={data}
                               theme={theme} /> */}
-                        <Job_type_tag />
+
+                        <div className="!mt-[3px]">
+                              <Job_type_tag />
+                        </div>
                         <div className="mt-6 overflow-hidden pb-12">
                               <StatisticsList />
                         </div>
