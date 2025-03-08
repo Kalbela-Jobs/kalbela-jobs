@@ -24,7 +24,7 @@ const Job_type_tag = () => {
             <>
                   {data?.data?.length > 0 &&
                         <div className="mx-auto h-full w-full max-w-screen-xl 2xl:max-w-screen-2xl">
-                              <div className="mt-2 mx-auto max-w-3xl overflow-hidden" >
+                              <div className="mx-auto max-w-3xl overflow-hidden" >
                                     <div className="flex w-full justify-between gap-2  overflow-x-auto scrollbar-hide ">
                                           {data?.data?.slice(0, 6)?.map((single_data: any) => (
                                                 <button

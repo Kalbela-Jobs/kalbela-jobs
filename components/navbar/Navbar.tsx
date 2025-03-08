@@ -29,7 +29,6 @@ import { Skeleton } from "../ui/skeleton"
 import { Navigations } from "./Navigations"
 
 const UserNav = dynamic(() => import("./UserNav"), { ssr: false })
-
 const Navbar: React.FC = () => {
       const pathname = usePathname()
       const { theme } = useTheme()
@@ -57,7 +56,6 @@ const Navbar: React.FC = () => {
                   }
             })()
       }, [])
-
       useEffect(() => {
             const handleScroll = () => {
                   setIsScrolled(window.scrollY > 50)
@@ -68,7 +66,7 @@ const Navbar: React.FC = () => {
             }
       }, [])
 
-      console.log({ user });
+
       return (
             <section
                   className={`${isScrolled
@@ -88,7 +86,7 @@ const Navbar: React.FC = () => {
                               <Link href="/">
                                     <img
                                           className="mx-auto h-auto w-36 md:w-48"
-                                          src={theme === "dark" ? "/logo_dark.png" : "/logo.png"}
+                                          src={theme === "dark" ? "/logo_dark.png" : "/icons/logo.svg"}
                                           alt="logo"
                                     />
                               </Link>
@@ -118,7 +116,7 @@ const Navbar: React.FC = () => {
                                                 Registration
                                           </SecondaryBtn>
                                           <Button
-                                                className="whitespace-nowrap bg-[#001968] w-[120px] px-4 py-2 size-10"
+                                                className="whitespace-nowrap !bg-[#001968] w-[120px] px-4 py-2 size-10"
                                                 onClick={() =>
                                                       window.open("https://app.kalbelajobs.com/admin", "_blank")
                                                 }
@@ -152,7 +150,7 @@ const Navbar: React.FC = () => {
                                                 <Link href="/">
                                                       <img
                                                             className="h-auto w-36"
-                                                            src={theme === "dark" ? "/logo_dark.png" : "/logo.png"}
+                                                            src={theme === "dark" ? "/logo_dark.png" : "/icons/logo.svg"}
                                                             alt="logo"
                                                       />
                                                 </Link>

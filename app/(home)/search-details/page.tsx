@@ -92,8 +92,24 @@ const SearchDetails: React.FC = () => {
             }
       }
 
+      const [pageGroup, setPageGroup] = useState(0);
+      const itemsPerPage = 8;
 
-      console.log('00000', location);
+      const totalGroups = Math.ceil(totalPages / itemsPerPage);
+      const startPage = pageGroup * itemsPerPage + 1;
+      const endPage = Math.min(startPage + itemsPerPage - 1, totalPages);
+
+      const handleNextGroup = () => {
+            if (pageGroup < totalGroups - 1) {
+                  setPageGroup(pageGroup + 1);
+            }
+      };
+
+      const handlePrevGroup = () => {
+            if (pageGroup > 0) {
+                  setPageGroup(pageGroup - 1);
+            }
+      };
       return (
             <section className="bg-[#F8F8F8] pt-6">
                   <MaxWidthWrapper>
@@ -230,34 +246,37 @@ const SearchDetails: React.FC = () => {
                               {totalPages > 1 && (
                                     <Pagination className="mt-8">
                                           <PaginationContent>
-                                                <PaginationItem>
-                                                      <PaginationPrevious
-                                                            href="#"
-                                                            onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                                                            className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                                                      />
-                                                </PaginationItem>
-                                                {[...Array(totalPages)].map((_, index) => (
-                                                      <PaginationItem key={index}>
-                                                            <PaginationLink
-                                                                  href="#"
-                                                                  onClick={() => handlePageChange(index + 1)}
-                                                                  isActive={currentPage === index + 1}
-                                                            >
-                                                                  {index + 1}
-                                                            </PaginationLink>
-                                                      </PaginationItem>
-                                                ))}
-                                                <PaginationItem>
-                                                      <PaginationNext
-                                                            href="#"
-                                                            onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                                                            className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                                                      />
-                                                </PaginationItem>
+                                                <div className="flex items-center flex-wrap">
+                                                      {pageGroup > 0 && (
+                                                            <PaginationItem>
+                                                                  <PaginationPrevious href="#" onClick={handlePrevGroup} />
+                                                            </PaginationItem>
+                                                      )}
+                                                      {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
+                                                            <PaginationItem key={startPage + index}>
+                                                                  <PaginationLink
+                                                                        className="w-8 h-8 flex items-center justify-center"
+                                                                        href="#"
+                                                                        onClick={() => handlePageChange(startPage + index)}
+                                                                        isActive={currentPage === startPage + index}
+                                                                  >
+                                                                        {startPage + index}
+                                                                  </PaginationLink>
+                                                            </PaginationItem>
+                                                      ))}
+                                                      {pageGroup < totalGroups - 1 && (
+                                                            <PaginationItem>
+                                                                  <PaginationNext href="#" onClick={handleNextGroup} />
+                                                            </PaginationItem>
+                                                      )}
+                                                </div>
+
                                           </PaginationContent>
                                     </Pagination>
                               )}
+
+
+
                         </div>
                   </MaxWidthWrapper>
             </section>

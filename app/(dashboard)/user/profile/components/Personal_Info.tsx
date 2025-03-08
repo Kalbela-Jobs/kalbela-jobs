@@ -67,6 +67,7 @@ import Skills from "./Skills"
 import UserIdentity from "./UserIdentity"
 import { encryptId } from "@/utils/encriptDecriptGenarator"
 import { useRouter } from "next/navigation"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function ProfilePage() {
       const [user, setUserData] = useUserData()
@@ -331,7 +332,7 @@ export default function ProfilePage() {
 
       const shareProfileHandler = (id: string) => {
             const encryptedId = encodeURIComponent(encryptId(id));
-            router.push(`/user/profile/${encryptedId}`);
+            router.push(`/portfolio/${encryptedId}`);
 
       }
 
@@ -344,172 +345,197 @@ export default function ProfilePage() {
             <div>
                   <div className="mb-14 grid grid-cols-1 gap-6 lg:mb-0 lg:grid-cols-[1fr_300px]">
                         <div className="space-y-6">
-                              {/* Header Section */}
-                              {user ? (
-                                    <div className="flex items-center gap-4">
-                                          <div className="relative">
-                                                <div
-                                                      className="group relative flex size-20 cursor-pointer items-center justify-center rounded-full"
-                                                      onClick={() => setEditImageOpen(true)}
-                                                >
-                                                      {/* Profile Image */}
-                                                      <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-primary">
-                                                            {user?.profile_picture ? (
-                                                                  <Image
-                                                                        src={user?.profile_picture || "/placeholder.svg"}
-                                                                        alt="Profile Picture"
-                                                                        fill
-                                                                        className="object-scale-down "
-                                                                  />
-                                                            ) : (
-                                                                  <div className="flex h-full w-full items-center justify-center bg-primary text-3xl text-primary-foreground">
-                                                                        {user?.fullName?.[0]?.toUpperCase() || "?"}
+                              <Tabs className="mb-4" defaultValue="overview">
+                                    <TabsList className="flex justify-start space-x-2 p-0 border-b !rounded-none border-gray-300 !bg-transparent">
+                                          <TabsTrigger value="overview" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
+                                                Overview
+                                          </TabsTrigger>
+                                          <TabsTrigger value="personal" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
+                                                Personal Info
+                                          </TabsTrigger>
+                                          <TabsTrigger value="others" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
+                                                Others
+                                          </TabsTrigger>
+                                    </TabsList>
+
+                                    {/* tab content */}
+                                    <TabsContent value="overview" className='space-y-4'>
+                                          <div className="mt-4">
+                                                {user ? (
+                                                      <div className="flex items-center gap-4">
+                                                            <div className="relative">
+                                                                  <div
+                                                                        className="group relative flex size-20 cursor-pointer items-center justify-center rounded-full"
+                                                                        onClick={() => setEditImageOpen(true)}
+                                                                  >
+                                                                        {/* Profile Image */}
+                                                                        <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-primary">
+                                                                              {user?.profile_picture ? (
+                                                                                    <Image
+                                                                                          src={user?.profile_picture || "/placeholder.svg"}
+                                                                                          alt="Profile Picture"
+                                                                                          fill
+                                                                                          className="object-scale-down "
+                                                                                    />
+                                                                              ) : (
+                                                                                    <div className="flex h-full w-full items-center justify-center bg-primary text-3xl text-primary-foreground">
+                                                                                          {user?.fullName?.[0]?.toUpperCase() || "?"}
+                                                                                    </div>
+                                                                              )}
+
+                                                                              {/* Dark Overlay */}
+                                                                              <div className="absolute inset-0 bg-black/30" />
+                                                                        </div>
+
+                                                                        {/* Progress Ring */}
+                                                                        <svg className="absolute inset-0 h-full w-full -rotate-90">
+                                                                              <svg
+                                                                                    className="h-24 w-24"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    viewBox="0 0 96 96"
+                                                                              >
+                                                                                    <defs>
+                                                                                          <linearGradient
+                                                                                                id="circleGradient"
+                                                                                                x1="0"
+                                                                                                y1="0"
+                                                                                                x2="1"
+                                                                                                y2="1"
+                                                                                          >
+                                                                                                <stop offset="0%" stopColor="#3b82f6" /> {/* Blue */}
+                                                                                                <stop offset="100%" stopColor="#8b5cf6" />{" "}
+                                                                                                {/* Purple */}
+                                                                                          </linearGradient>
+                                                                                    </defs>
+                                                                                    {/* Background Circle */}
+                                                                                    <circle
+                                                                                          className="text-white"
+                                                                                          strokeWidth="6"
+                                                                                          stroke="currentColor"
+                                                                                          fill="transparent"
+                                                                                          r="46"
+                                                                                          cx="48"
+                                                                                          cy="48"
+                                                                                    />
+                                                                                    {/* Progress Circle with Gradient */}
+                                                                                    <circle
+                                                                                          className="text-blue-500"
+                                                                                          strokeWidth="6"
+                                                                                          strokeDasharray={290}
+                                                                                          strokeDashoffset={290 - (290 * completion) / 100}
+                                                                                          strokeLinecap="round"
+                                                                                          stroke="url(#circleGradient)"
+                                                                                          fill="transparent"
+                                                                                          r="46"
+                                                                                          cx="48"
+                                                                                          cy="48"
+                                                                                    />
+                                                                              </svg>
+                                                                        </svg>
+
+                                                                        {/* Star or Percentage */}
+                                                                        <div className="absolute -bottom-1 flex items-center justify-center rounded-3xl bg-gray-600 px-2 py-0.5 text-primary-foreground shadow-lg">
+                                                                              {showStar ? (
+                                                                                    <Star className="h-4 w-4 fill-current text-[#4493F8]" />
+                                                                              ) : (
+                                                                                    <span className="text-sm font-medium">{completion}%</span>
+                                                                              )}
+                                                                        </div>
+
+                                                                        {/* Update text on hover */}
+                                                                        <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
+                                                                              <span className="text-sm font-medium text-white">
+                                                                                    Update
+                                                                              </span>
+                                                                        </div>
                                                                   </div>
-                                                            )}
+                                                            </div>
 
-                                                            {/* Dark Overlay */}
-                                                            <div className="absolute inset-0 bg-black/30" />
+                                                            <div className="flex-1 space-y-1">
+                                                                  <div className="flex items-center justify-between">
+                                                                        <div className="flex items-center gap-2">
+                                                                              <h1 className="text-2xl font-bold">
+                                                                                    {user?.fullName ? user?.fullName : "Update Your Name"}
+                                                                              </h1>
+                                                                              <Pencil
+                                                                                    onClick={() => setEditNameOpen(true)}
+                                                                                    className="h-4 w-4"
+                                                                              />
+                                                                        </div>
+                                                                  </div>
+                                                                  <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                                                                        <div className="flex items-center gap-1">
+                                                                              <Contact className="h-4 w-4" />
+                                                                              {user?.phone_number
+                                                                                    ? user?.phone_number
+                                                                                    : "Update Phone Number"}
+                                                                        </div>
+
+                                                                        <div className="flex items-center gap-1">
+
+                                                                              <Mail className="h-4 w-4" />
+                                                                              {user?.email ? user?.email : "Update Email"}
+                                                                        </div>
+                                                                        <Pencil
+                                                                              onClick={() => setEditContactOpen(true)}
+                                                                              className="h-4 w-4"
+                                                                        />
+                                                                  </div>
+                                                                  <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                                                                        <div className="flex items-center gap-1">
+                                                                              <MapPin className="h-4 w-4" />
+                                                                              Bangladesh
+                                                                        </div>
+
+                                                                        <div className="flex flex-wrap items-center gap-1">
+                                                                              <div className="flex size-1 items-center rounded-full bg-gray-500"></div>
+                                                                              <span>
+                                                                                    {user?.languages?.length
+                                                                                          ? user?.languages?.join(", ")
+                                                                                          : "Update Languages"}
+                                                                              </span>
+                                                                              <Pencil
+                                                                                    onClick={() => setEditLanguagesOpen(true)}
+                                                                                    className="h-4 w-4"
+                                                                              />
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
                                                       </div>
-
-                                                      {/* Progress Ring */}
-                                                      <svg className="absolute inset-0 h-full w-full -rotate-90">
-                                                            <svg
-                                                                  className="h-24 w-24"
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                  viewBox="0 0 96 96"
-                                                            >
-                                                                  <defs>
-                                                                        <linearGradient
-                                                                              id="circleGradient"
-                                                                              x1="0"
-                                                                              y1="0"
-                                                                              x2="1"
-                                                                              y2="1"
-                                                                        >
-                                                                              <stop offset="0%" stopColor="#3b82f6" /> {/* Blue */}
-                                                                              <stop offset="100%" stopColor="#8b5cf6" />{" "}
-                                                                              {/* Purple */}
-                                                                        </linearGradient>
-                                                                  </defs>
-                                                                  {/* Background Circle */}
-                                                                  <circle
-                                                                        className="text-white"
-                                                                        strokeWidth="6"
-                                                                        stroke="currentColor"
-                                                                        fill="transparent"
-                                                                        r="46"
-                                                                        cx="48"
-                                                                        cy="48"
-                                                                  />
-                                                                  {/* Progress Circle with Gradient */}
-                                                                  <circle
-                                                                        className="text-blue-500"
-                                                                        strokeWidth="6"
-                                                                        strokeDasharray={290}
-                                                                        strokeDashoffset={290 - (290 * completion) / 100}
-                                                                        strokeLinecap="round"
-                                                                        stroke="url(#circleGradient)"
-                                                                        fill="transparent"
-                                                                        r="46"
-                                                                        cx="48"
-                                                                        cy="48"
-                                                                  />
-                                                            </svg>
-                                                      </svg>
-
-                                                      {/* Star or Percentage */}
-                                                      <div className="absolute -bottom-1 flex items-center justify-center rounded-3xl bg-gray-600 px-2 py-0.5 text-primary-foreground shadow-lg">
-                                                            {showStar ? (
-                                                                  <Star className="h-4 w-4 fill-current text-[#4493F8]" />
-                                                            ) : (
-                                                                  <span className="text-sm font-medium">{completion}%</span>
-                                                            )}
+                                                ) : (
+                                                      <div className="flex items-center gap-4">
+                                                            <Skeleton className="h-20 w-20 rounded-full" />
+                                                            <div className="flex-1 space-y-2">
+                                                                  <Skeleton className="h-8 w-3/4" />
+                                                                  <Skeleton className="h-4 w-full" />
+                                                                  <Skeleton className="h-4 w-5/6" />
+                                                            </div>
                                                       </div>
-
-                                                      {/* Update text on hover */}
-                                                      <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
-                                                            <span className="text-sm font-medium text-white">
-                                                                  Update
-                                                            </span>
-                                                      </div>
-                                                </div>
+                                                )}
                                           </div>
+                                          <About />
+                                          <CareerObjective />
+                                          <Certifications />
+                                          <Skills />
+                                          <Gender />
+                                          <DateOfBirth />
+                                    </TabsContent>
 
-                                          <div className="flex-1 space-y-1">
-                                                <div className="flex items-center justify-between">
-                                                      <div className="flex items-center gap-2">
-                                                            <h1 className="text-2xl font-bold">
-                                                                  {user?.fullName ? user?.fullName : "Update Your Name"}
-                                                            </h1>
-                                                            <Pencil
-                                                                  onClick={() => setEditNameOpen(true)}
-                                                                  className="h-4 w-4"
-                                                            />
-                                                      </div>
-                                                </div>
-                                                <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                                                      <div className="flex items-center gap-1">
-                                                            <Contact className="h-4 w-4" />
-                                                            {user?.phone_number
-                                                                  ? user?.phone_number
-                                                                  : "Update Phone Number"}
-                                                      </div>
+                                    <TabsContent value="personal" className='space-y-4'>
+                                          <Address />
+                                          <UserIdentity />
+                                          <Resume />
+                                          <Educations />
+                                          <Experience />
+                                    </TabsContent>
 
-                                                      <div className="flex items-center gap-1">
+                                    <TabsContent value="others" className='space-y-4'>
+                                          <EmergencyContact />
+                                          <BloodGroup />
+                                    </TabsContent>
+                              </Tabs>
 
-                                                            <Mail className="h-4 w-4" />
-                                                            {user?.email ? user?.email : "Update Email"}
-                                                      </div>
-                                                      <Pencil
-                                                            onClick={() => setEditContactOpen(true)}
-                                                            className="h-4 w-4"
-                                                      />
-                                                </div>
-                                                <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                                                      <div className="flex items-center gap-1">
-                                                            <MapPin className="h-4 w-4" />
-                                                            Bangladesh
-                                                      </div>
-
-                                                      <div className="flex flex-wrap items-center gap-1">
-                                                            <div className="flex size-1 items-center rounded-full bg-gray-500"></div>
-                                                            <span>
-                                                                  {user?.languages?.length
-                                                                        ? user?.languages?.join(", ")
-                                                                        : "Update Languages"}
-                                                            </span>
-                                                            <Pencil
-                                                                  onClick={() => setEditLanguagesOpen(true)}
-                                                                  className="h-4 w-4"
-                                                            />
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
-                              ) : (
-                                    <div className="flex items-center gap-4">
-                                          <Skeleton className="h-20 w-20 rounded-full" />
-                                          <div className="flex-1 space-y-2">
-                                                <Skeleton className="h-8 w-3/4" />
-                                                <Skeleton className="h-4 w-full" />
-                                                <Skeleton className="h-4 w-5/6" />
-                                          </div>
-                                    </div>
-                              )}
-
-                              <About />
-                              <CareerObjective />
-                              <Resume />
-                              <Educations />
-                              <Experience />
-                              <Certifications />
-                              <Skills />
-                              <Gender />
-                              <DateOfBirth />
-                              <UserIdentity />
-                              <Address />
-                              <EmergencyContact />
-                              <BloodGroup />
+                              {/* Header Section */}
 
                               <EditModal
                                     open={editNameOpen}
@@ -658,12 +684,10 @@ export default function ProfilePage() {
                               </EditModal>
                         </div>
 
-
-
                         <Card className="group h-fit mb-8">
                               <div className="w-full p-6 flex justify-between items-center gap-2">
                                     <CardTitle>Quick Links</CardTitle>
-                                    <Button className="!bg-[#3F307B] *:" onClick={() => console.log(`Share Profile: ${user?._id}`)} size="sm">
+                                    <Button className="!bg-[#3F307B] *:" onClick={() => shareProfileHandler(user?._id)} size="sm">
                                           Portfolio
                                     </Button>
                               </div>
@@ -703,7 +727,7 @@ export default function ProfilePage() {
                         </Card>
 
 
-                  </div>
-            </div>
+                  </div >
+            </div >
       )
 }

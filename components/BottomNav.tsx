@@ -92,7 +92,7 @@ const BottomNav: React.FC = () => {
                                     <BottomSearch />
                                     {/* Profile */}
                                     <div className="flex items-center justify-center">
-                                          <Link href="/user/profile">
+                                          <Link href={user ? "/user/profile" : "/login"}>
                                                 <div
                                                       data-tooltip-target="tooltip-profile"
                                                       className={cn(

@@ -126,16 +126,7 @@ const BottomSearch: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    useEffect(() => {
-        if (isModalOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, [isModalOpen]);
+
 
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
