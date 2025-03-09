@@ -146,7 +146,7 @@ const BottomSearch: React.FC = () => {
             {/* Search button */}
             <button
                 onClick={openModal}
-                className="group bg-gray-200 hover:bg-gray-300 dark:text-black rounded-full mt-3 ml-2.5 inline-flex h-10 w-10 flex-col items-center justify-center rounded-ful"
+                className="group bg-gray-200 hover:bg-gray-300 dark:text-black rounded-full mt-3 ml-4 inline-flex h-10 w-10 flex-col items-center justify-center rounded-ful"
             >
                 <Search size={24} />
             </button>

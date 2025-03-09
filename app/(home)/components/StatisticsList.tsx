@@ -25,9 +25,10 @@ const StatisticsList: React.FC = () => {
         { title: "GOVT JOBS", value: "30+", icon: TrendingUp, link: "/govt-jobs" },
         { title: "TOP INDUSTRIES", value: "20+", icon: Award, link: "/" },
     ]
+
     return (
         <div className="flex justify-center ">
-            <div className=" lg:max-w-[1200px] md:max-w-[720px] max-w-[320px]  m-auto pt-4">
+            <div className=" lg:max-w-[720px] md:max-w-[720px] max-w-[320px] overflow-hidden m-auto ">
                 {statistics &&
                     <Swiper
                         navigation={false}
@@ -37,7 +38,7 @@ const StatisticsList: React.FC = () => {
                         breakpoints={{
                             320: { slidesPerView: 2, spaceBetween: 2 }, // Small devices (Mobile)
                             768: { slidesPerView: 4, spaceBetween: 2 }, // Medium devices (Tablet)
-                            1024: { slidesPerView: 6, spaceBetween: 2 }, // Large devices (Desktop)
+                            1024: { slidesPerView: 4, spaceBetween: 2 }, // Large devices (Desktop)
                         }}>
 
                         {statistics.map((stat) => (<SwiperSlide key={stat?.title} className="!px-2">
@@ -51,7 +52,6 @@ const StatisticsList: React.FC = () => {
                                 </div>
                             </Link>
                         </SwiperSlide>
-
                         ))}
                     </Swiper>
                 }

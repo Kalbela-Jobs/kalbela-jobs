@@ -179,7 +179,7 @@ const HeroSection = () => {
                                     </div>
 
                                     {/* <div className=" p-2 md:flex hidden items-center gap-1">Select Location <ChevronDown strokeWidth={0.8} /> </div> */}
-                                    <div className="flex gap-2 items-center pr-4">
+                                    <div className="flex gap-2 items-center md:pr-4 pr-2">
                                           <Image
                                                 src={'./icons/mic.svg'}
                                                 width={20}
@@ -232,7 +232,7 @@ const HeroSection = () => {
                         <div className="!mt-[3px]">
                               <Job_type_tag />
                         </div>
-                        <div className="mt-6 overflow-hidden pb-12">
+                        <div className="  overflow-hidden ">
                               <StatisticsList />
                         </div>
                   </MaxWidthWrapper>

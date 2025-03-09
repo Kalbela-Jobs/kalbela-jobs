@@ -83,29 +83,26 @@ const Skills = () => {
                               skills: newSkills.map((skill) => skill.value),
                               user_id: user?._id,
                         }
-                  );
-                  if (error) throw error;
-                  return data;
+                  )
+                  if (error) throw error
+                  return data
             },
             onSuccess: () => {
-                  queryClient.invalidateQueries({
-                        queryKey: ["skills", user?._id]
-                  });
-                  setEditSkillsOpen(false);
+                  queryClient.invalidateQueries<any>(["skills", user?._id])
+                  setEditSkillsOpen(false)
                   toast({
                         title: "Success",
                         description: "Skills updated successfully",
-                  });
+                  })
             },
             onError: (error) => {
                   toast({
                         title: "Error",
                         description: "Failed to update skills",
                         variant: "destructive",
-                  });
+                  })
             },
-      });
-
+      })
 
       const handleSaveSkills = () => {
             setLoading(true)

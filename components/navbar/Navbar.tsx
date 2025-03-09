@@ -143,7 +143,7 @@ const Navbar: React.FC = () => {
 
                               <SheetContent
                                     side="left"
-                                    className={`h-full w-80 overflow-y-auto pt-[14px] text-gray-800 dark:bg-gray-900 dark:text-slate-200`}
+                                    className={`h-full w-[75%] overflow-y-auto pt-[14px] text-gray-800 dark:bg-gray-900 dark:text-slate-200`}
                               >
                                     <SheetHeader>
                                           <SheetTitle className="text-start">

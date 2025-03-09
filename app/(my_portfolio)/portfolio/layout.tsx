@@ -39,7 +39,7 @@ export default function PortfolioLayout({ children }: PortfolioLayoutProps) {
             <head>
                 <meta
                     name="theme-color"
-                    content="#DEEBFF"
+                    content="#000"
                     media="(prefers-color-scheme: light)"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />

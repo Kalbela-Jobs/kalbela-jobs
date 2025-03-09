@@ -99,7 +99,7 @@ const TopCompanies: React.FC = () => {
   return (
     <section className="py-6 md:py-10">
       <MaxWidthWrapper>
-        <h2 className="mb-4 flex items-center text-xl font-bold md:mb-6 md:text-3xl">
+        <h2 className="mb-4 flex items-center font-bold md:mb-6 title-size">
           Top companies hiring now
         </h2>
         <Carousel
