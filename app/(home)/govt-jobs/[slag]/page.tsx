@@ -106,18 +106,30 @@ const Page = ({ params }: { params: { slag: string } }) => {
                                                             </div>
                                                       </div>
                                                 </div>
-                                                <Select onValueChange={(value) => handleJobSelect(org._id, value)}>
-                                                      <SelectTrigger className="mt-4 w-full">
-                                                            <SelectValue placeholder="View Jobs" />
-                                                      </SelectTrigger>
-                                                      <SelectContent>
-                                                            {org.jobs.map((job: any) => (
-                                                                  <SelectItem key={job._id} value={job._id}>
-                                                                        {job.title}
-                                                                  </SelectItem>
-                                                            ))}
-                                                      </SelectContent>
-                                                </Select>
+                                                <div className="group relative">
+                                                      <Select>
+                                                            <SelectTrigger className="mt-4 w-full">
+                                                                  <SelectValue placeholder="View Jobs" />
+                                                            </SelectTrigger>
+                                                      </Select>
+                                                      <div
+                                                            className="w-full absolute top-[3.6rem] z-40 left-0 p-2 border bg-white rounded-md shadow-lg hidden group-hover:block"
+                                                      >
+                                                            {org.jobs.length > 0 ? (
+                                                                  org.jobs.map((job: any) => (
+                                                                        <div
+                                                                              key={job._id}
+                                                                              onClick={() => handleJobSelect(org._id, job._id)}
+                                                                              className="px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer rounded-md"
+                                                                        >
+                                                                              {job.title}
+                                                                        </div>
+                                                                  ))
+                                                            ) : (
+                                                                  <p className="text-gray-500 text-sm text-center">No jobs available</p>
+                                                            )}
+                                                      </div>
+                                                </div>
                                           </div>
                                     ))}
                         </div>
