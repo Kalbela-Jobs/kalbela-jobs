@@ -42,6 +42,27 @@ const ShortCutMenu = () => {
         { icon: '/icons/icn2.png', label: 'Find job' },
         { icon: '/icons/icn1.png', label: 'Job' },
         { icon: '/icons/icn3.png', label: 'IT Job' },
+        { icon: '/icons/icn2.png', label: 'Find job' },
+        { icon: '/icons/icn1.png', label: 'Job' },
+        { icon: '/icons/icn3.png', label: 'IT Job' },
+        { icon: '/icons/icn2.png', label: 'Find job' },
+        { icon: '/icons/icn1.png', label: 'Job' },
+        { icon: '/icons/icn3.png', label: 'IT Job' },
+        { icon: '/icons/icn2.png', label: 'Find job' },
+        { icon: '/icons/icn1.png', label: 'Job' },
+        { icon: '/icons/icn3.png', label: 'IT Job' },
+        { icon: '/icons/icn2.png', label: 'Find job' },
+        { icon: '/icons/icn1.png', label: 'Job' },
+        { icon: '/icons/icn3.png', label: 'IT Job' },
+        { icon: '/icons/icn2.png', label: 'Find job' },
+        { icon: '/icons/icn1.png', label: 'Job' },
+        { icon: '/icons/icn3.png', label: 'IT Job' },
+        { icon: '/icons/icn2.png', label: 'Find job' },
+        { icon: '/icons/icn1.png', label: 'Job' },
+        { icon: '/icons/icn3.png', label: 'IT Job' },
+        { icon: '/icons/icn2.png', label: 'Find job' },
+        { icon: '/icons/icn1.png', label: 'Job' },
+        { icon: '/icons/icn3.png', label: 'IT Job' },
     ];
 
     return (
@@ -74,7 +95,7 @@ const ShortCutMenu = () => {
                     <div className="px-2 font-semibold text-xl font-mono">
                         Shortcut
                     </div>
-                    <div className="grid grid-cols-4 gap-4 mt-2 !max-h-[320px] overflow-y-auto">
+                    <div className="grid grid-cols-4 gap-4 mt-2 !max-h-full overflow-y-auto h-[70vh]">
                         {
                             shortcuts?.map((itm, index) => <div
                                 key={index}
@@ -92,7 +113,9 @@ const ShortCutMenu = () => {
                                 <p className="text-xs text-center">{itm?.label}</p>
                             </div>)
                         }
+
                     </div>
+                    
                 </DialogContent>
             </Dialog>
         </div>

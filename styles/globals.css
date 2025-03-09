@@ -35,7 +35,9 @@
 
     --radius: 0.5rem;
   }
-
+.title-size {
+      @apply md:text-[1.5rem] text-[0.6rem]
+}
   .dark {
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;

@@ -50,7 +50,7 @@ const Testimonial = () => {
   return (
     <div className="mx-auto h-full w-full max-w-screen-xl px-0 md:px-20 lg:px-12 2xl:max-w-screen-2xl">
       <div className="bg-background py-6 md:py-10">
-        <h2 className="mb-2 w-full px-2 text-left text-xl font-bold md:text-3xl">
+        <h2 className="mb-2 w-full px-2 text-left font-bold title-size ">
           What people are saying
         </h2>
         <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg">

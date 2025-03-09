@@ -20,14 +20,15 @@ const FeaturedJobs: React.FC = () => {
 
       return (
             <section>
-                  <MaxWidthWrapper className="py-6 md:py-10">
-                        <h2 className="mb-4 flex items-center text-xl font-bold md:text-3xl">
+                  <MaxWidthWrapper className="py-0 md:py-2 md:mt-[30px] mt-[25px]">
+                       
+                       <div className="grid grid-cols-1 lg:gap-4 sm:grid-cols-1 lg:grid-cols-4">
+                        <div className=" col-span-3">
+                        <h2 className="mb-4 flex items-center  font-bold text-[1.5rem]">
                               <span className="mr-2 text-red-500">🔥</span> Hot Jobs
                         </h2>
-                        <div className="grid grid-cols-1 lg:gap-4 sm:grid-cols-1 lg:grid-cols-4">
-
-                              <div className="grid gap-4 grid-cols-2 lg:grid-cols-3  col-span-3">
-                                    {loading
+                       <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 ">
+                       {loading
                                           ? Array.from({ length: 16 }).map((_, index) => (
                                                 <div
                                                       key={index}
@@ -75,12 +76,20 @@ const FeaturedJobs: React.FC = () => {
 
                                                 </Link>
                                           ))}
-                              </div>
-
-                              <div>
-                                    <Govt_jobs />
-                              </div>
                         </div>
+                        </div>
+                        <div>
+                        <h2 className="mb-4 flex items-center  font-bold text-[1.5rem]">
+                        <img
+                                          src="https://image.kalbelajobs.com/api/v1/image/679674886283397bf670bc7d.png"
+                                          alt="Government Jobs"
+                                          className="mr-2 w-6 h-6 rounded-full"
+                                    /> Government Jobs
+                        </h2>
+                        <Govt_jobs />
+                        </div>
+                       </div>
+                        
 
                   </MaxWidthWrapper>
             </section >

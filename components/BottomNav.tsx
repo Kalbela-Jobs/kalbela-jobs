@@ -1,10 +1,10 @@
 "use client"
 
-import React, { Fragment, useState } from "react"
+import React, { Fragment, useEffect, useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useUserData } from "@/utils/encript_decript"
-import { Home, LayoutDashboardIcon, Menu, Search, Settings, User } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
+import { logout, useUserData } from "@/utils/encript_decript"
+import { Briefcase, Home, LayoutDashboardIcon, LogIn, LogOut, Menu, Search, Settings, User, UserPlus } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import {
@@ -28,11 +28,56 @@ import BottomSearch from "./BottomSearch"
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 import { Button } from "./ui/button"
 import ShortCutMenu from "./ShortCutMenu"
+import { 
+      DropdownMenu,
+       DropdownMenuContent,
+        DropdownMenuGroup,
+         DropdownMenuItem,
+       DropdownMenuLabel,
+      DropdownMenuSeparator,
+       DropdownMenuShortcut,
+        DropdownMenuSubTrigger,
+         DropdownMenuTrigger 
+      } from "./ui/dropdown-menu"
+import UserNav from "./navbar/UserNav"
+import Cookies from "js-cookie"
+import { toast } from "@/hooks/use-toast"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import BottomNavProfile from "./navbar/BottomNavUserProfile"
 
 const BottomNav: React.FC = () => {
       const [isDashboardSidebarOpen, setIsDashboardSidebarOpen] = useState(false)
       const pathname = usePathname()
       const [user] = useUserData()
+      const router = useRouter();
+
+      const [alignment, setAlignment] = useState("start");
+      useEffect(() => {
+            const handleResize = () => {
+                  setAlignment(window.innerWidth >= 1024 ? "end" : "start");
+            };
+
+            window.addEventListener("resize", handleResize);
+            handleResize(); // Set initial alignment
+            return () => window.removeEventListener("resize", handleResize);
+      }, []);
+
+      const handleLogout = () => {
+            logout()
+            // router.push("/login")
+
+            setTimeout(() => {
+                  const get_user = Cookies.get("kalbelajobs_user");
+                  console.log("get_user::::::::::::", get_user);
+                  if (!get_user) {
+                        toast({
+                              title: "Successfully logged out",
+                        })
+                        router.push('/login');
+                  }
+            }, 500);
+      }
+
 
       return (
             <div>
@@ -92,7 +137,8 @@ const BottomNav: React.FC = () => {
                                     <BottomSearch />
                                     {/* Profile */}
                                     <div className="flex items-center justify-center">
-                                          <Link href={user ? "/user/profile" : "/login"}>
+                                    <BottomNavProfile user={user} />
+                                         {/* <Link href={"/user/profile"}>
                                                 <div
                                                       data-tooltip-target="tooltip-profile"
                                                       className={cn(
@@ -113,7 +159,8 @@ const BottomNav: React.FC = () => {
                                                             </Tooltip>
                                                       </TooltipProvider>
                                                 </div>
-                                          </Link>
+                                          </Link> */}
+                                          
                                     </div>
                               </div>
                         </div>
@@ -130,7 +177,7 @@ const BottomNav: React.FC = () => {
 
                                     <SheetContent
                                           side="left"
-                                          className={`h-full w-80 overflow-y-auto bg-white pt-[14px] text-gray-800 dark:bg-gray-900 dark:text-slate-200`}
+                                          className={`h-full w-[73%] overflow-y-auto bg-white pt-[14px] text-gray-800 dark:bg-gray-900 dark:text-slate-200`}
                                     >
                                           <SheetHeader>
                                                 <SheetTitle className="text-start">
