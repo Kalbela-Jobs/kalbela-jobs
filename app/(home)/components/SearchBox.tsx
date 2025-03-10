@@ -146,7 +146,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
                                     </button>
                                     <motion.div
                                           onClick={(e) => e.stopPropagation()}
-                                          className="md:mx-0  mx-2 relative  w-full max-w-4xl p-3 overflow-hidden rounded-lg "
+                                          className="md:mx-0  mx-2 relative  w-full max-w-4xl p-6 overflow-hidden rounded-lg "
                                           initial={{ scale: 0.8, opacity: 0 }}
                                           animate={{ scale: 1, opacity: 1 }}
                                           exit={{ scale: 0.8, opacity: 0 }}
@@ -195,7 +195,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
                                                             />
 
 
-                                                            <Button onClick={handleSearchClick} size={"sm"} className='!mr-3 !bg-gray-600 !px-3  text-white bg-primary !rounded-full md:mt-0 -mt-1 !py-1'>
+                                                            <Button onClick={handleSearchClick} size={"sm"} className='mr-3 bg-gray-600 !px-3  text-white bg-primary !rounded-full !py-1'>
                                                                   Search
                                                             </Button>
                                                       </div>
@@ -261,40 +261,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({
                                                       </ul>
                                                 )}
                                           </div>
-                                          <div className="mt-4">
+                                          <div className="mt-5">
                                                 <Job_type_tag />
                                           </div>
-
-                                        {filteredSearchHistory.length > 0 &&  <div>
-                                          {/* <h1 className="text-md border-b pb-2 mt-5">Search History</h1> */}
-                                          <ul className="mt-1 hidden">
-                                          {filteredSearchHistory.map((item: string) => (
-                                                                              <li
-                                                                                    key={`history-${item}`}
-                                                                                    onClick={() => {
-                                                                                          setSearchQuery(item)
-                                                                                          router.push(`/search-details?${item}`)
-                                                                                          setShowSkillDropdown(false)
-
-                                                                                    }}
-                                                                                    className="group m-1 flex items-start justify-between cursor-pointer p-1.5 capitalize rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-                                                                              >
-                                                                                    <div className="flex items-center gap-2">
-                                                                                          <Clock className="h-4 w-4 text-[#001968]" />
-                                                                                          <div>
-                                                                                                <span className="text-[#001968]">{highlightMatch(item, searchQuery)}</span>
-                                                                                          </div>
-                                                                                    </div>
-                                                                                    <button
-                                                                                          onClick={(e) => removeFromHistory(item, e)}
-                                                                                          className="hidden group-hover:block p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded"
-                                                                                    >
-                                                                                          <X className="h-4 w-4 text-gray-400" />
-                                                                                    </button>
-                                                                              </li>
-                                                                        ))}
-                                          </ul>
-                                          </div>}
                                     </motion.div>
                               </motion.div>
                         )}
