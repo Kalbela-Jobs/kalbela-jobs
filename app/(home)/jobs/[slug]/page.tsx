@@ -24,6 +24,7 @@ import useApiRequest from "@/app/hooks/useApiRequest"
 
 import JobDetailsSkeleton from "./components/JobDetailsSkeleton"
 import React from 'react'; // Added import for React
+import useJobsSearch from "@/app/hooks/useJobSearch"
 
 const JobsDetails = () => {
       const { slug } = useParams()
@@ -33,6 +34,20 @@ const JobsDetails = () => {
             `jobs/get-by-url?url=${slug}`,
             "GET"
       )
+
+      const { jobs, totalJobs } = useJobsSearch({
+            endpoint: "jobs",
+            search: '',
+            pageNumber: 1,
+            location: '',
+            job_type: data?.data?.job_type,
+            category: '',
+            salary_range: '',
+            limit: 3,
+      })
+
+      console.log(jobs);
+
 
       const { apiRequest } = useApiForPost()
 
@@ -362,33 +377,37 @@ const JobsDetails = () => {
                                     Similar Jobs
                               </CardTitle>
                               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                                    {dummyJobs?.slice(2, 5).map((jobPost, index) => (
+                                    {/* is array */}
+                                    {Array.isArray(jobs) && jobs?.map((jobPost: any) => (
                                           <Card
-                                                key={index}
+                                                key={jobPost?._id}
                                                 className="p-4 transition-shadow hover:shadow-md"
                                           >
+
                                                 <CardContent className="p-0">
                                                       <h3 className="mb-2 text-lg font-semibold">
-                                                            {jobPost?.title}
+                                                            {jobPost?.job_title}
                                                       </h3>
-                                                      <div className="mb-2 flex flex-wrap gap-2">
-                                                            <Badge variant="outline" className="text-xs">
-                                                                  {jobPost?.workMode}
-                                                            </Badge>
-                                                            <Badge variant="outline" className="text-xs">
-                                                                  {jobPost?.jobType}
+                                                      <div className="mb-2 flex  gap-2 overflow-x-auto scrollbar-hide whitespace-nowrap ">
+                                                            {jobPost?.skills?.map((skill: string, index: number) => (
+                                                                  <Badge key={index} variant="outline" className="text-xs whitespace-nowrap">
+                                                                        {skill}
+                                                                  </Badge>
+                                                            ))}
+                                                            <Badge variant="outline" className="text-xs bg-gray-100">
+                                                                  {jobPost?.job_type}
                                                             </Badge>
                                                       </div>
                                                       <p className="mb-2 text-sm text-muted-foreground">
-                                                            Salary: {jobPost?.salary.slice(0, 9)} | Deadline:{" "}
-                                                            {jobPost.deadline}
+                                                            Salary:  {jobPost?.salary_negotiable || jobPost?.negotiable_note
+                                                                  ? "Negotiable"
+                                                                  : `${jobPost?.salary_range?.min}${jobPost?.salary_range?.max ? ` - ${jobPost?.salary_range.max}` : ""} ${jobPost?.salary_range?.currency || ""}`} | Deadline:{" "}
+                                                            {formatDate(jobPost?.expiry_date || new Date())}
                                                       </p>
-                                                      <p className="mb-4 text-sm">
-                                                            {jobPost.description.slice(0, 100)}...
-                                                      </p>
+                                                      <p className="mb-4 text-sm" dangerouslySetInnerHTML={{ __html: jobPost?.description }}></p>
 
                                                       <SecondaryBtn
-                                                            onClick={() => save_jobs(jobPost?.id)}
+                                                            onClick={() => save_jobs(jobPost?._id)}
                                                             className="w-full"
                                                       >
                                                             Save Job

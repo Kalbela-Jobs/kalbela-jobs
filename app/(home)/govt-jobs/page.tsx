@@ -1,22 +1,23 @@
 "use client"
 
 import { useState } from "react"
-import { Star, User, Search } from "lucide-react"
+import { Star, User, Search, ChevronDown } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
 import useApiRequest from "@/app/hooks/useApiRequest"
 import { useRouter } from "next/navigation"
+import { Select, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const Page = () => {
-      const { data, loading, error } = useApiRequest<any>("jobs/get-all-org-jobs", "GET")
+      const [openPopover, setOpenPopover] = useState<string | null>(null)
+      const { data, loading } = useApiRequest<any>("jobs/get-all-org-jobs", "GET")
       const [searchTerm, setSearchTerm] = useState("")
       const router = useRouter()
 
-      const get_org_all_jobs = (jobs: any) => {
-            return jobs.reduce((acc: number, job: any) => acc + job.vacancy, 0)
-      }
+      const get_org_all_jobs = (jobs: any) => jobs.reduce((acc: number, job: any) => acc + job.vacancy, 0)
 
       const filteredData = data?.data?.filter((org: any) => org.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
@@ -90,23 +91,37 @@ const Page = () => {
                                                             </div>
                                                       </div>
                                                 </div>
-                                                <Select onValueChange={(value) => handleJobSelect(org._id, value)}>
-                                                      <SelectTrigger className="mt-4 w-full">
-                                                            <SelectValue placeholder="View Jobs" />
-                                                      </SelectTrigger>
-                                                      <SelectContent>
-                                                            {org.jobs.map((job: any) => (
-                                                                  <SelectItem key={job._id} value={job._id}>
-                                                                        {job.title}
-                                                                  </SelectItem>
-                                                            ))}
-                                                      </SelectContent>
-                                                </Select>
+
+                                                {/* Popover for job selection */}
+                                                <div className="group relative">
+                                                      <Select>
+                                                            <SelectTrigger className="mt-4 w-full">
+                                                                  <SelectValue placeholder="View Jobs" />
+                                                            </SelectTrigger>
+                                                      </Select>
+                                                      <div
+                                                            className="w-full absolute top-[3.6rem] left-0 p-2 border bg-white rounded-md shadow-lg hidden group-hover:block"
+                                                      >
+                                                            {org.jobs.length > 0 ? (
+                                                                  org.jobs.map((job: any) => (
+                                                                        <div
+                                                                              key={job._id}
+                                                                              onClick={() => handleJobSelect(org._id, job._id)}
+                                                                              className="px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer rounded-md"
+                                                                        >
+                                                                              {job.title}
+                                                                        </div>
+                                                                  ))
+                                                            ) : (
+                                                                  <p className="text-gray-500 text-sm text-center">No jobs available</p>
+                                                            )}
+                                                      </div>
+                                                </div>
                                           </div>
                                     ))}
                         </div>
                   </div>
-            </div>
+            </div >
       )
 }
 

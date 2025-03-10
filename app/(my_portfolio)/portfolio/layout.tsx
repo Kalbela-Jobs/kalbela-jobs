@@ -9,6 +9,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import BottomNav from "../../../components/BottomNav"
 import PortfolioNav from "@/components/navbar/PortfolioNav"
+import type { ReactNode } from 'react'
 
 export const metadata: Metadata = {
     title: {
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 }
 
 interface PortfolioLayoutProps {
-    children: React.ReactNode
+    children: ReactNode
 }
 
 export default function PortfolioLayout({ children }: PortfolioLayoutProps) {
@@ -39,7 +40,7 @@ export default function PortfolioLayout({ children }: PortfolioLayoutProps) {
             <head>
                 <meta
                     name="theme-color"
-                    content="#000"
+                    content="#DEEBFF"
                     media="(prefers-color-scheme: light)"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />

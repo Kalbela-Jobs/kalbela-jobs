@@ -32,7 +32,9 @@ export function EditModal({
             <div className="">
                   <Dialog open={open} onOpenChange={onOpenChange}>
                         <form >
-                              <DialogContent>
+                              <DialogContent
+                                    onOpenAutoFocus={(e)=> e.preventDefault()}
+                              >
                                     <DialogHeader>
                                           <DialogTitle className="text-start">{title}</DialogTitle>
                                           {description && (

@@ -79,7 +79,7 @@ const FeaturedJobs: React.FC = () => {
                         </div>
                         </div>
                         <div>
-                        <h2 className="mb-4 flex items-center  font-bold text-[1.5rem]">
+                        <h2 className="md:mb-4 mb-2 md:mt-0 mt-3 flex items-center  font-bold text-[1.5rem]">
                         <img
                                           src="https://image.kalbelajobs.com/api/v1/image/679674886283397bf670bc7d.png"
                                           alt="Government Jobs"
