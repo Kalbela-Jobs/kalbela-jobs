@@ -4,10 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import ChatBotContainer from './ChatBotContainer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useUserData } from '@/utils/encript_decript';
 
 const ChatBot = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const queryClient = new QueryClient();
+    const [user] = useUserData()
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -31,14 +33,14 @@ const ChatBot = () => {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <motion.button
+          {user && <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(true)}
                 className="fixed md:bottom-10 bottom-[80px] md:right-10 right-4 text-white  z-50 flex md:h-16 md:w-16 w-12 h-12 items-center justify-center rounded-xl border bg-[#001968] shadow-xl"
             >
                 <MessageSquare size={32} strokeWidth={0.7} />
-            </motion.button>
+            </motion.button>}
 
             <AnimatePresence>
                 {isOpen && (

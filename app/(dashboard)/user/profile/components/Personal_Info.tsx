@@ -362,7 +362,7 @@ export default function ProfilePage() {
                                     <TabsContent value="overview" className='space-y-4'>
                                           <div className="mt-4">
                                                 {user ? (
-                                                      <div className="flex items-center gap-4">
+                                                      <div className="flex md:flex-row flex-col justify-start  gap-4">
                                                             <div className="relative">
                                                                   <div
                                                                         className="group relative flex size-20 cursor-pointer items-center justify-center rounded-full"
@@ -546,7 +546,7 @@ export default function ProfilePage() {
                                     <div className="grid gap-4 py-4">
                                           <div className="grid gap-2">
                                                 <Label htmlFor="name">Name</Label>
-                                                <Input
+                                                <input
                                                       onChange={(e) => setName(e.target.value)}
                                                       id="name"
                                                       defaultValue={user?.fullName}

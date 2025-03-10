@@ -79,8 +79,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
                   <head>
                         <meta
                               name="theme-color"
-                              content="#000"
-                              // media="(prefers-color-scheme: light)"
+                              content="#DEEBFF"
+                              media="(prefers-color-scheme: light)"
                         />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <meta charSet="UTF-8" />

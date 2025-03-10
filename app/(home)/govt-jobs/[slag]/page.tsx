@@ -16,6 +16,11 @@ import ShareButton from "@/components/ShareButton"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useRouter } from "next/navigation"
 import { ImageCarousel } from "./components/Carousel"
+import GovmentJobCategory from "./components/GovmentJobCategory"
+import GovJobHeadLine from "./components/GovJobHeadLine"
+import GovJobList from "./components/GovJobList"
+import Image from "next/image"
+import GovJobHeader from "./components/GovJobHeader"
 
 const Page = ({ params }: { params: { slag: string } }) => {
       const { data: singleJobData, loading: singleJobLoading } = useApiRequest<Record<string, any>>(
@@ -46,7 +51,7 @@ const Page = ({ params }: { params: { slag: string } }) => {
                   }
             };
 
-            fetchRelatedJobs();
+                  fetchRelatedJobs();
       }, [singleJobData?.data?.organization?.id, params.slag]);
 
 
@@ -61,10 +66,60 @@ const Page = ({ params }: { params: { slag: string } }) => {
             router.push(`/govt-jobs/${jobId}`)
       }
 
-
+      const addItem: any[] = [
+            {
+                  id: 1,
+                  addBanner : 'https://img.freepik.com/free-psd/new-smartphone-social-media-story-design-template_47987-25437.jpg?t=st=1741585275~exp=1741588875~hmac=3f193daabc3f7a6d28fb3f566036b5cee0382a1531157b69ed6bdba0ae8b5d1f&w=740'
+            },
+            {
+                  id : 2,
+                  addBanner : "https://img.freepik.com/free-vector/hand-drawn-electronics-store-facebook-template_23-2151138109.jpg?t=st=1741585315~exp=1741588915~hmac=ba44f066a6eb427204b27c141b4e3cf6bdbea43669c69fd6a8c8fa005689bb70&w=1380"
+            }
+      ]
 
       return (
             <section className="">
+                  <MaxWidthWrapper>
+                        <GovmentJobCategory />
+                        <GovJobHeadLine data={singleJobData?.data} />
+                  </MaxWidthWrapper>
+                  <MaxWidthWrapper>
+                        <div className="mt-3">
+                              <div className=" p-2 grid md:grid-cols-4 gap-2">
+                                    {/* aside */}
+                                    <div className="">
+                                          <GovJobList
+                                            all_org_jobs_loading={all_org_jobs_loading} 
+                                            all_org_jobs={all_org_jobs}
+                                            get_org_all_jobs={get_org_all_jobs} 
+                                            handleJobSelect={handleJobSelect} />
+                                    </div>
+                                    {/* content */}
+                                    <div className={`md:col-span-3 ${addItem.length > 0 ? 'grid' : ''} md:grid-cols-4 gap-2  `}>
+                                          <div className="md:col-span-3 ">
+                                              {singleJobData?.data && <GovJobHeader data={singleJobData?.data} />}
+                                                hfjsaafkjasdfsa Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus voluptatibus recusandae fugiat distinctio tempora minus, assumenda eveniet, quisquam commodi optio tenetur consequuntur adipisci magni nemo aperiam voluptate illo, illum rem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis labore, ut animi soluta inventore accusantium, temporibus facilis molestiae veniam non, similique fugit aperiam minus ullam dolorum magni porro. Autem, est?
+                                          </div>
+                                        {addItem.length > 0 &&  <div className="space-y-4">
+                                                {addItem?.map((item) => (
+                                                      <Image
+                                                       key={item.id} 
+                                                       src={item.addBanner} 
+                                                      alt="adds"
+                                                      width={400}
+                                                      height={500}
+                                                       />
+                                                ))}
+                                          </div>}
+                                    </div>
+                              </div>
+                        </div>
+                  </MaxWidthWrapper>
+
+
+
+
+
                   <MaxWidthWrapper className="grid gap-6 py-6 md:grid-cols-[350px,1fr] md:py-10">
 
                         <div className="space-y-4 h-screen md:sticky md:top-20 overflow-y-auto">

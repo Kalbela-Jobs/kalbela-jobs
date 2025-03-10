@@ -8,7 +8,7 @@ interface ProfileHeaderProps {
 }
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
     return (
-        <header className='md:flex gap-4'>
+        <header className='md:flex  gap-4'>
             <div >
                 <div className="border border-gray-200 rounded-full object-scale-down w-[120px] h-[120px] overflow-hidden md:m-auto m-auto">
                     <Image
@@ -22,7 +22,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
             </div>
             <div className="mt-2 lg:w-[400px]">
                 <h2 className="text-2xl md:text-start text-center capitalize font-semibold">
-                    {user?.fullName}
+                  ,,,,,  {user?.fullName}
                 </h2>
                 <div className="mt-2 flex md:justify-start justify-center text-gray-500 text-sm flex-wrap gap-2">
                     {user?.address?.permanentCity && <div className="flex items-center gap-1">

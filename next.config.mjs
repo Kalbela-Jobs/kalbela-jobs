@@ -35,6 +35,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "yt3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
+      },
     ],
   },
   env: {
