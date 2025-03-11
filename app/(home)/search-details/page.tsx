@@ -271,11 +271,11 @@ export default SearchDetails
 type PaginationProps = {
       totalPages: number;
       currentPage: number;
-      handlePageChange: (page: number) => void;
-      handlePrevGroup: () => void;
-      handleNextGroup: () => void;
+      handlePageChange: (page: number) => any;
+      handlePrevGroup: () => any;
+      handleNextGroup: () => any;
 };
-
+// @ts-ignore
 const MinimalPagination: React.FC<PaginationProps> = ({
       totalPages,
       currentPage,

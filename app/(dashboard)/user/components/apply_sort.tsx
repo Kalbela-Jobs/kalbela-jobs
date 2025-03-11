@@ -4,6 +4,7 @@ import { useUserData } from "@/utils/encript_decript"
 import useApiRequest from "@/app/hooks/useApiRequest"
 import Link from "next/link"
 import { CalendarIcon, CircleIcon } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 
 type Job = {
       _id: string
@@ -19,7 +20,7 @@ type Job = {
             posted_date: string
       }
       created_at: any
-      status: "Applied" | "In Review" | "Interview" | "Offer" | "Rejected"
+      status: "Applied" | "In Review" | "Interview" | "Offer" | "Rejected" | "Shortlisted"
 }
 type ApiResponse = {
       data: Job[]
@@ -38,11 +39,24 @@ const ApplySort = () => {
 
       console.log('my job : ', jobs);
 
-      const users = [
-            { name: 'John Doe', age: 28, email: 'john@example.com', address: '123 Main St' },
-            { name: 'Jane Smith', age: 32, email: 'jane@example.com', address: '456 Oak St' },
-            { name: 'Mike Johnson', age: 45, email: 'mike@example.com', address: '789 Pine St' },
-      ];
+      const getStatusColor = (status: Job["status"]) => {
+            switch (status) {
+                  case "Applied":
+                        return "bg-blue-100 text-blue-800"
+                  case "Shortlisted":
+                        return "bg-blue-100 text-blue-800"
+                  case "In Review":
+                        return "bg-yellow-100 text-yellow-800"
+                  case "Interview":
+                        return "bg-purple-100 text-purple-800"
+                  case "Offer":
+                        return "bg-green-100 text-green-800"
+                  case "Rejected":
+                        return "bg-red-100 text-red-800"
+                  default:
+                        return "bg-gray-100 text-gray-800"
+            }
+      }
 
       return (
 
@@ -88,6 +102,7 @@ const ApplySort = () => {
                                                 <th className="py-3 px-6 text-left">Position</th>
                                                 <th className="py-3 px-6 text-left">Job type</th>
                                                 <th className="py-3 px-6 text-left">Date</th>
+                                                <th className="py-3 px-6 text-left">Apply Status</th>
                                           </tr>
                                     </thead>
                                     <tbody className="!text-gray-800 text-sm font-light">
@@ -108,6 +123,9 @@ const ApplySort = () => {
                                                                   month: "long",
                                                                   day: "numeric",
                                                             })}
+                                                      </td>
+                                                      <td className="py-3 font-[400] px-6 text-left">
+                                                            <Badge className={getStatusColor(job.status)}>{job.status}</Badge>
                                                       </td>
                                                 </tr>
                                           ))}
