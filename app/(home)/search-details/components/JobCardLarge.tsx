@@ -22,6 +22,9 @@ interface JobcardLargeProps {
 
 const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
 
+
+
+
       const [user] = useUserData()
       const { apiRequest } = useApiForPost()
 
@@ -58,6 +61,23 @@ const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
       }
 
 
+
+      const formatLocation = () => {
+            if (job?.location?.remote) return "Remote";
+
+            const { country, district, division, location } = job?.location || {};
+
+            return [
+                  country,
+                  Array.isArray(district) ? district.join(", ") : district,
+                  Array.isArray(division) ? division.join(", ") : division,
+                  location
+            ]
+                  .filter(Boolean)
+                  .join(", ");
+      };
+
+      console.log(formatLocation());
       return (
             <div
                   className="block bg-white rounded-lg border p-4 shadow focus:outline-none focus:ring focus:ring-offset-2"
@@ -74,14 +94,18 @@ const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
                                           <div>
                                                 <div className="max-w-64 md:max-w-xl">
                                                       <h2 className="text-lg font-bold text-gray-800">{job.job_title}</h2>
+                                                      <h3 className="my-0.5">{job.company_info?.name} </h3>
+
                                                 </div>
+
                                                 <div className="md;flex hidden md:text-md text-xs md:items-center gap-2 mt-1">
                                                       <h3 className="my-0.5">{job.company_info?.name}</h3>
-                                                      <div className="border md:text-sm h-[28px] flex items-center justify-center border-[#4383D6] text-[#4383D6] md:w-auto w-auto md:text-md text-xs px-3 md:py-0.2 rounded-full">
+                                                      {/* <div className="border md:text-sm h-[28px] flex items-center justify-center border-[#4383D6] text-[#4383D6] md:w-auto w-auto md:text-md text-xs px-3 md:py-0.2 rounded-full">
                                                             Actively Hiring
-                                                      </div>
+                                                      </div> */}
                                                 </div>
                                           </div>
+
 
                                           {<div className="w-16 h-16 border md:w-20 md:h-20 rounded-xl overflow-hidden">
                                                 <Image
@@ -93,11 +117,21 @@ const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
                                                 />
                                           </div>}
                                     </div>
+                                    <div className="md:flex mt-4 hidden w-full gap-2 overflow-x-auto scrollbar-hide  lg:flex-wrap lg:overflow-x-visible">
+                                          {job.skills?.map((skill: string, idx: number) => (
+                                                <span
+                                                      key={idx}
+                                                      className=" rounded border  whitespace-nowrap  border-gray-400 px-2 py-1 text-xs"
+                                                >
+                                                      {skill}
+                                                </span>
+                                          ))}
+                                    </div>
 
-                                    <ul className="mt-6 md:flex hidden md:flex-row flex-col overflow-x-auto chat-bot md:items-center space-x-4 text-sm">
-                                          <li className="flex  text-nowrap items-center gap-2 border-gray-500 pr-2 md:border-r">
+                                    <ul className="md:mt-4 mt-2 md:flex hidden md:flex-row flex-col overflow-x-auto chat-bot md:items-center space-x-4 text-sm">
+                                          <li className="flex text-nowrap items-center gap-2 border-gray-500 pr-2 md:border-r">
                                                 <MapPin strokeWidth={1} size={22} className="text-gray-500" />
-                                                {job?.location?.location}
+                                                {formatLocation()}
                                           </li>
                                           <li className="flex text-nowrap items-center gap-2 border-gray-500 md:pr-2 md:border-r">
                                                 <Calendar strokeWidth={1} size={22} className="text-gray-500" />
@@ -114,7 +148,7 @@ const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
                                     <ul className="mt-6 md:hidden block space-y-2 text-sm">
                                           <li className="flex gap-2 border-gray-500 pr-2 md:border-r">
                                                 <MapPin strokeWidth={1} size={25} className="text-gray-500" />
-                                                {job?.location?.location}
+                                                {formatLocation()}
                                           </li>
                                           <li className="flex  gap-2 border-gray-500 md:pr-2 md:border-r">
                                                 <Calendar strokeWidth={1} size={22} className="text-gray-500" />
@@ -127,46 +161,24 @@ const JobcardLarge: React.FC<JobcardLargeProps> = ({ job }) => {
                                                       : `${job.salary_range?.min}${job.salary_range?.max ? ` - ${job.salary_range.max}` : ""} ${job.salary_range?.currency || ""} / month`}
                                           </li>
                                     </ul>
-                                    {/* <p className="mt-0.5 max-w-2xl truncate text-sm">
-                                          {job.description}
-                                    </p> */}
+
                               </header>
-                              {/* <div className="mt-4 flex w-full gap-2 overflow-x-auto scrollbar-hide  lg:flex-wrap lg:overflow-x-visible">
-                                    {job.skills?.map((skill: string, idx: number) => (
-                                          <span
-                                                key={idx}
-                                                className=" rounded border  whitespace-nowrap  border-gray-400 px-2 py-1 text-xs"
-                                          >
-                                                {skill}
-                                          </span>
-                                    ))}
-                              </div> */}
+
                               <p className="mt-2 text-xs">{job.postedDate}</p>
                         </Link>
                         <div className="flex items-center gap-2 mt-3">
-                              <button className="flex gap-0 items-center bg-[#008bdc13] text-[#008BDC] px-2 cursor-default justify-between h-[30px]  rounded-full">
+                              <button className="flex gap-0 items-center bg-[#008bdc13] text-[#c8253d] px-2 cursor-default justify-between h-[30px]  rounded-full">
                                     <div className="flex w-full gap-1 items-center justify-center"><RotateCw strokeWidth={1.4} size={18} /> <span>
-                                          {formatTimeAgo(job.expiry_date)}
+                                          {formatTimeAgo(job?.expiry_date)}
                                     </span></div>
 
-                                    {/* <p className="text-sm">
-                                    <strong>Deadline:</strong> {formatDate(job.expiry_date)}
-                              </p>
-                              <Button
-                                    className="text-sm hover:no-underline"
-                                    size="sm"
-                                    variant="link"
-                                    onClick={() => save_jobs(job._id)}
-                              >
-                                    <Heart className="me-1 size-4" /> Save for later
-                              </Button> */}
                               </button>
 
-                              <div className="flex md:hidden md:text-md text-xs md:items-center gap-2">
+                              {/* <div className="flex md:hidden md:text-md text-xs md:items-center gap-2">
                                     <div className="border md:text-sm h-[28px] flex items-center justify-center border-[#4383D6] text-[#4383D6] md:w-auto w-auto md:text-md text-xs px-3 md:py-0.2 rounded-full">
                                           Actively Hiring
                                     </div>
-                              </div>
+                              </div> */}
                         </div>
                   </article>
             </div>

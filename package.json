@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "install": "npm install --legacy-peer-deps"
+    "install": "npm install --legacy-peer-deps",
     "dev": "next dev",
     "pre-push": "npm run format:check || true && npm run format:write && npm run format:check && npm run lint:fix && npm run lint && npm run build",
     "build": "next build",
