@@ -81,7 +81,7 @@ const DisplayCardBox: React.FC = () => {
                 />
 
                 <DisplayCardItem
-                    title="Applyed Jobs"
+                    title="Applied Jobs"
                     range={totalJobs}
                     color="#123524"
                     url="/user/applied-jobs"

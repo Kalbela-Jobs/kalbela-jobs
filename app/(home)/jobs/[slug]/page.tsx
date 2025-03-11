@@ -213,12 +213,12 @@ const JobsDetails = () => {
                   </div>
 
                   {/* Content Section */}
-                  <div className="mt-4">
+                  <div className="my-4">
                         <div className="grid gap-8 grid-cols-1 lg:grid-cols-3 ">
                               {/* Left Column - Company Info */}
-                              <div className="">
+                              <div className="h-fit sticky top-24">
 
-                                    <Card className="h-fit p-6  lg:col-span-1   ">
+                                    <Card className="h-fit p-6 lg:col-span-1">
                                           <div className="mb-6 flex items-center gap-4">
                                                 {jobData?.company_info?.company_website ? <Link href={`/companies/${jobData?.company_info?.company_website}`}>
                                                       <div className="flex-shrink-0">
@@ -331,8 +331,8 @@ const JobsDetails = () => {
                                           </div>
                                     </Card>
 
-                                    <div className="my-12 hidden lg:block">
-                                          <CardTitle className="mb-5 text-2xl font-bold">
+                                    <div className="hidden lg:block">
+                                          <CardTitle className="my-5 text-2xl font-bold">
                                                 Similar Jobs
                                           </CardTitle>
                                           <div className="grid gap-4 grid-cols-1 ">
