@@ -216,7 +216,7 @@ const JobsDetails = () => {
                   <div className="my-4">
                         <div className="grid gap-8 grid-cols-1 lg:grid-cols-3 ">
                               {/* Left Column - Company Info */}
-                              <div className="h-fit sticky top-24">
+                              <div className="h-fit lg:sticky lg:top-24">
 
                                     <Card className="h-fit p-6 lg:col-span-1">
                                           <div className="mb-6 flex items-center gap-4">
