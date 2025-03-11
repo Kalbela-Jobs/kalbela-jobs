@@ -30,6 +30,9 @@ import Breadcrumbs from "@/components/Breadcrumbs"
 import { Navigation, Autoplay } from "swiper/modules"; // Import Autoplay module
 import { Search } from "lucide-react"
 
+
+
+
 const ITEMS_PER_PAGE = 10
 
 const SearchDetails: React.FC = () => {
@@ -71,6 +74,7 @@ const SearchDetails: React.FC = () => {
       })
 
       const totalPages = Math.ceil(totalJobs / ITEMS_PER_PAGE)
+      // const totalPages = 100
 
       useEffect(() => {
             setCategory(searchParams.get("category") || "")
@@ -110,6 +114,9 @@ const SearchDetails: React.FC = () => {
                   setPageGroup(pageGroup - 1);
             }
       };
+
+
+
       return (
             <section className=" pt-6">
                   <MaxWidthWrapper>
@@ -128,6 +135,14 @@ const SearchDetails: React.FC = () => {
                                           <SheetHeader className="mb-4">
                                                 <SheetTitle>All Filters</SheetTitle>
                                           </SheetHeader>
+                                          <div className="bg-white dark:text-white text-gray-800 flex flex-col items-center justify-center gap-2 px-4 pb-4 pt-6 shadow  rounded-md mb-3">
+                                                <h1 className=" font-semibold text-xl">Keyword Search</h1>
+
+                                                <div className="flex w-full mt-2 items-center border border-[#a6a6a7] rounded">
+                                                      <input onChange={(e) => setQuery(e.target.value)} placeholder="Search" type="text" name='search' className="bg-transparent w-full h-full focus:outline-none focus-within:outline-none p-2" />
+                                                      <button className="bg-[#008BDC] cursor-default flex items-center justify-center w-16 h-11 text-white"><Search size={22} className=" text-white" /></button>
+                                                </div>
+                                          </div>
                                           <div className="w-full rounded border p-4 shadow-sm">
                                                 <FilterSelect
                                                       customStyles={customStyles}
@@ -167,10 +182,10 @@ const SearchDetails: React.FC = () => {
                   </MaxWidthWrapper>
 
                   <MaxWidthWrapper>
-                        <div className="">
+                        {/* <div className="">
                               <h1 className="text-2xl font-bold text-center">{totalJobs} {jobs.length === 1 ? "Job" : "Jobs"}</h1>
                               <p className="text-center text-gray-600 mt-3">Latest Web Development Intern Jobs in Bangladesh</p>
-                        </div>
+                        </div> */}
                   </MaxWidthWrapper>
 
                   <MaxWidthWrapper className="flex flex-col gap-6 p-4 lg:flex-row sticky top-[56px]">
@@ -182,7 +197,14 @@ const SearchDetails: React.FC = () => {
                               </div>
 
 
+                              <div className="bg-white dark:text-white text-gray-800 flex flex-col items-center justify-center gap-2 px-4 pb-4 pt-6 shadow  rounded-md mb-3">
+                                    <h1 className=" font-semibold text-xl">Keyword Search</h1>
 
+                                    <div className="flex w-full mt-2 items-center border border-[#a6a6a7] rounded">
+                                          <input onChange={(e) => setQuery(e.target.value)} placeholder="Search" type="text" name='search' className="bg-transparent w-full h-full focus:outline-none focus-within:outline-none p-2" />
+                                          <button className="bg-[#008BDC] cursor-default flex items-center justify-center w-16 h-11 text-white"><Search size={22} className=" text-white" /></button>
+                                    </div>
+                              </div>
                               <div className="bg-white px-4 pb-4 pt-6 shadow  rounded-md mb-2">
 
                                     <div className="mb-4 text-md text-center font-semibold flex items-center justify-center gap-1"><Filter color="#008BDC" strokeWidth={1.3} />Filters</div>
@@ -199,31 +221,10 @@ const SearchDetails: React.FC = () => {
                               </div>
 
 
-                              <div className="bg-white dark:text-white text-gray-800 flex flex-col items-center justify-center gap-2 px-4 pb-4 pt-6 shadow  rounded-md mt-3">
-                                    <h1 className="  font-semibold text-xl">Keyword Search</h1>
 
-                                    <div className="flex w-full mt-2 items-center border border-[#a6a6a7] rounded">
-                                          <input onChange={(e) => setQuery(e.target.value)} placeholder="Search" type="text" name='search' className="bg-transparent w-full h-full focus:outline-none focus-within:outline-none p-2" />
-                                          <button className="bg-[#008BDC] cursor-default flex items-center justify-center w-16 h-11 text-white"><Search size={22} className=" text-white" /></button>
-                                    </div>
-                              </div>
                         </aside>
 
                         <div className="flex-grow lg:w-3/4">
-                              {/* <div className="mb-4 flex items-center justify-between">
-                                    <p className="text-sm">{`${(currentPage - 1) * ITEMS_PER_PAGE + 1} - ${Math.min(currentPage * ITEMS_PER_PAGE, totalJobs)} of ${totalJobs} Jobs`}</p>
-                                    <div className="w-72">
-                                          <Select
-                                                options={[
-                                                      { value: "Relevance", label: "Sort by: Relevance" },
-                                                      { value: "Date", label: "Sort by: Date" },
-                                                ]}
-                                                styles={customStyles}
-                                                isSearchable={false}
-                                                onChange={handleSortChange}
-                                          />
-                                    </div>
-                              </div> */}
                               <br />
                               {loading ? (
                                     <div className="space-y-4">
@@ -243,36 +244,14 @@ const SearchDetails: React.FC = () => {
                                     </div>
                               )}
 
-                              {totalPages > 1 && (
-                                    <Pagination className="mt-8">
-                                          <PaginationContent>
-                                                <div className="flex items-center flex-wrap">
-                                                      {pageGroup > 0 && (
-                                                            <PaginationItem>
-                                                                  <PaginationPrevious href="#" onClick={handlePrevGroup} />
-                                                            </PaginationItem>
-                                                      )}
-                                                      {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
-                                                            <PaginationItem key={startPage + index}>
-                                                                  <PaginationLink
-                                                                        className="w-8 h-8 flex items-center justify-center"
-                                                                        href="#"
-                                                                        onClick={() => handlePageChange(startPage + index)}
-                                                                        isActive={currentPage === startPage + index}
-                                                                  >
-                                                                        {startPage + index}
-                                                                  </PaginationLink>
-                                                            </PaginationItem>
-                                                      ))}
-                                                      {pageGroup < totalGroups - 1 && (
-                                                            <PaginationItem>
-                                                                  <PaginationNext href="#" onClick={handleNextGroup} />
-                                                            </PaginationItem>
-                                                      )}
-                                                </div>
-
-                                          </PaginationContent>
-                                    </Pagination>
+                              {totalPages && totalPages > 1 && (
+                                    <MinimalPagination
+                                          totalPages={totalPages}
+                                          currentPage={currentPage}
+                                          handlePageChange={handlePageChange}
+                                          handlePrevGroup={handlePrevGroup}
+                                          handleNextGroup={handleNextGroup}
+                                    />
                               )}
 
 
@@ -284,3 +263,67 @@ const SearchDetails: React.FC = () => {
 }
 
 export default SearchDetails
+
+
+
+
+
+type PaginationProps = {
+      totalPages: number;
+      currentPage: number;
+      handlePageChange: (page: number) => void;
+      handlePrevGroup: () => void;
+      handleNextGroup: () => void;
+};
+
+const MinimalPagination: React.FC<PaginationProps> = ({
+      totalPages,
+      currentPage,
+      handlePageChange,
+      handlePrevGroup,
+      handleNextGroup,
+}) => {
+      const pageGroup = Math.floor(currentPage / 5);
+      const startPage = pageGroup * 5 + 1;
+      const endPage = Math.min(startPage + 4, totalPages);
+      const totalGroups = Math.ceil(totalPages / 5);
+
+      return (
+            totalPages > 1 && (
+                  <Pagination className="mt-8 flex justify-center">
+                        <PaginationContent>
+                              <div className="flex items-center gap-2">
+                                    {pageGroup > 0 && (
+                                          <PaginationItem>
+                                                <PaginationPrevious href="#" onClick={handlePrevGroup}>
+                                                      &lt;
+                                                </PaginationPrevious>
+                                          </PaginationItem>
+                                    )}
+                                    {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
+                                          <PaginationItem key={startPage + index}>
+                                                <PaginationLink
+                                                      className={`w-8 h-8 flex items-center justify-center rounded-full ${currentPage === startPage + index
+                                                            ? "bg-blue-500 text-white"
+                                                            : "bg-gray-200 text-gray-700"
+                                                            }`}
+                                                      href="#"
+                                                      onClick={() => handlePageChange(startPage + index)}
+                                                >
+                                                      {startPage + index}
+                                                </PaginationLink>
+                                          </PaginationItem>
+                                    ))}
+                                    {pageGroup < totalGroups - 1 && (
+                                          <PaginationItem>
+                                                <PaginationNext href="#" onClick={handleNextGroup}>
+                                                      &gt;
+                                                </PaginationNext>
+                                          </PaginationItem>
+                                    )}
+                              </div>
+                        </PaginationContent>
+                  </Pagination>
+            )
+      );
+};

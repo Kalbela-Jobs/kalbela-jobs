@@ -164,8 +164,8 @@ const SearchBox: React.FC<SearchBoxProps> = ({
 
 
                                           <div className={`${showSkillDropdown ? 'rounded-xl h-auto ' : 'rounded-full  md:h-[60px] h-[47px]'} border md:p-2.5 p-1 shadow-lg shadow-gray-100 items-center border-gray-300 bg-[#ffffff] `}>
-                                                <div className="flex mt-[2px] justify-between items-center gap-2">
-                                                      <form className='flex items-center' onSubmit={(e) => {
+                                                <div className="flex mt-[2px] items-center gap-2">
+                                                      <form className='flex items-center w-full' onSubmit={(e) => {
                                                             e.preventDefault();
                                                             handleSearch()
                                                       }}>
@@ -178,14 +178,14 @@ const SearchBox: React.FC<SearchBoxProps> = ({
                                                                               value={searchQuery}
                                                                               onChange={handleSkillChange}
                                                                               placeholder="Search By Keyword"
-                                                                              className="!px-1 !placeholder:font-medium w-full border-none font-medium placeholder-gray-500 shadow-none outline-none focus-visible:ring-0 dark:placeholder-slate-200"
+                                                                              className="!px-1  !placeholder:font-medium w-full border-none font-medium placeholder-gray-500 shadow-none outline-none focus-visible:ring-0 dark:placeholder-slate-200"
                                                                         />
                                                                   </div>
                                                                   {/* <PrimaryBtn onClick={handleSearch}>Search</PrimaryBtn> */}
                                                                   {/* <Button size={'sm'} onClick={}>Search</Button> */}
                                                             </div>
                                                       </form>
-                                                      <div className="flex gap-2 items-center">
+                                                      <div className="flex gap-2 w-[20%] justify-end items-center">
                                                             <Image
                                                                   src={'./icons/mic.svg'}
                                                                   width={20}
