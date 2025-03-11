@@ -23,10 +23,10 @@ const sidebarItems = [
       { name: "Dashboard", href: "/user", icon: LayoutDashboard },
       { name: "Saved Jobs", href: "/user/saved-jobs", icon: BookmarkPlus },
       { name: "Applied Jobs", href: "/user/applied-jobs", icon: Briefcase },
-      { name: "Profile", href: "/user/profile", icon: Users },
+      { name: "Profile", href: "/user/profile?tab=basic_info", icon: Users },
       { name: "Products", href: "/user/products", icon: ShoppingCart },
       { name: "Reports", href: "/user/reports", icon: FileText },
-      { name: "Chats", href: "/user/chats", icon: MessageSquare },
+      // { name: "Chats", href: "/user/chats", icon: MessageSquare },
       { name: "Resume Builder", href: "/user/resume_builder", icon: FileText },
 ]
 

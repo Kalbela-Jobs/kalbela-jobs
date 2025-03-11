@@ -21,6 +21,7 @@ import {
       Star,
       Trash,
       Upload,
+      User,
       Video,
 } from "lucide-react"
 
@@ -36,7 +37,6 @@ import { EditModal } from "./CommonModal"
 import "react-phone-input-2/lib/style.css"
 import { set_user_data, useUserData } from "@/utils/encript_decript"
 import { useQuery } from "@tanstack/react-query"
-import { Controller, useForm } from "react-hook-form"
 import PhoneInput from "react-phone-input-2"
 import CreatableSelect from "react-select/creatable"
 
@@ -66,8 +66,12 @@ import Resume from "./Resume"
 import Skills from "./Skills"
 import UserIdentity from "./UserIdentity"
 import { encryptId } from "@/utils/encriptDecriptGenarator"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import PersonalDetails from "./profile/PersonalDetails"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import PreferedLocation from "./PreferedLocation"
+import JobDetails from "./JobDetails"
 
 export default function ProfilePage() {
       const [user, setUserData] = useUserData()
@@ -341,25 +345,41 @@ export default function ProfilePage() {
             setLinks(updatedLinks);
       };
 
+      const searchParams = useSearchParams()
+
+
+      const handleTabChange = (value: string) => {
+            router.push(`/user/profile?tab=${value}`, { scroll: false });
+      };
       return (
             <div>
                   <div className="mb-14 grid grid-cols-1 gap-6 lg:mb-0 lg:grid-cols-[1fr_300px]">
                         <div className="space-y-6">
-                              <Tabs className="mb-4" defaultValue="overview">
+                              <Tabs
+                                    defaultValue={"basic_ifo"}
+                                    onValueChange={handleTabChange}
+                                    className="mb-4">
                                     <TabsList className="flex justify-start space-x-2 p-0 border-b !rounded-none border-gray-300 !bg-transparent">
-                                          <TabsTrigger value="overview" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
-                                                Overview
+
+                                          <TabsTrigger value="basic_info" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
+                                                Basic info
                                           </TabsTrigger>
-                                          <TabsTrigger value="personal" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
-                                                Personal Info
+
+                                          <TabsTrigger value="educational_info" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
+                                                Educational info
                                           </TabsTrigger>
-                                          <TabsTrigger value="others" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
-                                                Others
+
+                                          <TabsTrigger value="other_info" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
+                                                Others Info
+                                          </TabsTrigger>
+
+                                          <TabsTrigger value="attachment_info" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
+                                                Attachment info
                                           </TabsTrigger>
                                     </TabsList>
 
                                     {/* tab content */}
-                                    <TabsContent value="overview" className='space-y-4'>
+                                    <TabsContent value={'basic_info'} className='space-y-4'>
                                           <div className="mt-4">
                                                 {user ? (
                                                       <div className="flex md:flex-row flex-col justify-start  gap-4">
@@ -513,25 +533,80 @@ export default function ProfilePage() {
                                                       </div>
                                                 )}
                                           </div>
-                                          <About />
-                                          <CareerObjective />
+
+
+                                          <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
+                                                <AccordionItem className="bg-gray-50 px-3" value="item-1">
+                                                      <AccordionTrigger className="">
+                                                            <h1 className="text-lg flex items-end gap-2 font-semibold"><User /> Personal Details</h1>
+                                                      </AccordionTrigger>
+                                                      <AccordionContent className="space-y-4">
+                                                            <PersonalDetails />
+                                                            <UserIdentity />
+                                                            <Gender />
+                                                      </AccordionContent>
+                                                </AccordionItem>
+
+
+                                                <AccordionItem className="bg-gray-50 px-3" value="job_preference">
+                                                      <AccordionTrigger className="">
+                                                            <h1 className="text-lg flex items-end gap-2 font-semibold">
+                                                                  <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        width={24}
+                                                                        height={24}
+                                                                        viewBox="0 0 24 24"
+                                                                        fill="none"
+                                                                        stroke="currentColor"
+                                                                        strokeWidth={2}
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        className="lucide lucide-briefcase-business"
+                                                                  >
+                                                                        <path d="M12 12h.01" />
+                                                                        <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                                                                        <path d="M22 13a18.15 18.15 0 0 1-20 0" />
+                                                                        <rect width={20} height={14} x={2} y={6} rx={2} />
+                                                                  </svg>
+                                                                  Job Preference</h1>
+                                                      </AccordionTrigger>
+                                                      <AccordionContent className="space-y-4">
+                                                            <CareerObjective />
+                                                            <Resume />
+                                                            <About />
+                                                            <Skills />
+                                                            <PreferedLocation />
+                                                            {/* <JobDetails /> */}
+                                                      </AccordionContent>
+                                                </AccordionItem>
+                                          </Accordion>
+
+
+
+
+
+
+
+
+
+
                                           <Certifications />
-                                          <Skills />
-                                          <Gender />
                                           <DateOfBirth />
                                     </TabsContent>
 
-                                    <TabsContent value="personal" className='space-y-4'>
+                                    <TabsContent value={'educational_info'} className='space-y-4'>
                                           <Address />
-                                          <UserIdentity />
-                                          <Resume />
                                           <Educations />
                                           <Experience />
                                     </TabsContent>
 
-                                    <TabsContent value="others" className='space-y-4'>
+                                    <TabsContent value={'other_info'} className='space-y-4'>
                                           <EmergencyContact />
                                           <BloodGroup />
+                                    </TabsContent>
+
+                                    <TabsContent value={'attachment_info'} className='space-y-4'>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus nam error nemo, velit veniam laborum libero eos molestias quis, sint aliquid, blanditiis doloribus animi hic asperiores consequatur dolorem! Perspiciatis, distinctio.
                                     </TabsContent>
                               </Tabs>
 
@@ -547,6 +622,8 @@ export default function ProfilePage() {
                                           <div className="grid gap-2">
                                                 <Label htmlFor="name">Name</Label>
                                                 <input
+                                                      className="border w-full py-2 px-3 rounded-md"
+                                                      placeholder="Enter your name"
                                                       onChange={(e) => setName(e.target.value)}
                                                       id="name"
                                                       defaultValue={user?.fullName}

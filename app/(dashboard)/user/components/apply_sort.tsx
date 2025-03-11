@@ -35,73 +35,85 @@ const ApplySort = () => {
       )
 
       const jobs = data?.data || []
+
+      console.log('my job : ', jobs);
+
+      const users = [
+            { name: 'John Doe', age: 28, email: 'john@example.com', address: '123 Main St' },
+            { name: 'Jane Smith', age: 32, email: 'jane@example.com', address: '456 Oak St' },
+            { name: 'Mike Johnson', age: 45, email: 'mike@example.com', address: '789 Pine St' },
+      ];
+
       return (
 
-            <div className="overflow-hidden rounded-xl border border-gray-200 lg:col-span-4">
-                  <div className="px-4 py-5 sm:p-6">
-                        <div className="sm:flex sm:items-start sm:justify-between">
-                              <div>
-                                    <p className="text-base font-bold">Applied Jobs</p>
-                              </div>
-                              <div className="mt-4 sm:mt-0">
-                                    <Link
-                                          href="/user/applied-jobs"
-                                          title=""
-                                          className="hover: inline-flex items-center text-xs font-semibold uppercase tracking-widest text-gray-500"
-                                    >
-                                          See all applied jobs
-                                          <svg
-                                                className="ml-2 h-4 w-4"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                strokeWidth={2}
+            <div className="col-span-2">
+                  <div className="overflow-hidden rounded-xl  border border-gray-200 ">
+                        <div className="px-4 py-5 sm:p-6">
+                              <div className="sm:flex sm:items-start sm:justify-between">
+                                    <div>
+                                          <p className="text-base font-bold">Applied Jobs</p>
+                                    </div>
+                                    <div className="mt-4 sm:mt-0">
+                                          <Link
+                                                href="/user/applied-jobs"
+                                                title=""
+                                                className="hover: inline-flex items-center text-xs font-semibold uppercase tracking-widest text-gray-500"
                                           >
-                                                <path
-                                                      strokeLinecap="round"
-                                                      strokeLinejoin="round"
-                                                      d="M9 5l7 7-7 7"
-                                                />
-                                          </svg>
-                                    </Link>
+                                                See all applied jobs
+                                                <svg
+                                                      className="ml-2 h-4 w-4"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                      fill="none"
+                                                      viewBox="0 0 24 24"
+                                                      stroke="currentColor"
+                                                      strokeWidth={2}
+                                                >
+                                                      <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M9 5l7 7-7 7"
+                                                      />
+                                                </svg>
+                                          </Link>
+                                    </div>
                               </div>
                         </div>
-                  </div>
-                  <div className="overflow-x-auto">
-                        <table className="w-full border-collapse">
 
-                              <tbody className="divide-y divide-gray-200">
-                                    {data?.data?.slice(0, 5)?.map((job: Job, index: number) => (
-                                          <Link key={index} className="hover:bg-gray-50" href={`/user/applied-jobs/${job?._id}`}>
-                                                {/* <td className="px-4 py-4">
-                                                      <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-900">
-                                                            <CircleIcon className="mr-1 h-2 w-2 text-green-500" />
-                                                            {job.status}
-                                                      </span>
-                                                </td> */}
-                                                <td className="px-4 py-4">
-                                                      <p className="text-sm font-semibold text-gray-900">{job.job_post.job_title}</p>
-                                                      <p className="text-sm text-gray-700">{job.job_post.company_info.name}</p>
-                                                </td>
-                                                <td className="px-4 py-4">
-                                                      <p className="text-sm whitespace-nowrap text-gray-700">{job?.job_post?.job_type}</p>
-                                                </td>
 
-                                                <td className="px-4 py-4">
-                                                      <div className="flex items-center whitespace-nowrap text-sm text-gray-500">
-                                                            <CalendarIcon className="mr-1.5 h-4 w-4" />
+                        <div className="overflow-x-auto">
+                              <table className="min-w-full bg-white border border-gray-200">
+                                    <thead>
+                                          <tr className="w-full bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                                                <th className="py-3 px-6 text-left">Company</th>
+                                                <th className="py-3 px-6 text-left">Position</th>
+                                                <th className="py-3 px-6 text-left">Job type</th>
+                                                <th className="py-3 px-6 text-left">Date</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody className="!text-gray-800 text-sm font-light">
+                                          {data?.data?.slice(0, 5)?.map((job, index) => (
+                                                <tr key={index} className="border-b border-gray-200 !text-gray-800 hover:bg-gray-100">
+                                                      <td className="py-3 font-[400] px-6 text-left whitespace-nowrap">
+                                                            {job.job_post.company_info.name}
+                                                      </td>
+                                                      <td className="py-3 font-[400] px-6 text-left">
+                                                            {job.job_post.job_title}
+                                                      </td>
+                                                      <td className="py-3 font-[400] px-6 text-left">
+                                                            {job?.job_post?.job_type}
+                                                      </td>
+                                                      <td className="py-3 font-[400] px-6 text-left">
                                                             {new Date(job.created_at).toLocaleDateString("en-US", {
                                                                   year: "numeric",
                                                                   month: "long",
                                                                   day: "numeric",
                                                             })}
-                                                      </div>
-                                                </td>
-                                          </Link>
-                                    ))}
-                              </tbody>
-                        </table>
+                                                      </td>
+                                                </tr>
+                                          ))}
+                                    </tbody>
+                              </table>
+                        </div>
                   </div>
             </div>
 

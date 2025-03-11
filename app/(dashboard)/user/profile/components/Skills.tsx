@@ -131,7 +131,7 @@ const Skills = () => {
             return (
                   <Card>
                         <CardHeader>
-                              <CardTitle>Skills and expertise</CardTitle>
+                              <CardTitle>Special Skills</CardTitle>
                         </CardHeader>
                         <CardContent>
                               <p className="text-red-500">

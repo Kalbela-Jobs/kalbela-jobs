@@ -57,29 +57,21 @@ export default function PortfolioLayout({ children }: PortfolioLayoutProps) {
                 <link rel="shortcut icon" href="/favicon-16x16.png" />
                 <link rel="manifest" href="/manifest.json" />
             </head>
-            <body
-                className={cn(
-                    "min-h-screen bg-background font-sans antialiased",
-                    fontPoppins.variable
-                )}
-            >
+            <body>
                 <ThemeProvider attribute="class" enableSystem>
-                    <div className="flex min-h-screen flex-col">
+                    <div className=" min-h-screen ">
 
-                        <div className=" w-full items-center">
+                        {/* <div className=" w-full items-center">
                             <PortfolioNav />
+                        </div> */}
+                        {/* <MaxWidthWrapper> */}
+                        <div className="">
+                            <main className="w-full">
+                                {children}
+                                <ToastContainer />
+                            </main>
                         </div>
-                        <MaxWidthWrapper>
-                            <div className=" mx-auto flex flex-col lg:flex-row">
-                                <main className="">
-                                    {children}
-                                    <ToastContainer />
-                                </main>
-                            </div>
-                        </MaxWidthWrapper>
-                        <footer>
-
-                        </footer>
+                        {/* </MaxWidthWrapper> */}
                     </div>
                     <BottomNav />
                 </ThemeProvider>

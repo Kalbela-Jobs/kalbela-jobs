@@ -1,11 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Bell, UserPlus, AlertTriangle, Info, Check, X } from "lucide-react"
+import { Bell, UserPlus, AlertTriangle, Info, Check, X, BellIcon } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import useApiRequest from "@/app/hooks/useApiRequest"
+import Link from "next/link"
 
 type NotificationType = "message" | "friend" | "alert" | "info"
 
@@ -128,50 +130,47 @@ const UserActivity = () => {
             setNotifications(notifications.filter((notif) => notif._id !== id))
       }
 
-      const unreadCount = notifications.filter((notif) => !notif.read).length
+      const { data, loading, error } = useApiRequest<any>(
+            "jobs/get-featured-jobs",
+            "GET"
+      )
 
       return (
-            <Card className="overflow-hidden rounded-xl border border-gray-200 lg:col-span-2 max-h-[500px]">
-                  <CardHeader>
-                        <CardTitle className="flex justify-between items-center">
-                              User Activity
-                              <Badge variant="secondary">{unreadCount} unread</Badge>
-                        </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                        <ScrollArea className="h-[400px] pr-4">
-                              {notifications.map((notification) => (
-                                    <div
-                                          key={notification._id}
-                                          className={`mb-4 p-3 rounded-lg flex items-start justify-between ${notification.read ? "" : ""
-                                                }`}
-                                    >
-                                          <div className="flex items-start space-x-3">
-                                                <div className={`p-2 rounded-full ${notification.read ? "bg-secondary-foreground/20" : "bg-primary text-white"}`}>
-                                                      {getIcon(notification.type)}
-                                                </div>
-                                                <div>
-                                                      <p className={`text-sm ${notification.read ? "text-secondary-foreground" : "font-semibold"}`}>
-                                                            {notification.content}
-                                                      </p>
-                                                      <p className="text-xs text-muted-foreground">{notification.time}</p>
-                                                </div>
+            <div className="">
+                  <Card className="overflow-hidden rounded-xl border border-gray-200 ">
+                        <CardHeader>
+                              <CardTitle className="flex justify-between items-center">
+                                    Latest Jobs
+                                    {/* <Badge variant="secondary">{unreadCount} unread</Badge> */}
+                              </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                              <ScrollArea className="">
+                                    {data?.data.slice(0, 5)?.map((job: any) => (
+                                          <div
+                                                key={job._id}
+                                                className={`mb-4 py-2 rounded-lg flex items-start justify-between `}
+                                          >
+                                                <Link
+                                                      href={`/jobs/${job?.job_title}`}
+                                                      className="flex items-start space-x-3">
+                                                      <div className={`p-2 rounded-full bg-primary text-white`}>
+                                                            <BellIcon />
+                                                      </div>
+                                                      <div>
+                                                            <p className={`text-sm font-semibold`}>
+                                                                  {job?.job_title}
+                                                            </p>
+                                                            <p className="text-xs text-muted-foreground">{job?.company_info?.name}</p>
+                                                      </div>
+                                                </Link>
+
                                           </div>
-                                          <div className="flex space-x-1">
-                                                {!notification.read && (
-                                                      <Button variant="ghost" size="icon" onClick={() => markAsRead(notification._id)}>
-                                                            <Check className="h-4 w-4" />
-                                                      </Button>
-                                                )}
-                                                <Button variant="ghost" size="icon" onClick={() => deleteNotification(notification._id)}>
-                                                      <X className="h-4 w-4" />
-                                                </Button>
-                                          </div>
-                                    </div>
-                              ))}
-                        </ScrollArea>
-                  </CardContent>
-            </Card>
+                                    ))}
+                              </ScrollArea>
+                        </CardContent>
+                  </Card>
+            </div>
       )
 }
 
