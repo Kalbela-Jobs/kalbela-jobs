@@ -35,6 +35,7 @@ interface DashboardLayoutProps {
       children: React.ReactNode
 }
 
+
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
       return (
             <html lang="en" suppressHydrationWarning>
@@ -76,7 +77,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                                                             <Sidebar />
                                                       </aside>
                                                 </div>
-                                                <main className="mx-auto w-auto flex-1 overflow-y-auto p-0 px-0 sm:px-6 md:px-8 lg:pl-[270px] pt-4">
+                                                <main className="mx-auto w-auto flex-1  p-0 px-0 sm:px-6 md:px-8 lg:pl-[270px] pt-4">
                                                       {children}
                                                       <ToastContainer />
                                                 </main>

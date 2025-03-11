@@ -11,6 +11,13 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    safelist: [
+      "bg-indigo-500",
+      "bg-indigo-600",
+      "bg-blue-500",
+      "bg-green-500",
+      "bg-red-500",
+    ],
     extend: {
       colors: {
         border: "hsl(var(--border))",

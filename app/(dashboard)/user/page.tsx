@@ -5,6 +5,11 @@ import { useUserData } from "@/utils/encript_decript"
 import useApiRequest from "@/app/hooks/useApiRequest"
 import ApplySort from "./components/apply_sort"
 import UserActivity from "./components/user_activity"
+import DisplayTab from "./components/DisplayTab"
+import { useSearchParams } from "next/navigation"
+import DisplayCardBox from "./components/DisplayCardBox"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import DashboardInfo from "./components/DashboardInfo"
 
 type Job = {
       _id: string
@@ -29,68 +34,42 @@ type ApiResponse = {
 const page = () => {
       const [user] = useUserData()
 
-      const { data, loading, error } = useApiRequest<ApiResponse>(
-            `user/get-applied-jobs?user_id=${user?._id}`,
-            "GET"
-      )
-
-      const jobs = data?.data || []
-
+      const queryClient = new QueryClient();
       return (
-            <div className="flex flex-1 flex-col overflow-x-hidden">
-                  <div className="py-6">
-                        <div className="mx-auto">
-                              <div className="md:flex md:items-center">
-                                    <p className="text-base font-bold">Hey {user?.fullName} -</p>
-                                    <p className="mt-1 text-base font-medium text-gray-500 md:ml-2 md:mt-0">
-                                          here's what's happening with your store today
-                                    </p>
-                              </div>
-                        </div>
-                        <div className="mx-auto mt-8">
-                              <div className="space-y-5 sm:space-y-6">
-                                    <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-6">
-                                          <ApplySort />
-                                          <UserActivity/>
-                                          {/* <div className="overflow-hidden rounded-xl border border-gray-200 lg:col-span-2">
-                                                <div className="px-4 py-5 sm:p-6">
-                                                      <div>
-                                                            <p className="text-base font-bold">Recent Activity</p>
-                                                            <p className="mt-1 text-sm font-medium text-gray-500">
-                                                                 Here have your all activity sortly
-                                                            </p>
-                                                      </div>
+            <div>
+                  <div className="">
+                        {/* <div className="mx-auto">
+                                    <div className="md:flex md:items-center">
+                                          <p className="text-base font-bold">Hey {user?.fullName} -</p>
+                                          <p className="mt-1 text-base font-medium text-gray-500 md:ml-2 md:mt-0">
+                                                here's what's happening with your store today
+                                          </p>
+                                    </div>
+                              </div> */}
+                        <QueryClientProvider client={queryClient}>
+                              <div className="mx-auto mt-2">
+                                    <div className="space-y-5 sm:space-y-6">
+                                          <DisplayTab />
+                                    </div>
+                                    <DisplayCardBox />
 
-                                                      <div className="mt-8">
-                                                            <a
-                                                                  href="#"
-                                                                  title=""
-                                                                  className="hover: inline-flex items-center text-xs font-semibold uppercase tracking-widest text-gray-500"
-                                                            >
-                                                                  See all Customers
-                                                                  <svg
-                                                                        className="ml-2 h-4 w-4"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="none"
-                                                                        viewBox="0 0 24 24"
-                                                                        stroke="currentColor"
-                                                                        strokeWidth={2}
-                                                                  >
-                                                                        <path
-                                                                              strokeLinecap="round"
-                                                                              strokeLinejoin="round"
-                                                                              d="M9 5l7 7-7 7"
-                                                                        />
-                                                                  </svg>
-                                                            </a>
-                                                      </div>
+                                    <br />
+                                    {/* <div className="">
+                                          <DashboardInfo />
+                                    </div> */}
+
+                                    <div className="mx-auto mt-8 w-full ">
+                                          <div className="space-y-5 w-full  sm:space-y-6">
+                                                <div className="grid grid-cols-1  gap-5 sm:gap-6 lg:grid-cols-3 w-full">
+                                                      <ApplySort />
+                                                      <UserActivity />
                                                 </div>
-                                          </div> */}
+                                          </div>
                                     </div>
                               </div>
-                        </div>
+                        </QueryClientProvider>
                   </div>
-            </div>
+            </div >
       )
 }
 

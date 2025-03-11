@@ -16,6 +16,7 @@ import ProfileAddress from '../components/profile/ProfileAddress';
 import ProfileSkill from '../components/profile/ProfileSkills';
 import ProfileExperience from '../components/profile/ProfileExperience';
 import ProfileCertifications from '../components/profile/ProfileCertifications';
+import { useSearchParams } from 'next/navigation';
 
 interface ShareProfilePageProps {
     params: {
@@ -45,9 +46,14 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
         fetchUserData();
     }, [decryptedId]);
 
-    const user = userData?.data;
 
-    console.log(user, 'user...');
+    const user = userData?.data; const query = useSearchParams();
+    const queryParams: Record<string, string | null> = {};
+    query.forEach((value, key) => {
+        queryParams[key] = value;
+    });
+
+    console.log("------user...");
 
     return (
         <div>
