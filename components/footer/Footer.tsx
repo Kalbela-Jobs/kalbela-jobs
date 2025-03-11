@@ -118,6 +118,18 @@ const Footer: React.FC = () => {
                                                             alt="instagram icon"
                                                       />
                                                 </Link>
+                                                <Link
+                                                      rel="noopener noreferrer"
+                                                      href="#"
+                                                      title="Linkedin"
+                                                      className="flex items-center p-1"
+                                                >
+                                                      <img
+                                                            className="size-5"
+                                                            src="/icons/linkedin.svg"
+                                                            alt="linkedin icon"
+                                                      />
+                                                </Link>
                                           </div>
                                     </div>
                               </div>
