@@ -214,12 +214,25 @@ const JobsDetails = () => {
 
                   {/* Content Section */}
                   <div className="mt-4">
-                        <div className="grid gap-8 grid-cols-1 lg:grid-cols-3">
+                        <div className="grid gap-8 grid-cols-1 lg:grid-cols-3 ">
                               {/* Left Column - Company Info */}
-                              <Card className="h-fit p-6  lg:col-span-1 sticky lg:top-20  ">
-                                    <div className="mb-6 flex items-center gap-4">
-                                          {jobData?.company_info?.company_website ? <Link href={`/companies/${jobData?.company_info?.company_website}`}>
-                                                <div className="flex-shrink-0">
+                              <div className="">
+
+                                    <Card className="h-fit p-6  lg:col-span-1   ">
+                                          <div className="mb-6 flex items-center gap-4">
+                                                {jobData?.company_info?.company_website ? <Link href={`/companies/${jobData?.company_info?.company_website}`}>
+                                                      <div className="flex-shrink-0">
+                                                            <Avatar className="h-12 w-12">
+                                                                  <AvatarImage
+                                                                        className="h-12 w-12  rounded border-2 border-gray-300  object-scale-down p-2 shadow-md"
+                                                                        src={jobData?.company_info?.logo || "/placeholder.svg"}
+                                                                        alt={jobData?.company_info?.name || "Company Logo"}
+                                                                  />
+                                                                  <AvatarFallback className="text-lg">
+                                                                        {jobData?.company_info?.name?.charAt(0)}
+                                                                  </AvatarFallback>
+                                                            </Avatar>
+                                                      </div></Link> : <div className="flex-shrink-0">
                                                       <Avatar className="h-12 w-12">
                                                             <AvatarImage
                                                                   className="h-12 w-12  rounded border-2 border-gray-300  object-scale-down p-2 shadow-md"
@@ -230,104 +243,140 @@ const JobsDetails = () => {
                                                                   {jobData?.company_info?.name?.charAt(0)}
                                                             </AvatarFallback>
                                                       </Avatar>
-                                                </div></Link> : <div className="flex-shrink-0">
-                                                <Avatar className="h-12 w-12">
-                                                      <AvatarImage
-                                                            className="h-12 w-12  rounded border-2 border-gray-300  object-scale-down p-2 shadow-md"
-                                                            src={jobData?.company_info?.logo || "/placeholder.svg"}
-                                                            alt={jobData?.company_info?.name || "Company Logo"}
-                                                      />
-                                                      <AvatarFallback className="text-lg">
-                                                            {jobData?.company_info?.name?.charAt(0)}
-                                                      </AvatarFallback>
-                                                </Avatar>
-                                          </div>}
-                                          <div>
-                                                <h3 className="font-semibold capitalize">{jobData?.company_info?.name} {jobData?.company_info?.industry && `(${jobData?.company_info?.industry})`}</h3>
-                                                <p className="text-sm ">
-                                                      {jobData?.job_title}
-                                                </p>
+                                                </div>}
+                                                <div>
+                                                      <h3 className="font-semibold capitalize">{jobData?.company_info?.name} {jobData?.company_info?.industry && `(${jobData?.company_info?.industry})`}</h3>
+                                                      <p className="text-sm ">
+                                                            {jobData?.job_title}
+                                                      </p>
+                                                </div>
                                           </div>
-                                    </div>
 
-                                    <div className="space-y-4">
-                                          <div className="grid grid-cols-2 gap-2 text-sm">
+                                          <div className="space-y-4">
+                                                <div className="grid grid-cols-2 gap-2 text-sm">
 
-                                                <div className="space-y-3">
-                                                      <div className="flex items-center gap-2 text-sm">
-                                                            <Calendar className="h-4 w-4 text-muted-foreground" />
-                                                            <span className="text-muted-foreground">Deadline:</span>
-                                                            <span>{formatDate(jobData?.expiry_date || new Date())}</span>
-                                                      </div>
+                                                      <div className="space-y-3">
+                                                            <div className="flex items-center gap-2 text-sm">
+                                                                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                                                                  <span className="text-muted-foreground">Deadline:</span>
+                                                                  <span>{formatDate(jobData?.expiry_date || new Date())}</span>
+                                                            </div>
 
-                                                      <div className="flex whitespace-break-spaces items-start gap-2 text-sm">
-                                                            <MapPin className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
-                                                            <div>
-                                                                  <span className="text-muted-foreground mr-2">Location:</span>
-                                                                  <span>{formatLocation()}</span>
+                                                            <div className="flex whitespace-break-spaces items-start gap-2 text-sm">
+                                                                  <MapPin className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                                                                  <div>
+                                                                        <span className="text-muted-foreground mr-2">Location:</span>
+                                                                        <span>{formatLocation()}</span>
+                                                                  </div>
                                                             </div>
                                                       </div>
+
                                                 </div>
 
-                                          </div>
+                                                <div className="flex items-center gap-4 pt-4">
+                                                      <div className="w-full">
+                                                            <ApplyModal
+                                                                  slug={jobData?.url}
+                                                                  company={jobData?.company_info?.company_id}
+                                                                  user={user}
+                                                            />
+                                                      </div>
+                                                      <SecondaryBtn
+                                                            className="px-10 w-5/6  py-2"
+                                                            onClick={() => save_jobs(jobData?._id)}
+                                                      >
+                                                            Save
+                                                      </SecondaryBtn>
+                                                </div>
 
-                                          <div className="flex items-center gap-4 pt-4">
-                                                <div className="w-full">
-                                                      <ApplyModal
-                                                            slug={jobData?.url}
-                                                            company={jobData?.company_info?.company_id}
-                                                            user={user}
+                                                <div className="flex items-center justify-between border-t pt-4">
+                                                      <div className="flex gap-2">
+                                                            {/* Share on Facebook */}
+                                                            <Button
+                                                                  onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`, "_blank")}
+                                                                  variant="ghost"
+                                                                  size="icon"
+                                                            >
+                                                                  <Facebook className="h-4 w-4" />
+                                                            </Button>
+
+                                                            {/* Share on Twitter */}
+                                                            <Button
+                                                                  onClick={() => window.open(`https://twitter.com/intent/tweet?text=${fullMessage}`, "_blank")}
+                                                                  variant="ghost"
+                                                                  size="icon"
+                                                            >
+                                                                  <Twitter className="h-4 w-4" />
+                                                            </Button>
+
+                                                            {/* Share on LinkedIn */}
+                                                            <Button
+                                                                  onClick={() =>
+                                                                        window.open(
+                                                                              `https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${jobTitle}&summary=${jobDescription}`,
+                                                                              "_blank"
+                                                                        )
+                                                                  }
+                                                                  variant="ghost"
+                                                                  size="icon"
+                                                            >
+                                                                  <Linkedin className="h-4 w-4" />
+                                                            </Button>
+                                                      </div>
+                                                      <ShareButton
+                                                            url={jobUrl}
+                                                            title={`${jobData?.job_title} at ${jobData?.company_info?.name}`}
                                                       />
                                                 </div>
-                                                <SecondaryBtn
-                                                      className="px-10 w-5/6  py-2"
-                                                      onClick={() => save_jobs(jobData?._id)}
-                                                >
-                                                      Save
-                                                </SecondaryBtn>
                                           </div>
+                                    </Card>
 
-                                          <div className="flex items-center justify-between border-t pt-4">
-                                                <div className="flex gap-2">
-                                                      {/* Share on Facebook */}
-                                                      <Button
-                                                            onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`, "_blank")}
-                                                            variant="ghost"
-                                                            size="icon"
+                                    <div className="my-12 hidden lg:block">
+                                          <CardTitle className="mb-5 text-2xl font-bold">
+                                                Similar Jobs
+                                          </CardTitle>
+                                          <div className="grid gap-4 grid-cols-1 ">
+                                                {/* is array */}
+                                                {Array.isArray(jobs) && jobs?.map((jobPost: any) => (
+                                                      <Card
+                                                            key={jobPost?._id}
+                                                            className="p-4 transition-shadow hover:shadow-md"
                                                       >
-                                                            <Facebook className="h-4 w-4" />
-                                                      </Button>
 
-                                                      {/* Share on Twitter */}
-                                                      <Button
-                                                            onClick={() => window.open(`https://twitter.com/intent/tweet?text=${fullMessage}`, "_blank")}
-                                                            variant="ghost"
-                                                            size="icon"
-                                                      >
-                                                            <Twitter className="h-4 w-4" />
-                                                      </Button>
+                                                            <CardContent className="p-0">
+                                                                  <h3 className="mb-2 text-lg font-semibold">
+                                                                        {jobPost?.job_title}
+                                                                  </h3>
+                                                                  <div className="mb-2 flex  gap-2 overflow-x-auto scrollbar-hide whitespace-nowrap ">
+                                                                        {jobPost?.skills?.map((skill: string, index: number) => (
+                                                                              <Badge key={index} variant="outline" className="text-xs whitespace-nowrap">
+                                                                                    {skill}
+                                                                              </Badge>
+                                                                        ))}
+                                                                        <Badge variant="outline" className="text-xs bg-gray-100">
+                                                                              {jobPost?.job_type}
+                                                                        </Badge>
+                                                                  </div>
+                                                                  <p className="mb-2 text-sm text-muted-foreground">
+                                                                        Salary:  {jobPost?.salary_negotiable || jobPost?.negotiable_note
+                                                                              ? "Negotiable"
+                                                                              : `${jobPost?.salary_range?.min}${jobPost?.salary_range?.max ? ` - ${jobPost?.salary_range.max}` : ""} ${jobPost?.salary_range?.currency || ""}`} | Deadline:{" "}
+                                                                        {formatDate(jobPost?.expiry_date || new Date())}
+                                                                  </p>
+                                                                  <p className="mb-4 text-sm" dangerouslySetInnerHTML={{ __html: jobPost?.description }}></p>
 
-                                                      {/* Share on LinkedIn */}
-                                                      <Button
-                                                            onClick={() =>
-                                                                  window.open(
-                                                                        `https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${jobTitle}&summary=${jobDescription}`,
-                                                                        "_blank"
-                                                                  )
-                                                            }
-                                                            variant="ghost"
-                                                            size="icon"
-                                                      >
-                                                            <Linkedin className="h-4 w-4" />
-                                                      </Button>
-                                                </div>
-                                                <ShareButton
-                                                      url={jobUrl}
-                                                      title={`${jobData?.job_title} at ${jobData?.company_info?.name}`}
-                                                />
+                                                                  <SecondaryBtn
+                                                                        onClick={() => save_jobs(jobPost?._id)}
+                                                                        className="w-full"
+                                                                  >
+                                                                        Save Job
+                                                                  </SecondaryBtn>
+                                                            </CardContent>
+                                                      </Card>
+                                                ))}
                                           </div>
                                     </div>
-                              </Card>
+                              </div>
 
                               {/* Right Column - Job Details */}
                               <div className="lg:col-span-2 col-span-1">
@@ -384,12 +433,11 @@ const JobsDetails = () => {
                               </div>
                         </div>
 
-                        {/* Similar Jobs Section */}
-                        <div className="my-12">
+                        <div className="my-12 md:hidden block">
                               <CardTitle className="mb-5 text-2xl font-bold">
                                     Similar Jobs
                               </CardTitle>
-                              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                              <div className="grid gap-4 grid-cols-1 ">
                                     {/* is array */}
                                     {Array.isArray(jobs) && jobs?.map((jobPost: any) => (
                                           <Card
@@ -430,6 +478,7 @@ const JobsDetails = () => {
                                     ))}
                               </div>
                         </div>
+
                   </div>
             </MaxWidthWrapper>
       )
