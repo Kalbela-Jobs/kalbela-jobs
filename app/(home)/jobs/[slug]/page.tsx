@@ -25,6 +25,7 @@ import useApiRequest from "@/app/hooks/useApiRequest"
 import JobDetailsSkeleton from "./components/JobDetailsSkeleton"
 import React from 'react'; // Added import for React
 import useJobsSearch from "@/app/hooks/useJobSearch"
+import Link from "next/link"
 
 const JobsDetails = () => {
       const { slug } = useParams()
@@ -217,7 +218,19 @@ const JobsDetails = () => {
                               {/* Left Column - Company Info */}
                               <Card className="h-fit p-6  lg:col-span-1 sticky lg:top-20  ">
                                     <div className="mb-6 flex items-center gap-4">
-                                          <div className="flex-shrink-0">
+                                          {jobData?.company_info?.company_website ? <Link href={`/companies/${jobData?.company_info?.company_website}`}>
+                                                <div className="flex-shrink-0">
+                                                      <Avatar className="h-12 w-12">
+                                                            <AvatarImage
+                                                                  className="h-12 w-12  rounded border-2 border-gray-300  object-scale-down p-2 shadow-md"
+                                                                  src={jobData?.company_info?.logo || "/placeholder.svg"}
+                                                                  alt={jobData?.company_info?.name || "Company Logo"}
+                                                            />
+                                                            <AvatarFallback className="text-lg">
+                                                                  {jobData?.company_info?.name?.charAt(0)}
+                                                            </AvatarFallback>
+                                                      </Avatar>
+                                                </div></Link> : <div className="flex-shrink-0">
                                                 <Avatar className="h-12 w-12">
                                                       <AvatarImage
                                                             className="h-12 w-12  rounded border-2 border-gray-300  object-scale-down p-2 shadow-md"
@@ -228,7 +241,7 @@ const JobsDetails = () => {
                                                             {jobData?.company_info?.name?.charAt(0)}
                                                       </AvatarFallback>
                                                 </Avatar>
-                                          </div>
+                                          </div>}
                                           <div>
                                                 <h3 className="font-semibold capitalize">{jobData?.company_info?.name} {jobData?.company_info?.industry && `(${jobData?.company_info?.industry})`}</h3>
                                                 <p className="text-sm ">
@@ -376,7 +389,7 @@ const JobsDetails = () => {
                               <CardTitle className="mb-5 text-2xl font-bold">
                                     Similar Jobs
                               </CardTitle>
-                              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                                     {/* is array */}
                                     {Array.isArray(jobs) && jobs?.map((jobPost: any) => (
                                           <Card

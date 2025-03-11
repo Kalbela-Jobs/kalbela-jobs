@@ -12,6 +12,8 @@ const Companies = () => {
       const { slug } = useParams()
       const { data, loading, error } = useApiRequest<any>(`jobs/organization-jobs?slug=${slug}`, "GET")
 
+      
+
       return (
             <div className="min-h-screen bg-gradient-to-b from-primary-50 to-background dark:from-primary-950 dark:to-background">
                   <div
