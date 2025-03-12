@@ -19,6 +19,7 @@ interface EditModalProps {
       title: string
       description?: string
       children: React.ReactNode
+      className?: string
 }
 
 export function EditModal({
@@ -27,12 +28,14 @@ export function EditModal({
       title,
       description,
       children,
+      className,
 }: EditModalProps) {
       return (
             <div className="">
                   <Dialog open={open} onOpenChange={onOpenChange}>
                         <form >
                               <DialogContent
+                                    className={className}
                                     onOpenAutoFocus={(e) => e.preventDefault()}
                               >
                                     <DialogHeader>

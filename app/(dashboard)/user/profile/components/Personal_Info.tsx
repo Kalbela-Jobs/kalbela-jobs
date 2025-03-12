@@ -1,813 +1,901 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { DialogContent, DialogTitle } from "@radix-ui/react-dialog"
-import {
-      Award,
-      Book,
-      Contact,
-      Crown,
-      Edit,
-      Eye,
-      GraduationCap,
-      LinkIcon,
-      Mail,
-      MapPin,
-      Pencil,
-      Plus,
-      Share2,
-      Star,
-      Trash,
-      Upload,
-      User,
-      Video,
-} from "lucide-react"
-
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { DialogFooter, DialogHeader } from "@/components/ui/dialog"
+import { useState, useEffect } from "react"
+import { ChevronLeft, Camera, User, Phone, Briefcase, MapPin, FileText, GraduationCap, BarChart2, Award, Building, Globe, LinkIcon, Users, Trophy, Pencil, Save, X, Monitor, View, Eye } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 
-import { EditModal } from "./CommonModal"
-import "react-phone-input-2/lib/style.css"
-import { set_user_data, useUserData } from "@/utils/encript_decript"
-import { useQuery } from "@tanstack/react-query"
-import PhoneInput from "react-phone-input-2"
-import CreatableSelect from "react-select/creatable"
-
-import {
-      Select,
-      SelectContent,
-      SelectItem,
-      SelectTrigger,
-      SelectValue,
-} from "@/components/ui/select"
-import { Skeleton } from "@/components/ui/skeleton"
-import useApiForPost from "@/app/hooks/useApiForPost"
-import useUploadImage from "@/app/hooks/useUploadImage"
-import uploadImage from "@/app/hooks/useUploadImage"
-
-import About from "./About"
-import Address from "./Address"
-import BloodGroup from "./BloodGroup"
-import CareerObjective from "./CareerObjective"
-import Certifications from "./Certifications"
-import DateOfBirth from "./DateOfBirth"
-import Educations from "./Educations"
-import EmergencyContact from "./EmergencyContact"
-import Experience from "./Experience"
-import Gender from "./Gender"
-import Resume from "./Resume"
-import Skills from "./Skills"
-import UserIdentity from "./UserIdentity"
-import { encryptId } from "@/utils/encriptDecriptGenarator"
-import { useRouter, useSearchParams } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import PersonalDetails from "./profile/PersonalDetails"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import PreferedLocation from "./PreferedLocation"
-import JobDetails from "./JobDetails"
-import ProfileTabs from "./profile/ProfileTabs"
+import Image from "next/image"
+import {
+      Dialog,
+      DialogTrigger,
+      DialogContent,
+      DialogHeader,
+      DialogFooter,
+      DialogTitle,
+      DialogDescription,
+      DialogClose,
+      DialogOverlay,
+      DialogPortal
+} from "@/components/ui/dialog"
+import { AccomplishmentDialog } from "./small_components/accomplishment-dialog"
+import { useMediaQuery } from "@/app/hooks/use_media_query"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/collapsible"
+import { useUserData } from "@/utils/encript_decript"
+import MaxWidthWrapper from "@/components/MaxWidthWrapper"
+import Address from "./Address"
+import PersonalDetailsEdit from "./small_components/PersonalDetailsEdit"
+import Profile_update from "./small_components/Profile_update"
+import ContactUpdate from "./small_components/Contact_update"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import { useRouter } from "next/navigation"
+import { encryptId } from "@/utils/encriptDecriptGenarator"
 
-export default function ProfilePage() {
+
+export default function ProfileForm() {
+
+      const isMobile = useMediaQuery("(max-width: 768px)")
+      const [activeSection, setActiveSection] = useState<string | null>(null)
+      const [activeTab, setActiveTab] = useState("home")
+      const [isEditing, setIsEditing] = useState(false)
+
+
+
+      // Load active tab from localStorage on component mount
+      useEffect(() => {
+            const savedTab = localStorage.getItem("activeProfileTab")
+            if (savedTab) {
+                  setActiveTab(savedTab)
+            }
+      }, [])
+
+      // Save active tab to localStorage when it changes
+      useEffect(() => {
+            localStorage.setItem("activeProfileTab", activeTab)
+      }, [activeTab])
+
+      const handleTabChange = (value: string) => {
+            setActiveTab(value)
+      }
+
+      const toggleEditMode = () => {
+            setIsEditing(!isEditing)
+      }
+
+      const handleSave = () => {
+            // Here you would typically save the form data
+            setIsEditing(false)
+      }
+
+      if (isMobile === null) {
+            return (
+                  <div className="flex items-center justify-center h-12">
+                        <LoadingSpinner size="medium" className="text-primary" />
+                  </div>
+            )
+      }
+      if (isMobile) {
+            return (
+                  <MobileProfileView
+                        activeSection={activeSection}
+                        setActiveSection={setActiveSection}
+                        isEditing={isEditing}
+                        toggleEditMode={toggleEditMode}
+                        handleSave={handleSave}
+                  />
+            )
+      }
+
+      // @ts-ignore
+
+      return (
+            <DesktopProfileView
+                  activeTab={activeTab}
+                  handleTabChange={handleTabChange}
+                  isEditing={isEditing}
+                  toggleEditMode={toggleEditMode}
+                  handleSave={handleSave}
+            />
+      )
+}
+
+function MobileProfileView({
+      activeSection,
+      setActiveSection,
+      isEditing,
+      toggleEditMode,
+      handleSave,
+}: {
+      activeSection: string | null
+      setActiveSection: (section: string | null) => void
+      isEditing: boolean
+      toggleEditMode: () => void
+      handleSave: () => void
+}) {
+
       const [user, setUserData] = useUserData()
-      const [editDetailsOpen, setEditDetailsOpen] = useState(false)
-      const [editNameOpen, setEditNameOpen] = useState(false)
-      const [editImageOpen, setEditImageOpen] = useState(false)
-      const [editLanguagesOpen, setEditLanguagesOpen] = useState(false)
-      const [image, setImage] = useState(null)
-      const [image_file, setImageFile] = useState(null)
-      const [loading, setLoading] = useState(false)
-      const [error_message, set_error_message] = useState("")
-      const [name, setName] = useState(user?.fullName)
-      const [languages, setLanguages] = useState(user?.languages || [])
-      const [new_language, setNewLanguage] = useState(user?.languages)
-      const [editContactOpen, setEditContactOpen] = useState(false)
-      const [phone, setPhone] = useState<any>(user?.phone)
-      const [email, setEmail] = useState(user?.email)
-
-      const router = useRouter();
-
-      useEffect(() => {
-            setNewLanguage(user?.languages)
-      }, [user?.languages])
-
-      // Handle change for CreatableSelect
-      const handleLanguageChange = (selectedOptions: any) => {
-            const selectedLanguages = selectedOptions.map((item: any) => item.value)
-            setLanguages(selectedLanguages)
-            setNewLanguage(selectedLanguages)
-      }
-
-      const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-            const file = event.target.files?.[0]
-            if (file) {
-                  setImageFile(file as any)
-                  const reader = new FileReader()
-                  reader.onloadend = () => {
-                        setImage(reader.result as any)
-                  }
-                  reader.readAsDataURL(file)
-            }
-      }
-
-      const { apiRequest } = useApiForPost()
-
-      const profile_image_update = async () => {
-            setLoading(true)
-            if (image_file) {
-                  const image = await uploadImage(image_file)
-                  if (image) {
-                        const { data, error } = await apiRequest<any>(
-                              `api/v1/user/update-profile?id=${user?._id}`,
-                              "PUT",
-                              {
-                                    profile_picture: image,
-                              }
-                        )
-
-                        setLoading(false)
-                        if (error) {
-                              set_error_message(error.message)
-                              return
-                        }
-                        if (data) {
-                              set_user_data(data.data)
-                              setUserData(data.data)
-                              set_error_message("")
-                              setEditImageOpen(false)
-                        }
-                  }
-            }
-      }
-
-
-
-      const [links, setLinks] = useState<string[]>([]);
-
-      useEffect(() => {
-            if (user?.social_links.length) {
-                  setLinks(user?.social_links)
-            }
-      }, [user?.social_links]);
-
-
-      const addInputField = () => {
-            setLinks([...links, ""]);
-      };
-      const handleInputChange = (index: number, value: string) => {
-            const updatedLinks = [...links];
-            updatedLinks[index] = value;
-            setLinks(updatedLinks);
-      };
-
-      const handleUpload = async () => {
-            console.log("Uploaded Links:", links);
-
-
-            const { data, error } = await apiRequest<any>(
-                  `api/v1/user/update-profile?id=${user?._id}`,
-                  "PUT",
-                  {
-                        social_links: links,
-                  }
+      if (activeSection === "personalDetails") {
+            return (
+                  <PersonalDetailsEdit setActiveSection={setActiveSection} />
             )
-
-            setLoading(false)
-            if (error) {
-                  set_error_message(error.message)
-                  return
-            }
-            if (data) {
-                  set_user_data(data.data)
-                  setUserData(data.data)
-                  set_error_message("")
-                  setEditImageOpen(false)
-            }
       }
-
-
-
-      const user_name_update = async () => {
-            setLoading(true)
-            const { data, error } = await apiRequest<any>(
-                  `api/v1/user/update-profile?id=${user?._id}`,
-                  "PUT",
-                  {
-                        fullName: name,
-                  }
+      if (activeSection === "profilePhoto") {
+            return (
+                  <Profile_update setActiveSection={setActiveSection} />
             )
-
-            setLoading(false)
-            if (error) {
-                  set_error_message(error.message)
-                  return
-            }
-            if (data) {
-                  set_user_data(data.data)
-                  setUserData(data.data)
-                  set_error_message("")
-                  setEditNameOpen(false)
-            }
       }
-
-      const user_languages_update = async () => {
-            setLoading(true)
-            const { data, error } = await apiRequest<any>(
-                  `api/v1/user/update-profile?id=${user?._id}`,
-                  "PUT",
-                  {
-                        languages,
-                  }
+      if (activeSection === "contactDetails") {
+            return (
+                  <ContactUpdate setActiveSection={setActiveSection} />
             )
-
-            setLoading(false)
-            if (error) {
-                  set_error_message(error.message)
-                  return
-            }
-            if (data) {
-                  set_user_data(data.data)
-                  setUserData(data.data)
-                  set_error_message("")
-                  setEditLanguagesOpen(false)
-            }
       }
 
-      const update_contact = async () => {
-            setLoading(true)
-            const { data, error } = await apiRequest<any>(
-                  `api/v1/user/update-profile?id=${user?._id}`,
-                  "PUT",
-                  {
-                        phone_number: `+${phone}`,
-                        email,
-                  }
-            )
-
-            setLoading(false)
-            if (error) {
-                  set_error_message(error.message)
-                  return
-            }
-            if (data) {
-                  set_user_data(data.data)
-                  setUserData(data.data)
-                  set_error_message("")
-                  setEditContactOpen(false)
-            }
-      }
-      const {
-            data: certificationsData = [],
-            isLoading,
-            error,
-      } = useQuery({
-            queryKey: ["certificationsData", user?._id],
-            queryFn: async () => {
-                  if (!user?._id) return []
-                  const res = await fetch(
-                        `${process.env.NEXT_APP_BASE_URL}/api/v1/user/get-certification?user_id=${user._id}`
-                  )
-
-                  if (!res.ok) {
-                        throw new Error("Failed to fetch certifications")
-                  }
-
-                  const data = await res.json()
-                  return data.data
-            },
-            enabled: !!user?._id,
-      })
-
-      const { data: educations = [] } = useQuery({
-            queryKey: ["educations_data", user?._id],
-            queryFn: async () => {
-                  if (!user?._id) return []
-                  const res = await fetch(
-                        `${process.env.NEXT_APP_BASE_URL}/api/v1/user/get-education?user_id=${user._id}`
-                  )
-
-                  if (!res.ok) {
-                        throw new Error("Failed to fetch education data")
-                  }
-
-                  const data = await res.json()
-                  return data.data
-            },
-            enabled: !!user?._id,
-      })
-
-      const [completion, setCompletion] = useState(30)
-      const showStar = completion === 100
-
-      useEffect(() => {
-            let completion = 0
-            if (user?.fullName?.length) completion += 8
-            if (user?.email) completion += 8
-            if (user?.phone_number?.length > 5) completion += 8
-            if (user?.profile_picture) completion += 8
-            if (user?.languages?.length) completion += 8
-            if (user?.title?.length > 1) completion += 8
-            if (user?.description?.length > 4) completion += 8
-            if (user?.date_of_birth) completion += 8
-            if (user?.gender) completion += 8
-            if (user?.career_objective?.length > 4) completion += 8
-            if (educations.length) completion += 8
-            if (certificationsData.length) completion += 8
-            setCompletion(completion)
-      }, [
-            user?.title,
-            user?.description,
-            user?.fullName,
-            user?.email,
-            user?.phone_number,
-            user?.profile_picture,
-            user?.languages,
-            user?.date_of_birth,
-            user?.gender,
-            user?.career_objective,
-            educations,
-            certificationsData
-      ])
-
+      const router = useRouter()
       const shareProfileHandler = (id: string) => {
             const encryptedId = encodeURIComponent(encryptId(id));
             router.push(`/portfolio/${encryptedId}`);
 
       }
 
-      const deleteInputField = (index: number) => {
-            const updatedLinks = links.filter((_, i) => i !== index);
-            setLinks(updatedLinks);
-      };
+      return (
 
-      const searchParams = useSearchParams()
+            <div className=" mb-20 rounded bg-gray-100">
+                  <div className="bg-light-theme py-4 dark:bg-dark-theme text-white flex flex-col items-center rounded-t-lg">
+                        <div className="relative w-20 h-20 bg-gray-300 rounded-full overflow-hidden mb-2">
+                              <Image
+                                    src={user?.profile_picture}
+                                    alt="Profile"
+                                    width={80}
+                                    height={80}
+                                    className="object-scale-down w-full h-full"
+                              />
+                        </div>
+                        <h1 className="text-xl text-black font-medium">{user?.fullName}</h1>
+                  </div>
 
+                  <div className="bg-gray-100 p-4">
+                        <div className="text-lg font-medium mb-2 text-center">Statistics of Kalbela Jobs Profile</div>
+                        <div className="grid grid-cols-3 gap-2">
+                              <div className="bg-white p-4 rounded-md flex flex-col items-center">
+                                    <div className="text-2xl font-bold">0</div>
+                                    <div className="text-gray-500 text-sm">Viewed</div>
+                              </div>
+                              <div className="bg-white p-4 rounded-md flex flex-col items-center">
+                                    <div className="text-2xl font-bold">0</div>
+                                    <div className="text-gray-500 text-sm">Downloaded</div>
+                              </div>
+                              <div className="bg-white p-4 rounded-md flex flex-col items-center">
+                                    <div className="text-2xl font-bold">0</div>
+                                    <div className="text-gray-500 text-sm">Emailed</div>
+                              </div>
+                        </div>
+                  </div>
 
-      const handleTabChange = (value: string) => {
-            router.push(`/user/profile?tab=${value}`, { scroll: false });
-      };
+                  <hr className="my-4" />
+                  <div className="p-4 bg-gray-100">
+                        <h2 className="text-gray-500 mb-4">Personal Information</h2>
+                        <div className="space-y-4">
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => setActiveSection("profilePhoto")}>
+                                    <Camera className="mr-2 h-5 w-5 text-gray-500" />
+                                    Upload Photo
+                              </Button>
+
+                              <Button
+                                    variant="outline"
+                                    className="w-full justify-start bg-white"
+                                    onClick={() => setActiveSection("personalDetails")}
+                              >
+                                    <User className="mr-2 h-5 w-5 text-gray-500" />
+                                    Personal Details
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => setActiveSection("contactDetails")}>
+                                    <Phone className="mr-2 h-5 w-5 text-gray-500" />
+                                    Contact Details
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <Briefcase className="mr-2 h-5 w-5 text-gray-500" />
+                                    Career and Application Information
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <MapPin className="mr-2 h-5 w-5 text-gray-500" />
+                                    Preferred Areas
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <FileText className="mr-2 h-5 w-5 text-gray-500" />
+                                    Other Relevant Information
+                              </Button>
+                        </div>
+                  </div>
+
+                  <div className="p-4">
+                        <h2 className="text-gray-500 mb-4">Education / Training</h2>
+                        <div className="space-y-4">
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <GraduationCap className="mr-2 h-5 w-5 text-gray-500" />
+                                    Academic Qualification
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <BarChart2 className="mr-2 h-5 w-5 text-gray-500" />
+                                    Training Summary
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <Award className="mr-2 h-5 w-5 text-gray-500" />
+                                    Professional Certification Summary
+                              </Button>
+                        </div>
+                  </div>
+
+                  <div className="p-4">
+                        <h2 className="text-gray-500 mb-4">Employment History</h2>
+                        <div className="space-y-4">
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <Building className="mr-2 h-5 w-5 text-gray-500" />
+                                    Employment History
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <Building className="mr-2 h-5 w-5 text-gray-500" />
+                                    Employment History (Retired Army Person)
+                              </Button>
+                        </div>
+                  </div>
+
+                  <div className="p-4">
+                        <h2 className="text-gray-500 mb-4">Skills & Others</h2>
+                        <div className="space-y-4">
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <BarChart2 className="mr-2 h-5 w-5 text-gray-500" />
+                                    Skill
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <Globe className="mr-2 h-5 w-5 text-gray-500" />
+                                    Language Proficiency
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <LinkIcon className="mr-2 h-5 w-5 text-gray-500" />
+                                    Link Account
+                              </Button>
+
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <Users className="mr-2 h-5 w-5 text-gray-500" />
+                                    References
+                              </Button>
+                        </div>
+                  </div>
+
+                  <div className="p-4">
+                        <h2 className="text-gray-500 mb-4">Accomplishment</h2>
+                        <div className="space-y-4">
+                              <Button variant="outline" className="w-full justify-start bg-white" onClick={() => { }}>
+                                    <Trophy className="mr-2 h-5 w-5 text-gray-500" />
+                                    Accomplishment
+                              </Button>
+                              <p className="text-gray-500 text-sm px-2">
+                                    Select & Add your portfolio, Project, Paper/Journal, Publication, etc to enhance your profile
+                              </p>
+                        </div>
+                  </div>
+
+                  <div className="fixed bottom-20 right-4">
+                        <Button onClick={() => shareProfileHandler(user?._id)} className="rounded-full h-10 w-10 bg-green-500 hover:bg-green-600">
+                              <Eye className="h-6 w-6" />
+                        </Button>
+                  </div>
+            </div>
+
+      )
+}
+
+function DesktopProfileView({
+      activeTab,
+      handleTabChange,
+      isEditing,
+      toggleEditMode,
+      handleSave,
+}: {
+      activeTab: string
+      handleTabChange: (value: string) => void
+      isEditing: boolean
+      toggleEditMode: () => void
+      handleSave: () => void
+}) {
+      const [activeDialog, setActiveDialog] = useState<"portfolio" | "publication" | "award" | "project" | "other" | null>(null)
+
+      const handleSaveAccomplishment = (data: any) => {
+            console.log("Saving accomplishment:", data)
+            // Handle saving the accomplishment data here
+      }
+
       return (
             <div>
-                  <div className="mb-14 grid grid-cols-1 gap-6 lg:mb-0 lg:grid-cols-[1fr_300px]">
-                        <div className="space-y-6">
-                              <ProfileTabs />
+                  <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
+                              <TabsList className="w-full justify-start p-0 h-auto bg-transparent border-b">
+                                    <TabsTrigger
+                                          value="home"
+                                          className="px-6 py-3 data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none"
+                                    >
+                                          Home
+                                    </TabsTrigger>
+                                    <TabsTrigger
+                                          value="education"
+                                          className="px-6 py-3 data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none"
+                                    >
+                                          Education/Training
+                                    </TabsTrigger>
+                                    <TabsTrigger
+                                          value="employment"
+                                          className="px-6 py-3 data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none"
+                                    >
+                                          Employment
+                                    </TabsTrigger>
+                                    <TabsTrigger
+                                          value="other"
+                                          className="px-6 py-3 data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none"
+                                    >
+                                          Other Information
+                                    </TabsTrigger>
+                                    <TabsTrigger
+                                          value="accomplishment"
+                                          className="px-6 py-3 data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none rounded-none"
+                                    >
+                                          Accomplishment
+                                    </TabsTrigger>
+                              </TabsList>
 
-                              <Tabs
-                                    defaultValue={"basic_ifo"}
-                                    onValueChange={handleTabChange}
-                                    className="mb-4">
-                                    <TabsList className="flex justify-start space-x-2 p-0 border-b !rounded-none border-gray-300 !bg-transparent">
-
-                                          <TabsTrigger value="basic_info" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
-                                                Basic info
-                                          </TabsTrigger>
-
-                                          <TabsTrigger value="educational_info" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
-                                                Educational info
-                                          </TabsTrigger>
-
-                                          <TabsTrigger value="other_info" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
-                                                Others Info
-                                          </TabsTrigger>
-
-                                          <TabsTrigger value="attachment_info" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
-                                                Attachment info
-                                          </TabsTrigger>
-                                    </TabsList>
-
-                                    {/* tab content */}
-                                    <TabsContent value={'basic_info'} className='space-y-4'>
-                                          <div className="mt-4">
-                                                {user ? (
-                                                      <div className="flex md:flex-row flex-col justify-start  gap-4">
-                                                            <div className="relative">
-                                                                  <div
-                                                                        className="group relative flex size-20 cursor-pointer items-center justify-center rounded-full"
-                                                                        onClick={() => setEditImageOpen(true)}
-                                                                  >
-                                                                        {/* Profile Image */}
-                                                                        <div className="relative h-full w-full overflow-hidden rounded-full border-4 border-primary">
-                                                                              {user?.profile_picture ? (
-                                                                                    <Image
-                                                                                          src={user?.profile_picture || "/placeholder.svg"}
-                                                                                          alt="Profile Picture"
-                                                                                          fill
-                                                                                          className="object-scale-down "
-                                                                                    />
-                                                                              ) : (
-                                                                                    <div className="flex h-full w-full items-center justify-center bg-primary text-3xl text-primary-foreground">
-                                                                                          {user?.fullName?.[0]?.toUpperCase() || "?"}
-                                                                                    </div>
-                                                                              )}
-
-                                                                              {/* Dark Overlay */}
-                                                                              <div className="absolute inset-0 bg-black/30" />
-                                                                        </div>
-
-                                                                        {/* Progress Ring */}
-                                                                        <svg className="absolute inset-0 h-full w-full -rotate-90">
-                                                                              <svg
-                                                                                    className="h-24 w-24"
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    viewBox="0 0 96 96"
-                                                                              >
-                                                                                    <defs>
-                                                                                          <linearGradient
-                                                                                                id="circleGradient"
-                                                                                                x1="0"
-                                                                                                y1="0"
-                                                                                                x2="1"
-                                                                                                y2="1"
-                                                                                          >
-                                                                                                <stop offset="0%" stopColor="#3b82f6" /> {/* Blue */}
-                                                                                                <stop offset="100%" stopColor="#8b5cf6" />{" "}
-                                                                                                {/* Purple */}
-                                                                                          </linearGradient>
-                                                                                    </defs>
-                                                                                    {/* Background Circle */}
-                                                                                    <circle
-                                                                                          className="text-white"
-                                                                                          strokeWidth="6"
-                                                                                          stroke="currentColor"
-                                                                                          fill="transparent"
-                                                                                          r="46"
-                                                                                          cx="48"
-                                                                                          cy="48"
-                                                                                    />
-                                                                                    {/* Progress Circle with Gradient */}
-                                                                                    <circle
-                                                                                          className="text-blue-500"
-                                                                                          strokeWidth="6"
-                                                                                          strokeDasharray={290}
-                                                                                          strokeDashoffset={290 - (290 * completion) / 100}
-                                                                                          strokeLinecap="round"
-                                                                                          stroke="url(#circleGradient)"
-                                                                                          fill="transparent"
-                                                                                          r="46"
-                                                                                          cx="48"
-                                                                                          cy="48"
-                                                                                    />
-                                                                              </svg>
-                                                                        </svg>
-
-                                                                        {/* Star or Percentage */}
-                                                                        <div className="absolute -bottom-1 flex items-center justify-center rounded-3xl bg-gray-600 px-2 py-0.5 text-primary-foreground shadow-lg">
-                                                                              {showStar ? (
-                                                                                    <Star className="h-4 w-4 fill-current text-[#4493F8]" />
-                                                                              ) : (
-                                                                                    <span className="text-sm font-medium">{completion}%</span>
-                                                                              )}
-                                                                        </div>
-
-                                                                        {/* Update text on hover */}
-                                                                        <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black bg-opacity-50 opacity-0 transition-opacity group-hover:opacity-100">
-                                                                              <span className="text-sm font-medium text-white">
-                                                                                    Update
-                                                                              </span>
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-
-                                                            <div className="flex-1 space-y-1">
-                                                                  <div className="flex items-center justify-between">
-                                                                        <div className="flex items-center gap-2">
-                                                                              <h1 className="text-2xl font-bold">
-                                                                                    {user?.fullName ? user?.fullName : "Update Your Name"}
-                                                                              </h1>
-                                                                              <Pencil
-                                                                                    onClick={() => setEditNameOpen(true)}
-                                                                                    className="h-4 w-4"
-                                                                              />
-                                                                        </div>
-                                                                  </div>
-                                                                  <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                                                                        <div className="flex items-center gap-1">
-                                                                              <Contact className="h-4 w-4" />
-                                                                              {user?.phone_number
-                                                                                    ? user?.phone_number
-                                                                                    : "Update Phone Number"}
-                                                                        </div>
-
-                                                                        <div className="flex items-center gap-1">
-
-                                                                              <Mail className="h-4 w-4" />
-                                                                              {user?.email ? user?.email : "Update Email"}
-                                                                        </div>
-                                                                        <Pencil
-                                                                              onClick={() => setEditContactOpen(true)}
-                                                                              className="h-4 w-4"
-                                                                        />
-                                                                  </div>
-                                                                  <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                                                                        <div className="flex items-center gap-1">
-                                                                              <MapPin className="h-4 w-4" />
-                                                                              Bangladesh
-                                                                        </div>
-
-                                                                        <div className="flex flex-wrap items-center gap-1">
-                                                                              <div className="flex size-1 items-center rounded-full bg-gray-500"></div>
-                                                                              <span>
-                                                                                    {user?.languages?.length
-                                                                                          ? user?.languages?.join(", ")
-                                                                                          : "Update Languages"}
-                                                                              </span>
-                                                                              <Pencil
-                                                                                    onClick={() => setEditLanguagesOpen(true)}
-                                                                                    className="h-4 w-4"
-                                                                              />
-                                                                        </div>
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                ) : (
-                                                      <div className="flex items-center gap-4">
-                                                            <Skeleton className="h-20 w-20 rounded-full" />
-                                                            <div className="flex-1 space-y-2">
-                                                                  <Skeleton className="h-8 w-3/4" />
-                                                                  <Skeleton className="h-4 w-full" />
-                                                                  <Skeleton className="h-4 w-5/6" />
-                                                            </div>
-                                                      </div>
-                                                )}
-                                          </div>
-
-
-                                          <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
-                                                <AccordionItem className="bg-gray-50 px-3" value="item-1">
-                                                      <AccordionTrigger className="">
-                                                            <h1 className="text-lg flex items-end gap-2 font-semibold"><User /> Personal Details</h1>
-                                                      </AccordionTrigger>
-                                                      <AccordionContent className="space-y-4">
-                                                            <PersonalDetails />
-                                                            <UserIdentity />
-                                                            <Gender />
-                                                      </AccordionContent>
-                                                </AccordionItem>
-
-
-                                                <AccordionItem className="bg-gray-50 px-3" value="job_preference">
-                                                      <AccordionTrigger className="">
-                                                            <h1 className="text-lg flex items-end gap-2 font-semibold">
-                                                                  <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        width={24}
-                                                                        height={24}
-                                                                        viewBox="0 0 24 24"
-                                                                        fill="none"
-                                                                        stroke="currentColor"
-                                                                        strokeWidth={2}
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        className="lucide lucide-briefcase-business"
-                                                                  >
-                                                                        <path d="M12 12h.01" />
-                                                                        <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-                                                                        <path d="M22 13a18.15 18.15 0 0 1-20 0" />
-                                                                        <rect width={20} height={14} x={2} y={6} rx={2} />
-                                                                  </svg>
-                                                                  Job Preference</h1>
-                                                      </AccordionTrigger>
-                                                      <AccordionContent className="space-y-4">
-                                                            <CareerObjective />
-                                                            <Resume />
-                                                            <About />
-                                                            <Skills />
-                                                            <PreferedLocation />
-                                                            {/* <JobDetails /> */}
-                                                      </AccordionContent>
-                                                </AccordionItem>
-                                          </Accordion>
-
-
-
-
-
-
-
-
-
-
-                                          <Certifications />
-                                          <DateOfBirth />
-                                    </TabsContent>
-
-                                    <TabsContent value={'educational_info'} className='space-y-4'>
-                                          <Address />
-                                          <Educations />
-                                          <Experience />
-                                    </TabsContent>
-
-                                    <TabsContent value={'other_info'} className='space-y-4'>
-                                          <EmergencyContact />
-                                          <BloodGroup />
-                                    </TabsContent>
-
-                                    <TabsContent value={'attachment_info'} className='space-y-4'>
-                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus nam error nemo, velit veniam laborum libero eos molestias quis, sint aliquid, blanditiis doloribus animi hic asperiores consequatur dolorem! Perspiciatis, distinctio.
-                                    </TabsContent>
-                              </Tabs>
-
-                              {/* Header Section */}
-
-                              <EditModal
-                                    open={editNameOpen}
-                                    onOpenChange={setEditNameOpen}
-                                    title="Edit Name"
-                                    description="Update your name"
-                              >
-                                    <div className="grid gap-4 py-4">
-                                          <div className="grid gap-2">
-                                                <Label htmlFor="name">Name</Label>
-                                                <input
-                                                      className="border w-full py-2 px-3 rounded-md"
-                                                      placeholder="Enter your name"
-                                                      onChange={(e) => setName(e.target.value)}
-                                                      id="name"
-                                                      defaultValue={user?.fullName}
-                                                />
-                                          </div>
-                                    </div>
-                                    <DialogFooter>
-                                          <Button onClick={user_name_update} type="submit">
-                                                {loading ? "Updating..." : "Save changes"}
-                                          </Button>
-                                    </DialogFooter>
-                              </EditModal>
-
-                              <EditModal
-                                    open={editContactOpen}
-                                    onOpenChange={setEditContactOpen}
-                                    title="Edit Contact Details"
-                                    description="Update your contact details"
-                              >
-                                    <div className="grid gap-4 py-4">
-                                          <div className="grid gap-2">
-                                                <Label htmlFor="email">Email</Label>
-                                                <Input
-                                                      readOnly
-                                                      required
-                                                      onChange={(e) => setEmail(e.target.value)}
-                                                      id="email"
-                                                      defaultValue={user?.email}
-                                                />
-                                          </div>
-
-                                          <div className="grid gap-2">
-                                                <Label htmlFor="email">Phone Number</Label>
-                                                {/* <Input required onChange={(e) => setPhone(e.target.value)} id="email" defaultValue={user?.phone_number} /> */}
-
-                                                <PhoneInput
-                                                      country="bd"
-                                                      value={phone}
-                                                      onChange={(e) => setPhone(e)}
-                                                      inputProps={{
-                                                            id: "phone",
-                                                            className:
-                                                                  "w-full p-2 pl-14 border border-gray-300 rounded-md focus:ring focus:ring-indigo-500",
-                                                      }}
-                                                      containerClass="w-full"
-                                                      buttonClass="rounded-l-md"
-                                                />
-                                          </div>
-                                    </div>
-                                    <DialogFooter>
-                                          <Button onClick={update_contact} type="submit">
-                                                {loading ? "Updating..." : "Save changes"}
-                                          </Button>
-                                    </DialogFooter>
-                              </EditModal>
-
-                              <EditModal
-                                    open={editLanguagesOpen}
-                                    onOpenChange={setEditLanguagesOpen}
-                                    title="Edit Languages"
-                                    description="Update your languages"
-                              >
-                                    <div className="grid gap-4 py-4">
-                                          <div className="grid gap-2">
-                                                <Label htmlFor="languages">Spoken Languages</Label>
-                                                <CreatableSelect
-                                                      onChange={handleLanguageChange}
-                                                      value={new_language?.map((item: any) => ({
-                                                            value: item,
-                                                            label: item,
-                                                      }))}
-                                                      isMulti
-                                                />
-                                          </div>
-                                    </div>
-                                    <DialogFooter>
-                                          <Button onClick={user_languages_update} type="submit">
-                                                {loading ? "Updating..." : "Save changes"}
-                                          </Button>
-                                    </DialogFooter>
-                              </EditModal>
-
-                              {/* Edit Modals */}
-
-                              <EditModal
-                                    open={editImageOpen}
-                                    onOpenChange={setEditImageOpen}
-                                    title="Edit Image"
-                                    description="Update your profile image"
-                              >
-                                    <div className="sm:max-w-md">
-                                          <div className="space-y-4">
-                                                <div className="flex flex-col items-center justify-center gap-4">
-                                                      {image ? (
-                                                            <div className="relative h-32 w-32">
-                                                                  <img
-                                                                        src={image}
-                                                                        alt="Preview"
-                                                                        className="h-full w-full rounded-full object-cover"
-                                                                  />
-                                                                  <Button
-                                                                        variant="outline"
-                                                                        size="sm"
-                                                                        className="absolute right-0 top-0 rounded-full"
-                                                                        onClick={() => setImage(null)}
-                                                                  >
-                                                                        ✕
-                                                                  </Button>
-                                                            </div>
-                                                      ) : (
-                                                            <div className="flex h-32 w-32 items-center justify-center rounded-full bg-muted">
-                                                                  <Upload className="h-8 w-8 text-muted-foreground" />
-                                                            </div>
-                                                      )}
-                                                </div>
-                                          </div>
-                                    </div>
-                                    <Input
-                                          className="my-4"
-                                          id="picture"
-                                          type="file"
-                                          accept="image/*"
-                                          onChange={handleImageChange}
-                                    />
-                                    <DialogFooter>
-                                          <Button
-                                                disabled={loading}
-                                                onClick={profile_image_update}
-                                                type="submit"
-                                                className="bg-blue-500 text-white hover:bg-blue-600"
-                                          >
-                                                {loading ? "Saving..." : " Save changes"}
-                                          </Button>
-                                    </DialogFooter>
-                              </EditModal>
-                        </div>
-
-                        <Card className="group h-fit mb-8">
-                              <div className="w-full p-6 flex justify-between items-center gap-2">
-                                    <CardTitle>Quick Links</CardTitle>
-                                    <Button className="!bg-[#3F307B] *:" onClick={() => shareProfileHandler(user?._id)} size="sm">
-                                          Portfolio
-                                    </Button>
-                              </div>
-                              <CardContent>
-                                    {/* Dynamic Input Fields */}
-                                    <div className="mt-4 space-y-2">
-                                          {links.map((link, index) => (
-                                                <div key={index} className="flex items-center gap-2">
-                                                      <input
-                                                            type="text"
-                                                            value={link}
-                                                            onChange={(e) => handleInputChange(index, e.target.value)}
-                                                            className="w-full p-2 border rounded"
-                                                            placeholder="Enter link"
-                                                      />
-                                                      <Button
-                                                            onClick={() => deleteInputField(index)}
-                                                            size="icon"
-                                                            variant="destructive"
-                                                      >
-                                                            <Trash className="h-4 w-4" />
+                              <TabsContent value="home" className="m-0">
+                                    <div className="p-4 border-b flex items-center justify-between">
+                                          <h1 className="text-lg font-medium">Personal Details</h1>
+                                          {isEditing ? (
+                                                <div className="flex items-center space-x-2">
+                                                      <Button variant="outline" size="sm" onClick={handleSave}>
+                                                            <Save className="h-4 w-4 mr-2" />
+                                                            Save
+                                                      </Button>
+                                                      <Button variant="outline" size="sm" onClick={toggleEditMode}>
+                                                            <X className="h-4 w-4 mr-2" />
+                                                            Cancel
                                                       </Button>
                                                 </div>
-                                          ))}
+                                          ) : (
+                                                <Button variant="outline" size="sm" onClick={toggleEditMode}>
+                                                      <Pencil className="h-4 w-4 mr-2" />
+                                                      Edit
+                                                </Button>
+                                          )}
                                     </div>
 
-                                    {/* Buttons */}
-                                    <div className="mt-4 flex gap-2">
-                                          <Button variant="outline" onClick={addInputField} className="flex w-full items-center gap-2">
-                                                <Plus className="h-4 w-4" /> Add Link
-                                          </Button>
-                                          <Button onClick={handleUpload} className="flex w-full items-center gap-2">
-                                                <Upload className="h-4 w-4" /> Upload
-                                          </Button>
+                                    <div className="p-6">
+                                          <div className="grid grid-cols-12 gap-6">
+                                                <div className="col-span-2 flex flex-col items-center">
+                                                      <div className="w-24 h-24 bg-gray-200 rounded-md mb-2 flex items-center justify-center">
+                                                            <User className="h-12 w-12 text-gray-400" />
+                                                      </div>
+                                                      <Button variant="outline" size="sm" disabled={!isEditing}>
+                                                            Change Photo
+                                                      </Button>
+                                                </div>
+
+                                                <div className="col-span-10">
+                                                      <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                                                            <div>
+                                                                  <Label htmlFor="desktop-firstName">First Name</Label>
+                                                                  <Input
+                                                                        id="desktop-firstName"
+                                                                        placeholder="First Name"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="John"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-lastName">Last Name</Label>
+                                                                  <Input
+                                                                        id="desktop-lastName"
+                                                                        placeholder="Last Name"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="Doe"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-fathersName">Father's Name</Label>
+                                                                  <Input
+                                                                        id="desktop-fathersName"
+                                                                        placeholder="Father's Name"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="James Doe"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-mothersName">Mother's Name</Label>
+                                                                  <Input
+                                                                        id="desktop-mothersName"
+                                                                        placeholder="Mother's Name"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="Mary Doe"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-dob">Date of Birth</Label>
+                                                                  <Input
+                                                                        id="desktop-dob"
+                                                                        type="date"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="1990-01-01"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-gender">Gender</Label>
+                                                                  <Select disabled={!isEditing}>
+                                                                        <SelectTrigger id="desktop-gender" className={!isEditing ? "bg-gray-50" : ""}>
+                                                                              <SelectValue placeholder="Male" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                              <SelectItem value="male">Male</SelectItem>
+                                                                              <SelectItem value="female">Female</SelectItem>
+                                                                              <SelectItem value="other">Other</SelectItem>
+                                                                        </SelectContent>
+                                                                  </Select>
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-religion">Religion</Label>
+                                                                  <Input
+                                                                        id="desktop-religion"
+                                                                        placeholder="Religion"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="Christianity"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-nationality">Nationality</Label>
+                                                                  <Input
+                                                                        id="desktop-nationality"
+                                                                        placeholder="Nationality"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="American"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-passportNumber">Passport Number</Label>
+                                                                  <Input
+                                                                        id="desktop-passportNumber"
+                                                                        placeholder="Passport Number"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="AB123456"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-passportIssueDate">Passport Issue Date</Label>
+                                                                  <Input
+                                                                        id="desktop-passportIssueDate"
+                                                                        type="date"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="2018-05-15"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-primaryMobile">Primary Mobile</Label>
+                                                                  <Input
+                                                                        id="desktop-primaryMobile"
+                                                                        placeholder="Primary Mobile"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="+1 234 567 8901"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-secondaryMobile">Secondary Mobile</Label>
+                                                                  <Input
+                                                                        id="desktop-secondaryMobile"
+                                                                        placeholder="Secondary Mobile"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="+1 987 654 3210"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-alternateEmail">Alternate Email</Label>
+                                                                  <Input
+                                                                        id="desktop-alternateEmail"
+                                                                        type="email"
+                                                                        placeholder="Alternate Email"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="john.alt@example.com"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-email">Email</Label>
+                                                                  <div className="flex items-center space-x-2">
+                                                                        <Input
+                                                                              id="desktop-email"
+                                                                              type="email"
+                                                                              value="john.doe@example.com"
+                                                                              readOnly
+                                                                              className="bg-gray-50"
+                                                                        />
+                                                                        <Button variant="outline" size="sm" className="whitespace-nowrap" disabled={!isEditing}>
+                                                                              Change Email
+                                                                        </Button>
+                                                                  </div>
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-height">Height (cm)</Label>
+                                                                  <Input
+                                                                        id="desktop-height"
+                                                                        type="number"
+                                                                        placeholder="Height"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="175"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label htmlFor="desktop-weight">Weight (kg)</Label>
+                                                                  <Input
+                                                                        id="desktop-weight"
+                                                                        type="number"
+                                                                        placeholder="Weight"
+                                                                        readOnly={!isEditing}
+                                                                        className={!isEditing ? "bg-gray-50" : ""}
+                                                                        defaultValue="70"
+                                                                  />
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
                                     </div>
-                              </CardContent>
-                        </Card>
 
+                                    <div className="p-4 border-t">
+                                          <Collapsible className="w-full">
+                                                <CollapsibleTrigger className="flex items-center justify-between w-full">
+                                                      <h2 className="text-lg font-medium">Address Details</h2>
+                                                      {isEditing && <Pencil className="h-4 w-4 text-gray-500" />}
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent className="pt-4">
+                                                      <Address />
+                                                </CollapsibleContent>
+                                          </Collapsible>
+                                    </div>
 
-                  </div >
-            </div >
+                                    <div className="p-4 border-t">
+                                          <Collapsible className="w-full">
+                                                <CollapsibleTrigger className="flex items-center justify-between w-full">
+                                                      <h2 className="text-lg font-medium">Career and Application Information</h2>
+                                                      {isEditing && <Pencil className="h-4 w-4 text-gray-500" />}
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent className="pt-4">
+                                                      <div className="space-y-4">
+                                                            <div>
+                                                                  <Label>Career Objective</Label>
+                                                                  <Input
+                                                                        placeholder="Career Objective"
+                                                                        readOnly={!isEditing}
+                                                                        defaultValue="Seeking a challenging position in a reputable organization"
+                                                                  />
+                                                            </div>
+                                                            <div>
+                                                                  <Label>Job Level</Label>
+                                                                  <Select disabled={!isEditing}>
+                                                                        <SelectTrigger>
+                                                                              <SelectValue placeholder="Mid Level" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                              <SelectItem value="entry">Entry Level</SelectItem>
+                                                                              <SelectItem value="mid">Mid Level</SelectItem>
+                                                                              <SelectItem value="senior">Senior Level</SelectItem>
+                                                                        </SelectContent>
+                                                                  </Select>
+                                                            </div>
+                                                      </div>
+                                                </CollapsibleContent>
+                                          </Collapsible>
+                                    </div>
+
+                                    <div className="p-4 border-t">
+                                          <Collapsible className="w-full">
+                                                <CollapsibleTrigger className="flex items-center justify-between w-full">
+                                                      <h2 className="text-lg font-medium">Preferred Areas</h2>
+                                                      {isEditing && <Pencil className="h-4 w-4 text-gray-500" />}
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent className="pt-4">
+                                                      <div className="space-y-4">
+                                                            <div>
+                                                                  <Label>Preferred Job Categories</Label>
+                                                                  <Select disabled={!isEditing}>
+                                                                        <SelectTrigger>
+                                                                              <SelectValue placeholder="IT & Telecommunication" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                              <SelectItem value="it">IT & Telecommunication</SelectItem>
+                                                                              <SelectItem value="marketing">Marketing</SelectItem>
+                                                                              <SelectItem value="finance">Finance</SelectItem>
+                                                                        </SelectContent>
+                                                                  </Select>
+                                                            </div>
+                                                            <div>
+                                                                  <Label>Preferred Job Locations</Label>
+                                                                  <Select disabled={!isEditing}>
+                                                                        <SelectTrigger>
+                                                                              <SelectValue placeholder="New York" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                              <SelectItem value="newyork">New York</SelectItem>
+                                                                              <SelectItem value="sanfrancisco">San Francisco</SelectItem>
+                                                                              <SelectItem value="chicago">Chicago</SelectItem>
+                                                                        </SelectContent>
+                                                                  </Select>
+                                                            </div>
+                                                      </div>
+                                                </CollapsibleContent>
+                                          </Collapsible>
+                                    </div>
+
+                                    <div className="p-4 border-t">
+                                          <Collapsible className="w-full">
+                                                <CollapsibleTrigger className="flex items-center justify-between w-full">
+                                                      <h2 className="text-lg font-medium">Other Relevant Information</h2>
+                                                      {isEditing && <Pencil className="h-4 w-4 text-gray-500" />}
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent className="pt-4">
+                                                      <div className="space-y-4">
+                                                            <div>
+                                                                  <Label>Expected Salary</Label>
+                                                                  <Input placeholder="Expected Salary" readOnly={!isEditing} defaultValue="$80,000 - $100,000" />
+                                                            </div>
+                                                            <div>
+                                                                  <Label>Available For</Label>
+                                                                  <Select disabled={!isEditing}>
+                                                                        <SelectTrigger>
+                                                                              <SelectValue placeholder="Full Time" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                              <SelectItem value="fulltime">Full Time</SelectItem>
+                                                                              <SelectItem value="parttime">Part Time</SelectItem>
+                                                                              <SelectItem value="contract">Contract</SelectItem>
+                                                                        </SelectContent>
+                                                                  </Select>
+                                                            </div>
+                                                      </div>
+                                                </CollapsibleContent>
+                                          </Collapsible>
+                                    </div>
+                              </TabsContent>
+
+                              <TabsContent value="education" className="m-0">
+                                    <div className="p-4 border-b flex items-center justify-between">
+                                          <h1 className="text-lg font-medium">Education & Training</h1>
+                                          {isEditing ? (
+                                                <div className="flex items-center space-x-2">
+                                                      <Button variant="outline" size="sm" onClick={handleSave}>
+                                                            <Save className="h-4 w-4 mr-2" />
+                                                            Save
+                                                      </Button>
+                                                      <Button variant="outline" size="sm" onClick={toggleEditMode}>
+                                                            <X className="h-4 w-4 mr-2" />
+                                                            Cancel
+                                                      </Button>
+                                                </div>
+                                          ) : (
+                                                <Button variant="outline" size="sm" onClick={toggleEditMode}>
+                                                      <Pencil className="h-4 w-4 mr-2" />
+                                                      Edit
+                                                </Button>
+                                          )}
+                                    </div>
+                                    <div className="p-6">
+                                          <div className="space-y-6">
+                                                <div>
+                                                      <h2 className="text-lg font-medium mb-4">Academic Qualification</h2>
+                                                      <div className="bg-gray-50 p-4 rounded-md">
+                                                            <p className="text-gray-500">No academic qualifications added yet.</p>
+                                                            {isEditing && (
+                                                                  <Button variant="outline" size="sm" className="mt-2">
+                                                                        Add Qualification
+                                                                  </Button>
+                                                            )}
+                                                      </div>
+                                                </div>
+
+                                                <div>
+                                                      <h2 className="text-lg font-medium mb-4">Training Summary</h2>
+                                                      <div className="bg-gray-50 p-4 rounded-md">
+                                                            <p className="text-gray-500">No training records added yet.</p>
+                                                            {isEditing && (
+                                                                  <Button variant="outline" size="sm" className="mt-2">
+                                                                        Add Training
+                                                                  </Button>
+                                                            )}
+                                                      </div>
+                                                </div>
+
+                                                <div>
+                                                      <h2 className="text-lg font-medium mb-4">Professional Certification</h2>
+                                                      <div className="bg-gray-50 p-4 rounded-md">
+                                                            <p className="text-gray-500">No certifications added yet.</p>
+                                                            {isEditing && (
+                                                                  <Button variant="outline" size="sm" className="mt-2">
+                                                                        Add Certification
+                                                                  </Button>
+                                                            )}
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </TabsContent>
+
+                              <TabsContent value="employment" className="m-0">
+                                    <div className="p-4 border-b flex items-center justify-between">
+                                          <h1 className="text-lg font-medium">Employment History</h1>
+                                          {isEditing ? (
+                                                <div className="flex items-center space-x-2">
+                                                      <Button variant="outline" size="sm" onClick={handleSave}>
+                                                            <Save className="h-4 w-4 mr-2" />
+                                                            Save
+                                                      </Button>
+                                                      <Button variant="outline" size="sm" onClick={toggleEditMode}>
+                                                            <X className="h-4 w-4 mr-2" />
+                                                            Cancel
+                                                      </Button>
+                                                </div>
+                                          ) : (
+                                                <Button variant="outline" size="sm" onClick={toggleEditMode}>
+                                                      <Pencil className="h-4 w-4 mr-2" />
+                                                      Edit
+                                                </Button>
+                                          )}
+                                    </div>
+                                    <div className="p-6">
+                                          <div className="bg-gray-50 p-4 rounded-md">
+                                                <p className="text-gray-500">No employment history added yet.</p>
+                                                {isEditing && (
+                                                      <Button variant="outline" size="sm" className="mt-2">
+                                                            Add Employment
+                                                      </Button>
+                                                )}
+                                          </div>
+                                    </div>
+                              </TabsContent>
+
+                              <TabsContent value="other" className="m-0">
+                                    <div className="p-4 border-b flex items-center justify-between">
+                                          <h1 className="text-lg font-medium">Skills & Other Information</h1>
+                                          {isEditing ? (
+                                                <div className="flex items-center space-x-2">
+                                                      <Button variant="outline" size="sm" onClick={handleSave}>
+                                                            <Save className="h-4 w-4 mr-2" />
+                                                            Save
+                                                      </Button>
+                                                      <Button variant="outline" size="sm" onClick={toggleEditMode}>
+                                                            <X className="h-4 w-4 mr-2" />
+                                                            Cancel
+                                                      </Button>
+                                                </div>
+                                          ) : (
+                                                <Button variant="outline" size="sm" onClick={toggleEditMode}>
+                                                      <Pencil className="h-4 w-4 mr-2" />
+                                                      Edit
+                                                </Button>
+                                          )}
+                                    </div>
+                                    <div className="p-6">
+                                          <div className="space-y-6">
+                                                <div>
+                                                      <h2 className="text-lg font-medium mb-4">Skills</h2>
+                                                      <div className="bg-gray-50 p-4 rounded-md">
+                                                            <p className="text-gray-500">No skills added yet.</p>
+                                                            {isEditing && (
+                                                                  <Button variant="outline" size="sm" className="mt-2">
+                                                                        Add Skills
+                                                                  </Button>
+                                                            )}
+                                                      </div>
+                                                </div>
+
+                                                <div>
+                                                      <h2 className="text-lg font-medium mb-4">Language Proficiency</h2>
+                                                      <div className="bg-gray-50 p-4 rounded-md">
+                                                            <p className="text-gray-500">No languages added yet.</p>
+                                                            {isEditing && (
+                                                                  <Button variant="outline" size="sm" className="mt-2">
+                                                                        Add Language
+                                                                  </Button>
+                                                            )}
+                                                      </div>
+                                                </div>
+
+                                                <div>
+                                                      <h2 className="text-lg font-medium mb-4">References</h2>
+                                                      <div className="bg-gray-50 p-4 rounded-md">
+                                                            <p className="text-gray-500">No references added yet.</p>
+                                                            {isEditing && (
+                                                                  <Button variant="outline" size="sm" className="mt-2">
+                                                                        Add Reference
+                                                                  </Button>
+                                                            )}
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </TabsContent>
+
+                              <TabsContent value="accomplishment" className="m-0">
+                                    <div className="p-6">
+                                          <div className="flex flex-col items-center justify-center text-center space-y-6">
+                                                <div className="w-16 h-16 bg-[#001968]/10 rounded-full flex items-center justify-center">
+                                                      <Monitor className="w-8 h-8 text-[#001968]" />
+                                                </div>
+                                                <p className="text-gray-600 max-w-lg">
+                                                      Currently no data exists! Select & add your portfolio url, Papers/Journal, Publications, etc to enhance your profile
+                                                </p>
+                                                <div className="flex flex-wrap gap-3 justify-center">
+                                                      <Button
+                                                            variant="outline"
+                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
+                                                            onClick={() => setActiveDialog("portfolio")}
+                                                      >
+                                                            Portfolio
+                                                      </Button>
+                                                      <Button
+                                                            variant="outline"
+                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
+                                                            onClick={() => setActiveDialog("publication")}
+                                                      >
+                                                            Publications
+                                                      </Button>
+                                                      <Button
+                                                            variant="outline"
+                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
+                                                            onClick={() => setActiveDialog("award")}
+                                                      >
+                                                            Awards/Honors
+                                                      </Button>
+                                                      <Button
+                                                            variant="outline"
+                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
+                                                            onClick={() => setActiveDialog("project")}
+                                                      >
+                                                            Projects
+                                                      </Button>
+                                                      <Button
+                                                            variant="outline"
+                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
+                                                            onClick={() => setActiveDialog("other")}
+                                                      >
+                                                            Others
+                                                      </Button>
+                                                </div>
+                                          </div>
+
+                                          <AccomplishmentDialog
+                                                type={activeDialog || "portfolio"}
+                                                open={!!activeDialog}
+                                                onOpenChange={(open) => !open && setActiveDialog(null)}
+                                                onSave={handleSaveAccomplishment}
+                                          />
+                                    </div>
+                              </TabsContent>
+                        </Tabs>
+                  </div>
+            </div>
       )
 }

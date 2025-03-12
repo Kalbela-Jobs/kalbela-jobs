@@ -77,7 +77,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                                                             <Sidebar />
                                                       </aside>
                                                 </div>
-                                                <main className="mx-auto w-auto flex-1 overflow-x-hidden p-0 px-0 sm:px-6 md:px-8 lg:pl-[270px] pt-4">
+                                                <main className=" flex-1 overflow-x-hidden p-0 px-0 sm:px-6 lg:px-8 lg:pl-[270px] pl-0 py-4">
                                                       {children}
                                                       <ToastContainer />
                                                 </main>
