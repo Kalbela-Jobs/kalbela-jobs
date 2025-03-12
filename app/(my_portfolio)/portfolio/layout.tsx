@@ -73,7 +73,7 @@ export default function PortfolioLayout({ children }: PortfolioLayoutProps) {
                         </div>
                         {/* </MaxWidthWrapper> */}
                     </div>
-                    <BottomNav />
+                    {/* <BottomNav /> */}
                 </ThemeProvider>
             </body>
         </html>

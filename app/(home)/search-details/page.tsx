@@ -125,7 +125,7 @@ const SearchDetails: React.FC = () => {
 
                   <MaxWidthWrapper className="pt-2 lg:hidden ">
                         <div className="flex items-center gap-2 flex-nowrap overflow-x-auto w-full">
-                              <Sheet>
+                              <Sheet >
                                     <SheetTrigger asChild>
                                           <button className="flex w-[107px] items-center justify-between px-3 text-sm border rounded-full py-2 bg-white">
                                                 <Filter className="size-4" /> Filter All

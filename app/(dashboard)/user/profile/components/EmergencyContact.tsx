@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Pencil, Plus } from "lucide-react"
+import { Mail, Pencil, Phone, Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -84,21 +84,33 @@ const EmergencyContact = () => {
                         </CardHeader>
                         <CardContent className="space-y-4">
                               <div className="text-left">
+
+
                                     {formData.emergencyEmail || formData.emergencyPhone ? (
-                                          <div className="space-y-2">
-                                                <p className="text-sm font-semibold text-gray-600 dark:text-slate-200">
-                                                      <span className="block">
-                                                            Emergency Email: {formData.emergencyEmail || "N/A"}
-                                                      </span>
-                                                      <span className="block">
-                                                            Emergency Phone: {formData.emergencyPhone || "N/A"}
-                                                      </span>
-                                                </p>
-                                                <Button onClick={handleAddEdit} variant="outline">
+                                          <ul className="space-y-2">
+                                                <li >
+                                                      <a className="flex text-primary items-center gap-2"
+                                                            href={`mailto:${formData.emergencyEmail}`}>
+                                                            <Mail />{formData.emergencyEmail || "N/A"}
+                                                      </a>
+                                                </li>
+
+                                                <li >
+                                                      <a className="flex text-primary items-center gap-2"
+                                                            href={`tel:${formData.emergencyPhone}`}>
+                                                            <Phone /> {formData.emergencyPhone || "N/A"}
+                                                      </a>
+                                                </li>
+                                                <br />
+                                                <Button
+                                                      className="!bg-primary mt-3 !text-white"
+                                                      size={'sm'}
+                                                      onClick={handleAddEdit} variant="outline">
                                                       <Pencil className="mr-2 h-4 w-4" />
                                                       Edit Contact
                                                 </Button>
-                                          </div>
+                                          </ul>
+
                                     ) : (
                                           <div>
                                                 <p className="mt-1 text-sm text-gray-500">

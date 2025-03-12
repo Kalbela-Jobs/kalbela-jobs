@@ -135,32 +135,82 @@ const Educations = () => {
       }
 
       return (
-            <div>
+            <div className="my-4">
                   <Card>
-                        <CardHeader>
-                              <CardTitle>Education</CardTitle>
+                        <CardHeader className="md:!pt-6 !pt-4  md:!px-6 !px-4">
+                              <div className="flex items-center justify-between">
+                                    <CardTitle>Education</CardTitle>
+
+                                    <Button
+                                          className="!bg-primary  !text-white gap-2"
+                                          variant="outline"
+                                          size={"sm"}
+                                          onClick={() => {
+                                                setFormData({
+                                                      id: "",
+                                                      country: "",
+                                                      universityName: "",
+                                                      degree: "",
+                                                      major: "",
+                                                      graduationYear: "",
+                                                      "location/board": "",
+                                                      "gpa/cgpa": "",
+                                                      grade_show: true,
+                                                })
+                                                setEditEducationOpen(true)
+                                          }}
+                                    >
+                                          <Pencil className="h-4 w-4" />
+                                          <div className="">Add Education</div>
+                                    </Button>
+                              </div>
                         </CardHeader>
-                        <CardContent className="space-y-4">
+                        <CardContent className="space-y-4 md:pb-3 !pb-3 !pt-2  md:!px-6 !px-4">
                               {educations?.map((education: any) => (
                                     <div
                                           key={education._id}
-                                          className="flex items-start justify-between gap-4"
-                                    >
-                                          <div className="flex items-start gap-4">
-                                                <GraduationCap className="mt-1 h-5 w-5" />
-                                                <div>
-                                                      <h3 className="font-medium">{education?.universityName}</h3>
-                                                      <p className="text-sm text-muted-foreground">
-                                                            <span className="capitalize">{education?.degree}</span>,{" "}
-                                                            {education?.major}
-                                                      </p>
-                                                      <p className="text-sm text-muted-foreground">
-                                                            Graduated {education?.graduationYear}
-                                                      </p>
+                                          className="mb-2 ">
+                                          <div
+
+                                                className="flex items-start justify-between gap-4">
+                                                <div className="md:flex items-start gap-4">
+                                                      <GraduationCap className="md:block hidden mt-1 h-5 w-5" />
+                                                      <div>
+                                                            <h3 className="font-medium">{education?.universityName}</h3>
+                                                            <p className="text-sm text-muted-foreground">
+                                                                  <span className="capitalize">{education?.degree}</span>,{" "}
+                                                                  {education?.major}
+                                                            </p>
+                                                            <p className="text-sm text-muted-foreground">
+                                                                  Graduated {education?.graduationYear}
+                                                            </p>
+                                                      </div>
                                                 </div>
+                                                <div className="lg:flex hidden gap-2">
+                                                      <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            onClick={() => openEditModal(education)}
+                                                      >
+                                                            <Pencil className="h-4 w-4" />
+                                                      </Button>
+                                                      <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            onClick={() => {
+                                                                  setFormData((prev) => ({ ...prev, id: education._id }))
+                                                                  handleEducationAction("delete")
+                                                            }}
+                                                      >
+                                                            <Trash2 className="h-4 w-4" />
+                                                      </Button>
+                                                </div>
+
                                           </div>
-                                          <div className="flex gap-2">
+
+                                          <div className="lg:hidden flex gap-2">
                                                 <Button
+                                                      className="!px-2"
                                                       variant="ghost"
                                                       size="icon"
                                                       onClick={() => openEditModal(education)}
@@ -168,6 +218,7 @@ const Educations = () => {
                                                       <Pencil className="h-4 w-4" />
                                                 </Button>
                                                 <Button
+                                                      className="!px-2"
                                                       variant="ghost"
                                                       size="icon"
                                                       onClick={() => {
@@ -178,29 +229,11 @@ const Educations = () => {
                                                       <Trash2 className="h-4 w-4" />
                                                 </Button>
                                           </div>
+
                                     </div>
                               ))}
-                              <Button
-                                    variant="outline"
-                                    className="gap-2"
-                                    onClick={() => {
-                                          setFormData({
-                                                id: "",
-                                                country: "",
-                                                universityName: "",
-                                                degree: "",
-                                                major: "",
-                                                graduationYear: "",
-                                                "location/board": "",
-                                                "gpa/cgpa": "",
-                                                grade_show: true,
-                                          })
-                                          setEditEducationOpen(true)
-                                    }}
-                              >
-                                    <Pencil className="h-4 w-4" />
-                                    Add education
-                              </Button>
+
+
                         </CardContent>
                   </Card>
 

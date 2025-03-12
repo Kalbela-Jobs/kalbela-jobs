@@ -103,7 +103,7 @@ const DownloadApp: React.FC<PropsType> = ({ size = "default" }) => {
     }
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={isOpen} onOpenChange={handleCloseClick}>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">

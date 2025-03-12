@@ -41,7 +41,7 @@ export function Sidebar({
 
 
       return (
-            <ScrollArea className="h-full flex flex-col justify-between pt-4 pb-6">
+            <ScrollArea className="h-full flex flex-col justify-between  pt-4 pb-6">
                   <div className="space-y-4 ">
                         <div className="px- py-2">
                               <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">

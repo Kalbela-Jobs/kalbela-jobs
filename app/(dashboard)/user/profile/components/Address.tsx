@@ -15,6 +15,7 @@ import { EditModal } from "./CommonModal"
 import { Checkbox } from "@/components/ui/checkbox"
 import { set_user_data, useUserData } from "@/utils/encript_decript"
 import useApiForPost from "@/app/hooks/useApiForPost"
+import ProfileAddressTable from "./profile/ProfileAddressTable"
 
 type Option = {
       value: string
@@ -159,23 +160,14 @@ const Address = () => {
       }
 
       return (
-            <div>
-                  <Card>
-                        <CardHeader>
-                              <CardTitle>Address</CardTitle>
-                        </CardHeader>
-                        <CardContent>
+            <div className="mb-4">
+
+                  <div>
+                        <div>
                               {Object.values(addressData).some((field) => field) ? (
                                     <div className="space-y-4 text-gray-600 dark:text-slate-200">
-                                          <p className="flex items-center gap-2">
-                                                <strong>Present Address:</strong>
-                                                {`${addressData.presentCity?.label || "N/A"}, ${addressData.presentDivision?.label || "N/A"}, ${addressData.presentCountry?.label || "N/A"}`}
-                                          </p>
-                                          <p className="flex items-center gap-2">
-                                                <strong>Permanent Address:</strong>
-                                                {`${addressData.permanentCity?.label || "N/A"}, ${addressData.permanentDivision?.label || "N/A"}, ${addressData.permanentCountry?.label || "N/A"}`}
-                                          </p>
-                                          <Button onClick={() => setEditAddressOpen(true)} variant="outline">
+                                          <ProfileAddressTable data={addressData} />
+                                          <Button className="!bg-primary !text-white" onClick={() => setEditAddressOpen(true)} variant="outline">
                                                 <Pencil className="mr-2 h-4 w-4" />
                                                 Edit Address
                                           </Button>
@@ -183,14 +175,14 @@ const Address = () => {
                               ) : (
                                     <div>
                                           <p className="mb-3 text-gray-500">No address added yet.</p>
-                                          <Button onClick={() => setEditAddressOpen(true)} variant="outline">
+                                          <Button className="!bg-primary" onClick={() => setEditAddressOpen(true)} variant="outline">
                                                 <Plus className="mr-2 h-4 w-4" />
                                                 Add Address
                                           </Button>
                                     </div>
                               )}
-                        </CardContent>
-                  </Card>
+                        </div>
+                  </div>
 
                   {editAddressOpen && (
                         <EditModal open={editAddressOpen} onOpenChange={setEditAddressOpen} title="Edit Address">

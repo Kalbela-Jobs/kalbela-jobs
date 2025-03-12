@@ -50,17 +50,17 @@ const page = () => {
                               <div className="mx-auto mt-2">
                                     <div className="space-y-5 sm:space-y-6">
                                           <DisplayTab />
+                                          <DisplayCardBox />
                                     </div>
-                                    <DisplayCardBox />
 
                                     <br />
                                     {/* <div className="">
                                           <DashboardInfo />
                                     </div> */}
 
-                                    <div className="mx-auto mt-8 w-full ">
+                                    <div className="mx-auto md:mb-0 mb-[90px] mt-8 w-full ">
                                           <div className="space-y-5 w-full  sm:space-y-6">
-                                                <div className="grid grid-cols-1  gap-5 sm:gap-6 lg:grid-cols-3 w-full">
+                                                <div className=" grid grid-cols-1  gap-5 sm:gap-6 lg:grid-cols-3 w-full">
                                                       <ApplySort />
                                                       <UserActivity />
                                                 </div>

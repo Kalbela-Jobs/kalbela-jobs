@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
-import { Pencil, User } from "lucide-react"
+import { Pencil, Plus, User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -68,11 +68,11 @@ const CareerObjective = () => {
 
       return (
             <div>
-                  <Card>
-                        <CardHeader>
-                              <CardTitle>Career Objective</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
+                  <div className="border-b pb-3">
+                        <header className="flex items-center justify-between pb-2 h-[30px]  ">
+                              <h2 className="font-semibold text-md ">Career Objective</h2>
+                        </header>
+                        <div className="">
                               {isEmpty ? (
                                     <EmptyState
                                           title="No information added yet"
@@ -84,7 +84,7 @@ const CareerObjective = () => {
                                                       className="gap-2"
                                                       onClick={() => setEditDetailsOpen(true)}
                                                 >
-                                                      <Pencil className="h-4 w-4" />
+                                                      <Plus className="h-4 w-4" />
                                                       Add details
                                                 </Button>
                                           }
@@ -94,18 +94,21 @@ const CareerObjective = () => {
                                           <div className="prose max-w-none text-muted-foreground">
                                                 <div dangerouslySetInnerHTML={{ __html: description }} />
                                           </div>
-                                          <Button
-                                                variant="outline"
-                                                className="gap-2"
+                                          {/* {!isEmpty && <Button
+                                                variant="destructive"
+                                                className="gap-2 mt-3 !bg-primary"
                                                 onClick={() => setEditDetailsOpen(true)}
                                           >
                                                 <Pencil className="h-4 w-4" />
-                                                Edit details
+                                                Edit
                                           </Button>
+
+                                          } */}
                                     </>
                               )}
-                        </CardContent>
-                  </Card>
+                        </div>
+
+                  </div>
                   <EditModal
                         open={editDetailsOpen}
                         onOpenChange={setEditDetailsOpen}

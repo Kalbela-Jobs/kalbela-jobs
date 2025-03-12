@@ -440,3 +440,24 @@ audio::-webkit-media-controls-timeline {
  .profile-info th:not(:last-child) {
     border-bottom: 2px solid rgba(0, 0, 0, .1);
   }
+
+  .custom-input:focus {
+    border-color: #94a3b8 !important;
+    box-shadow: none !important;
+}
+
+.custom-input {
+    border-color: #a8b4c7ec !important;
+    border-radius: 4px!important;
+}
+.custom-input:hover {
+    border-color: #94a3b8 !important;
+}
+
+.custom-quill .ql-container.ql-snow {
+    border: 1px solid #ccc;
+}
+
+.custom-quill .ql-container.ql-snow:hover {
+    border-color: black;
+}

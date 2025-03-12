@@ -1,12 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useUserData } from "@/utils/encript_decript"
 import { useQuery } from "@tanstack/react-query"
-import { Plus, Upload, X } from "lucide-react"
+import { Plus, Upload, X, ChevronLeft, ChevronRight } from "lucide-react"
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -15,6 +17,7 @@ import useApiForPost from "@/app/hooks/useApiForPost"
 import uploadImage from "@/app/hooks/useUploadImage"
 
 import { EditModal } from "./CommonModal"
+import { Autoplay } from 'swiper/modules';
 
 const Resume = () => {
   const [editResumeOpen, setEditResumeOpen] = useState(false)
@@ -23,6 +26,8 @@ const Resume = () => {
   const [user] = useUserData()
   const [previewResume, setPreviewResume] = useState<any>(null)
   const { apiRequest } = useApiForPost()
+
+  const swiperRef = useRef<{ swiper: any }>(null);
 
   const {
     data: resumes = [],
@@ -89,74 +94,120 @@ const Resume = () => {
 
   return (
     <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Resume</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {isLoading ? (
-            <ResumeSkeleton />
-          ) : resumes.length === 0 ? (
-            <EmptyState
-              title="No resumes uploaded yet"
-              description="Upload your first resume to get started"
-              icon={<Upload className="h-10 w-10" />}
-              action={
-                <Button
-                  onClick={() => setEditResumeOpen(true)}
-                  variant="outline"
-                  className="gap-2"
-                >
-                  <Plus className="h-4 w-4" />
-                  Add New Resume
-                </Button>
-              }
-            />
-          ) : (
-            <div className="flex max-w-3xl gap-4 overflow-x-auto pb-4">
-              {resumes.map((resume: any, index: number) => (
-                <div
-                  onClick={() => {
-                    setPreviewResume(resume.resume_url)
-                  }}
-                  key={index}
-                  className="relative flex-shrink-0"
-                >
-                  <div className="absolute bottom-4 left-4 right-4 z-10 max-w-[180px] truncate rounded-md bg-black bg-opacity-75 px-3 py-1 text-center text-white">
-                    {resume.resume_name}
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      delete_resume(resume._id)
-                    }}
-                    className="absolute right-2 top-2 rounded-full bg-gray-100 p-1 transition-colors hover:bg-red-500"
+      <div>
+        <header>
+          <h2 className="font-semibold text-md pb-3">Resume</h2>
+        </header>
+        <div className="flex border-b items-center space-y-4 relative w-full h-[394px]">
+          <div className="w-full absolute  top-0 left-0 bottom-0 right-0">
+            {isLoading ? (
+              <ResumeSkeleton />
+            ) : resumes.length === 0 ? (
+              <EmptyState
+                title="No resumes uploaded yet"
+                description="Upload your first resume to get started"
+                icon={<Upload className="h-10 w-10" />}
+                action={
+                  <Button
+                    onClick={() => setEditResumeOpen(true)}
+                    variant="outline"
+                    className="gap-2"
                   >
-                    <X className="h-4 w-4" />
-                  </button>
-                  <iframe
-                    title={`Resume ${index + 1}`}
-                    src={`${resume.resume_url}#toolbar=0`}
-                    width="200px"
-                    height="282px"
-                    className="rounded-lg shadow-md"
-                  />
-                </div>
-              ))}
+                    <Plus className="h-4 w-4" />
+                    Add New Resume
+                  </Button>
+                }
+              />
+            ) : (
+              <Swiper
+                ref={swiperRef}
+                spaceBetween={30}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 10,
+                  },
+                }}
+                autoplay={{
+                  delay: 2500,
+                  disableOnInteraction: false,
+                }}
+                modules={[Autoplay]}
+                className="grid grid-cols-2 gap-4 pb-4"
+              >
+                {resumes.map((resume: any, index: number) => (
+                  <SwiperSlide className="pb-2" key={index}>
+                    <div
+                      onClick={() => {
+                        setPreviewResume(resume.resume_url)
+                      }}
+                      className="relative flex-shrink-0"
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          delete_resume(resume._id)
+                        }}
+                        className="absolute right-2 top-2 rounded-full bg-gray-100 p-1 transition-colors hover:bg-red-500"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                      <div className="mb-2 bottom-4 left-4 right-4 z-10 max-w-[180px] bg-opacity-75 py-1 text-start">
+                        {resume.resume_name}
+                      </div>
+                      <iframe
+                        title={`Resume ${index + 1}`}
+                        src={`${resume.resume_url}#toolbar=0`}
+                        height="282px"
+                        className="w-full rounded-lg shadow-md chat-bot"
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
+
+            <div className="flex items-center justify-between mt-2 px-2">
+              {/* <Button
+                onClick={() => setEditResumeOpen(true)}
+                variant="outline"
+                className="gap-2 "
+              >
+                <Plus className="h-4 w-4" />
+                Add New Resume
+              </Button> */}
+
+
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => swiperRef.current?.swiper?.slidePrev()}
+                  variant="outline"
+                  className=""
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  onClick={() => swiperRef.current?.swiper?.slideNext()}
+                  variant="outline"
+                  className=""
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          )}
-          {!isLoading && resumes.length > 0 && (
-            <Button
-              onClick={() => setEditResumeOpen(true)}
-              variant="outline"
-              className="gap-2"
-            >
-              <Plus className="h-4 w-4" />
-              Add New Resume
-            </Button>
-          )}
-        </CardContent>
-      </Card>
+
+          </div>
+        </div>
+      </div>
 
       <EditModal
         open={editResumeOpen}

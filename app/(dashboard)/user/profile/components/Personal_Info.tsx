@@ -72,6 +72,7 @@ import PersonalDetails from "./profile/PersonalDetails"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import PreferedLocation from "./PreferedLocation"
 import JobDetails from "./JobDetails"
+import ProfileTabs from "./profile/ProfileTabs"
 
 export default function ProfilePage() {
       const [user, setUserData] = useUserData()
@@ -355,6 +356,8 @@ export default function ProfilePage() {
             <div>
                   <div className="mb-14 grid grid-cols-1 gap-6 lg:mb-0 lg:grid-cols-[1fr_300px]">
                         <div className="space-y-6">
+                              <ProfileTabs />
+
                               <Tabs
                                     defaultValue={"basic_ifo"}
                                     onValueChange={handleTabChange}
