@@ -9,6 +9,7 @@ import { TailwindIndicator } from "@/components/TailwindIndicator"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import Navbar from "@/components/navbar/Navbar"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper"
+import BottomNav from "@/components/BottomNav"
 
 export const metadata: Metadata = {
       title: {
@@ -65,7 +66,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                               )}
                         >
                               <ThemeProvider attribute="class" enableSystem>
-                                    <div className="relative flex min-h-screen flex-col bg-light-theme dark:bg-dark-theme">
+                                    <div className="relative md:mb-0 mb-[60px] flex min-h-screen flex-col bg-light-theme dark:bg-dark-theme">
                                           <header className="sticky top-0 z-50">
                                                 <Navbar />
                                           </header>
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                                                 <ToastContainer />
                                           </main>
                                     </div>
+                                    <BottomNav />
                                     <TailwindIndicator />
                               </ThemeProvider>
                         </body>

@@ -72,7 +72,8 @@ const DisplayCardBox: React.FC = () => {
 
     return (
         <div>
-            <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4 mt-4">
+            <h1 className="text-xl md:hidden block font-semibold pb-2 mt-6 mb-2 border-b">Job Reports</h1>
+            <div className="md:grid w-full lg:grid-cols-4 md:grid-cols-2 !gap-4 mt-4">
                 <DisplayCardItem
                     title="Saved Jobs"
                     range={jobs.length}

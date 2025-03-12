@@ -59,8 +59,7 @@ const ApplySort = () => {
       }
 
       return (
-
-            <div className="col-span-2">
+            <div className="md:col-span-2">
                   <div className="overflow-hidden rounded-xl  border border-gray-200 ">
                         <div className="px-4 py-5 sm:p-6">
                               <div className="sm:flex sm:items-start sm:justify-between">
@@ -93,38 +92,32 @@ const ApplySort = () => {
                               </div>
                         </div>
 
-
-                        <div className="overflow-x-auto">
-                              <table className="min-w-full bg-white border border-gray-200">
+                        {/* Table for larger screens */}
+                        <div className="hidden md:block w-full overflow-x-auto">
+                              <table className="min-w-full bg-white border border-gray-200 table-auto">
                                     <thead>
-                                          <tr className="w-full bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                                                <th className="py-3 px-6 text-left">Company</th>
-                                                <th className="py-3 px-6 text-left">Position</th>
-                                                <th className="py-3 px-6 text-left">Job type</th>
-                                                <th className="py-3 px-6 text-left">Date</th>
-                                                <th className="py-3 px-6 text-left">Apply Status</th>
+                                          <tr className="bg-gray-100 text-gray-600 uppercase text-xs md:text-sm leading-normal">
+                                                <th className="py-3 px-4 md:px-6 text-left whitespace-nowrap">Company</th>
+                                                <th className="py-3 px-4 md:px-6 text-left whitespace-nowrap">Position</th>
+                                                <th className="py-3 px-4 md:px-6 text-left whitespace-nowrap">Job Type</th>
+                                                <th className="py-3 px-4 md:px-6 text-left whitespace-nowrap">Date</th>
+                                                <th className="py-3 px-4 md:px-6 text-left whitespace-nowrap">Apply Status</th>
                                           </tr>
                                     </thead>
-                                    <tbody className="!text-gray-800 text-sm font-light">
+                                    <tbody className="text-gray-800 text-xs md:text-sm font-light">
                                           {data?.data?.slice(0, 5)?.map((job, index) => (
-                                                <tr key={index} className="border-b border-gray-200 !text-gray-800 hover:bg-gray-100">
-                                                      <td className="py-3 font-[400] px-6 text-left whitespace-nowrap">
-                                                            {job.job_post.company_info.name}
-                                                      </td>
-                                                      <td className="py-3 font-[400] px-6 text-left">
-                                                            {job.job_post.job_title}
-                                                      </td>
-                                                      <td className="py-3 font-[400] px-6 text-left">
-                                                            {job?.job_post?.job_type}
-                                                      </td>
-                                                      <td className="py-3 font-[400] px-6 text-left">
+                                                <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
+                                                      <td className="py-3 px-4 md:px-6 text-left">{job.job_post.company_info.name}</td>
+                                                      <td className="py-3 px-4 md:px-6 text-left">{job.job_post.job_title}</td>
+                                                      <td className="py-3 px-4 md:px-6 text-left">{job?.job_post?.job_type}</td>
+                                                      <td className="py-3 px-4 md:px-6 text-left">
                                                             {new Date(job.created_at).toLocaleDateString("en-US", {
                                                                   year: "numeric",
                                                                   month: "long",
                                                                   day: "numeric",
                                                             })}
                                                       </td>
-                                                      <td className="py-3 font-[400] px-6 text-left">
+                                                      <td className="py-3 px-4 md:px-6 text-left">
                                                             <Badge className={getStatusColor(job.status)}>{job.status}</Badge>
                                                       </td>
                                                 </tr>
@@ -132,9 +125,33 @@ const ApplySort = () => {
                                     </tbody>
                               </table>
                         </div>
+
+                        {/* List for mobile screens */}
+                        <div className="block md:hidden w-ful mb-3">
+                              <ul className="divide-y divide-gray-200">
+                                    {data?.data?.slice(0, 5)?.map((job, index) => (
+                                          <li key={index} className="p-4">
+                                                <div className="flex items-center justify-between">
+                                                      <div>
+                                                            <p className="text-sm font-medium text-gray-900">{job.job_post.company_info.name}</p>
+                                                            <p className="text-sm text-gray-500">{job.job_post.job_title}</p>
+                                                            <p className="text-sm text-gray-500">{job?.job_post?.job_type}</p>
+                                                            <p className="text-sm text-gray-500">
+                                                                  {new Date(job.created_at).toLocaleDateString("en-US", {
+                                                                        year: "numeric",
+                                                                        month: "long",
+                                                                        day: "numeric",
+                                                                  })}
+                                                            </p>
+                                                            <Badge className={getStatusColor(job.status)}>{job.status}</Badge>
+                                                      </div>
+                                                </div>
+                                          </li>
+                                    ))}
+                              </ul>
+                        </div>
                   </div>
             </div>
-
       );
 }
 

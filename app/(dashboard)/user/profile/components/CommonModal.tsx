@@ -33,7 +33,7 @@ export function EditModal({
                   <Dialog open={open} onOpenChange={onOpenChange}>
                         <form >
                               <DialogContent
-                                    onOpenAutoFocus={(e)=> e.preventDefault()}
+                                    onOpenAutoFocus={(e) => e.preventDefault()}
                               >
                                     <DialogHeader>
                                           <DialogTitle className="text-start">{title}</DialogTitle>
@@ -42,7 +42,7 @@ export function EditModal({
                                           )}
                                     </DialogHeader>
                                     <div
-                                          className="z-50 max-h-[500px] overflow-y-auto "
+                                          className="z-50 max-h-[500px] overflow-y-auto px-1"
                                           style={{ scrollbarWidth: "none" }}
                                     >
                                           {children}

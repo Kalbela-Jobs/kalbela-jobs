@@ -34,7 +34,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
       const [userDatas, setUserDatas] = useState<any>([]);
       const [loading, setLoading] = useState<boolean>(false);
       const [error, setError] = useState<any>(null);
-
+      const [isOpen, setIsOpen] = useState(true)
       useEffect(() => {
             const fetchUserData = async () => {
                   setLoading(true);
@@ -98,75 +98,94 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
             <div>
 
 
-                  <div className="min-h-screen  bg-background">
+                  <div id="home" className="min-h-screen  bg-light-theme">
 
 
-                        <div className="flex border  py-2 px-4 rounded-t-md fixed right-0 bottom-0 items-center justify-center gap-2">
-                              <span className="text-sm text-muted-foreground">Powered by</span>
-                              <div className="flex items-center">
-                                    <Image
-                                          src="/icons/logo.svg"
-                                          alt="Kalbela Jobs Logo"
-                                          width={70}
-                                          height={70}
-                                          className="mr-1"
-                                    />
-                              </div>
-                        </div>
+
 
 
                         {/* Header */}
-                        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                              <div className="md:container flex h-16 items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                          <Avatar className="h-10 w-10 uppercase">
-                                                <AvatarImage
-                                                      src={userData?.profile_picture || "/placeholder.svg?height=32&width=32"}
-                                                      alt={userData?.fullName || "Profile"}
-                                                />
-                                                <AvatarFallback>{userData?.fullName ? userData?.fullName.charAt(0) : "K"}</AvatarFallback>
-                                          </Avatar>
-                                          <span className="font-semibold">{userData?.fullName || userData?.fullName}</span>
+                        <header className="sticky flex items-center  top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                              <div className="w-full mt-3">
+                                    <div className={`container  flex md:!h-[60px] !h-[40px] overflow-hidden items-center justify-between`}>
+                                          <div className="flex items-center gap-2">
+                                                <Avatar className="h-10 w-10 uppercase">
+                                                      <AvatarImage
+                                                            src={userData?.profile_picture || "/placeholder.svg?height=32&width=32"}
+                                                            alt={userData?.fullName || "Profile"}
+                                                      />
+                                                      <AvatarFallback>{userData?.fullName ? userData?.fullName.charAt(0) : "K"}</AvatarFallback>
+                                                </Avatar>
+                                                <span className="font-semibold">{userData?.fullName || userData?.fullName}</span>
+                                          </div>
+                                          <nav className="hidden md:flex gap-6">
+                                                <Link href="#home" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      About
+                                                </Link>
+                                                <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      About
+                                                </Link>
+                                                <Link href="#experience" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Experience
+                                                </Link>
+                                                <Link href="#education" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Education
+                                                </Link>
+                                                <Link href="#skills" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Skills
+                                                </Link>
+                                                <Link href="#contact" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Contact
+                                                </Link>
+                                          </nav>
+
+                                          <Button asChild size="sm" className="hidden md:inline-flex">
+                                                <Link href="#contact">Contact Me</Link>
+                                          </Button>
+                                          <Button
+                                                onClick={() => setIsOpen(!isOpen)}
+                                                variant="outline" size="icon" className="md:hidden">
+                                                <svg
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                      width="24"
+                                                      height="24"
+                                                      viewBox="0 0 24 24"
+                                                      fill="none"
+                                                      stroke="currentColor"
+                                                      strokeWidth="2"
+                                                      strokeLinecap="round"
+                                                      strokeLinejoin="round"
+                                                      className="h-6 w-6"
+                                                >
+                                                      <line x1="4" x2="20" y1="12" y2="12" />
+                                                      <line x1="4" x2="20" y1="6" y2="6" />
+                                                      <line x1="4" x2="20" y1="18" y2="18" />
+                                                </svg>
+                                                <span className="sr-only">Toggle menu</span>
+                                          </Button>
                                     </div>
-                                    <nav className="hidden md:flex gap-6">
-                                          <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4">
-                                                About
-                                          </Link>
-                                          <Link href="#experience" className="text-sm font-medium hover:underline underline-offset-4">
-                                                Experience
-                                          </Link>
-                                          <Link href="#education" className="text-sm font-medium hover:underline underline-offset-4">
-                                                Education
-                                          </Link>
-                                          <Link href="#skills" className="text-sm font-medium hover:underline underline-offset-4">
-                                                Skills
-                                          </Link>
-                                          <Link href="#contact" className="text-sm font-medium hover:underline underline-offset-4">
-                                                Contact
-                                          </Link>
-                                    </nav>
-                                    <Button asChild size="sm" className="hidden md:inline-flex">
-                                          <Link href="#contact">Contact Me</Link>
-                                    </Button>
-                                    <Button variant="outline" size="icon" className="md:hidden">
-                                          <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                className="h-6 w-6"
-                                          >
-                                                <line x1="4" x2="20" y1="12" y2="12" />
-                                                <line x1="4" x2="20" y1="6" y2="6" />
-                                                <line x1="4" x2="20" y1="18" y2="18" />
-                                          </svg>
-                                          <span className="sr-only">Toggle menu</span>
-                                    </Button>
+                                    {<div className={`container mt-3 ${isOpen ? 'h-[0px] duration-300' : 'h-[100vh] duration-300'} overflow-hidden`}>
+                                          <nav className="flex md:hidden flex-col gap-6">
+                                                <Link onClick={() => setIsOpen(!isOpen)} href="#home" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Home
+                                                </Link>
+                                                <Link onClick={() => setIsOpen(!isOpen)} href="#about" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      About
+                                                </Link>
+                                                <Link onClick={() => setIsOpen(!isOpen)} href="#experience" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Experience
+                                                </Link>
+                                                <Link onClick={() => setIsOpen(!isOpen)} href="#education" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Education
+                                                </Link>
+                                                <Link onClick={() => setIsOpen(!isOpen)} href="#skills" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Skills
+                                                </Link>
+                                                <Link onClick={() => setIsOpen(!isOpen)} href="#contact" className="text-sm font-medium hover:underline underline-offset-4">
+                                                      Contact
+                                                </Link>
+                                          </nav>
+                                    </div>}
                               </div>
                         </header>
 
@@ -174,7 +193,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                               {/* Hero Section */}
                               <section className="grid gap-8 md:grid-cols-2 items-center py-8 md:py-12">
                                     <div className="space-y-4">
-                                          <h1 className="text-4xl font-bold tracking-tight">{userData?.fullName || userData?.name}</h1>
+                                          <h1 className="text-4xl font-bold tracking-tight">{userData?.fullName || userData?.fullName}</h1>
                                           <h2 className="text-2xl font-medium text-muted-foreground">{userData?.title || ""}</h2>
                                           {userData?.description && <div className="text-muted-foreground">{renderHTML(userData?.description)}</div>}
                                           <div className="flex gap-4">
@@ -194,7 +213,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                                           <div className="relative w-64 h-64 overflow-hidden rounded-full border-4 border-primary/20">
                                                 <Image
                                                       src={userData?.profile_picture || "/placeholder.svg?height=256&width=256"}
-                                                      alt={userData?.name || "Profile"}
+                                                      alt={userData?.fullName || "Profile"}
                                                       fill
                                                       className="object-cover"
                                                       priority
@@ -206,7 +225,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                               {/* About Section */}
                               <section id="about" className="py-8 md:py-12 scroll-mt-16">
                                     <h2 className="text-3xl font-bold mb-8">About Me</h2>
-                                    <div className="grid gap-8 md:grid-cols-3">
+                                    <div className="grid md:gap-8 gap-3 md:grid-cols-3">
                                           <Card className="md:col-span-2">
                                                 <CardHeader>
                                                       <CardTitle>Career Objective</CardTitle>
@@ -305,7 +324,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                               </section>
 
                               {/* Experience Section */}
-                              <section id="experience" className="py-8 md:py-12 scroll-mt-16">
+                              <section id="experience" className="pb-8 pt-2 ">
                                     <h2 className="text-3xl font-bold mb-8">Work Experience</h2>
                                     {userData?.experience && userData?.experience.length > 0 ? (
                                           <div className="grid gap-6">
@@ -359,7 +378,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                               </section>
 
                               {/* Education Section */}
-                              <section id="education" className="py-8 md:py-12 scroll-mt-16">
+                              <section id="education" className="pb-8 pt-2">
                                     <h2 className="text-3xl font-bold mb-8">Education</h2>
                                     {userData?.education && userData?.education.length > 0 ? (
                                           <div className="grid gap-6 md:grid-cols-2">
@@ -394,8 +413,8 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                               </section>
 
                               {/* Skills & Certifications Section */}
-                              <section id="skills" className="py-8 md:py-12 scroll-mt-16">
-                                    <div className="grid gap-8 md:grid-cols-2">
+                              <section id="skills" className="pb-8 pt-2">
+                                    <div className="grid md:gap-8 gap-6 md:grid-cols-2">
                                           <div>
                                                 <h2 className="text-3xl font-bold mb-8">Skills</h2>
                                                 {userData?.skills && userData?.skills.skills && userData?.skills.skills.length > 0 ? (
@@ -427,7 +446,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                                                                         <CardContent className="py-6">
                                                                               <div className="flex justify-between items-center">
                                                                                     <div>
-                                                                                          <h3 className="font-medium">{cert.name}</h3>
+                                                                                          <h3 className="font-medium">{cert.fullName}</h3>
                                                                                           <p className="text-sm text-muted-foreground">Year: {cert.year}</p>
                                                                                     </div>
                                                                                     {cert.file && (
@@ -455,7 +474,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                               {/* border */}
 
                               {/* Contact Section */}
-                              <section id="contact" className="py-8 md:py-12 scroll-mt-16 md:w-auto w-[300px] overflow-hidden">
+                              <section id="contact" className="py-4 md:py-12  md:w-auto w-[300px] overflow-">
                                     <h2 className="text-3xl font-bold mb-8">Contact Me</h2>
                                     <div className="grid gap-8 md:grid-cols-2">
                                           <Card>
@@ -573,7 +592,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                         <footer className="border-t py-6 md:py-8">
                               <div className="container flex flex-col items-center justify-center gap-4 text-center md:flex-row md:justify-between">
                                     <p className="text-sm text-muted-foreground">
-                                          &copy; {new Date().getFullYear()} {userData?.name || userData?.name}. All rights reserved.
+                                          &copy; {new Date().getFullYear()} {userData?.fullName || userData?.fullName}. All rights reserved.
                                     </p>
                                     <div className="flex gap-4">
                                           {userData?.social_links && userData?.social_links.length > 0 && (
@@ -591,7 +610,18 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                         </footer>
 
                   </div>
-
+                  <div className="flex border bg-gray-50 text-white border-gray-200 py-2 px-4 rounded-t-md  items-center justify-center gap-2">
+                        <span className="text-sm text-muted-foreground">Powered by</span>
+                        <div className="flex items-center">
+                              <Image
+                                    src="/icons/logo.svg"
+                                    alt="Kalbela Jobs Logo"
+                                    width={70}
+                                    height={70}
+                                    className="mr-1"
+                              />
+                        </div>
+                  </div>
             </div>
       );
 };

@@ -2,9 +2,7 @@
 import { decryptId } from '@/utils/encriptDecriptGenarator';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Image from 'next/image';
-import { Facebook, Github, Linkedin } from 'lucide-react';
-import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileAbout from '../components/profile/ProfileAbout';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -16,7 +14,6 @@ import ProfileAddress from '../components/profile/ProfileAddress';
 import ProfileSkill from '../components/profile/ProfileSkills';
 import ProfileExperience from '../components/profile/ProfileExperience';
 import ProfileCertifications from '../components/profile/ProfileCertifications';
-import { useSearchParams } from 'next/navigation';
 
 interface ShareProfilePageProps {
     params: {
@@ -29,6 +26,9 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
     const [userData, setUserData] = useState<any>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<any>(null);
+    const query = useSearchParams();
+    const initialTab = query.get('tab') || 'overview';
+    const [activeTab, setActiveTab] = useState<string>(initialTab);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -46,14 +46,11 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
         fetchUserData();
     }, [decryptedId]);
 
+    const handleTabChange = (value: string) => {
+        setActiveTab(value);
+    };
 
-    const user = userData?.data; const query = useSearchParams();
-    const queryParams: Record<string, string | null> = {};
-    query.forEach((value, key) => {
-        queryParams[key] = value;
-    });
-
-    console.log("------user...");
+    const user = userData?.data;
 
     return (
         <div>
@@ -64,7 +61,7 @@ const ShareProfilePage: React.FC<ShareProfilePageProps> = ({ params: { id } }) =
                     <div className="grid lg:grid-cols-3 gap-4">
                         <div className="col-span-2">
                             <ProfileHeader user={user} />
-                            <Tabs className="mt-5" defaultValue="overview">
+                            <Tabs className="mt-5" value={activeTab} onValueChange={handleTabChange}>
                                 <TabsList className="flex justify-start space-x-2 p-0 border-b !rounded-none border-gray-300 !bg-transparent">
                                     <TabsTrigger value="overview" className="px-4 py-2 !rounded-t-lg !rounded-b-[2px] data-[state=active]:bg-primary_blue data-[state=active]:text-white text-primary_blue">
                                         Overview

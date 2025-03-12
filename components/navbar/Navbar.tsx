@@ -115,14 +115,14 @@ const Navbar: React.FC = () => {
                                           >
                                                 Registration
                                           </SecondaryBtn>
-                                          <Button
-                                                className="whitespace-nowrap !bg-[#001968] w-[120px] px-4 py-2 size-10"
+                                          <PrimaryBtn
+                                                className="px-4 py-2"
                                                 onClick={() =>
                                                       window.open("https://app.kalbelajobs.com/admin", "_blank")
                                                 }
                                           >
                                                 For Employers
-                                          </Button>
+                                          </PrimaryBtn>
                                     </div>
                               )}
 

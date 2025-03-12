@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
                                           <div className="flex justify-start space-x-3">
                                                 <Link
                                                       rel="noopener noreferrer"
-                                                      href="#"
+                                                      href="https://www.facebook.com/kalbelajobs/"
                                                       title="Facebook"
                                                       className="flex items-center p-1"
                                                 >
@@ -108,7 +108,7 @@ const Footer: React.FC = () => {
                                                 </Link>
                                                 <Link
                                                       rel="noopener noreferrer"
-                                                      href="#"
+                                                      href="https://www.instagram.com/kalbelajobs/"
                                                       title="Instagram"
                                                       className="flex items-center p-1"
                                                 >
@@ -120,7 +120,7 @@ const Footer: React.FC = () => {
                                                 </Link>
                                                 <Link
                                                       rel="noopener noreferrer"
-                                                      href="#"
+                                                      href="https://www.linkedin.com/company/kalbelajobs/"
                                                       title="Linkedin"
                                                       className="flex items-center p-1"
                                                 >

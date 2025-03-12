@@ -72,12 +72,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                                     </header>
                                     <MaxWidthWrapper>
                                           <div className="mx-auto flex flex-col lg:flex-row">
-                                                <div className="w-full lg:fixed lg:h-screen lg:w-[250px]">
-                                                      <aside className="hidden min-h-screen w-64 shrink-0 border-r lg:block">
+                                                <div className="w-full  lg:fixed lg:h-screen lg:w-[250px]">
+                                                      <aside className="hidden  min-h-screen w-64 shrink-0 border-r lg:block">
                                                             <Sidebar />
                                                       </aside>
                                                 </div>
-                                                <main className="mx-auto w-auto flex-1  p-0 px-0 sm:px-6 md:px-8 lg:pl-[270px] pt-4">
+                                                <main className="mx-auto w-auto flex-1 overflow-x-hidden p-0 px-0 sm:px-6 md:px-8 lg:pl-[270px] pt-4">
                                                       {children}
                                                       <ToastContainer />
                                                 </main>

@@ -136,7 +136,7 @@ const UserActivity = () => {
       )
 
       return (
-            <div className="">
+            <div className="md:mt-0 mt-3">
                   <Card className="overflow-hidden rounded-xl border border-gray-200 ">
                         <CardHeader>
                               <CardTitle className="flex justify-between items-center">

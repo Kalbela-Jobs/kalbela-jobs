@@ -149,12 +149,23 @@ const Experience = () => {
   }
 
   return (
-    <div>
+    <div className="mb-4">
       <Card>
-        <CardHeader>
-          <CardTitle>Experience</CardTitle>
+        <CardHeader className="md:!pt-6 !pt-4  md:!px-6 !px-4">
+          <div className="flex items-center justify-between">
+            <CardTitle>Experience</CardTitle>
+            <Button
+              size={'sm'}
+              className={'!bg-primary !text-white gap-2'}
+              variant="outline"
+              onClick={() => openEditModal(null)}
+            >
+              <Pencil className="h-4 w-4" />
+              Add Experience
+            </Button>
+          </div>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 md:pb-3 !pb-3 !pt-2  md:!px-6 !px-4">
           {isLoading ? (
             <p>Loading experiences...</p>
           ) : error ? (
@@ -169,36 +180,63 @@ const Experience = () => {
                 Get started by adding a new experience.
               </p>
               <div className="mt-6">
-                <Button onClick={() => openEditModal(null)}>
+
+                <Button
+                  size={'sm'}
+                  className={'!bg-primary !text-white gap-2'}
+                  variant="outline"
+                  onClick={() => openEditModal(null)}
+                >
                   <PlusCircle className="mr-2 h-4 w-4" />
-                  Add experience
+                  Add Experience
                 </Button>
               </div>
             </div>
           ) : (
             <>
               {experiences.map((experience: any) => (
-                <div
-                  key={experience._id}
-                  className="flex items-start justify-between gap-4"
-                >
-                  <div className="flex items-start gap-4">
-                    <GraduationCap className="mt-1 h-5 w-5" />
-                    <div>
-                      <h3 className="font-medium">{experience.title}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {experience.companyName}, {experience.location}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {experience.startDate.month} {experience.startDate.year}{" "}
-                        -{" "}
-                        {experience.currentlyWorking
-                          ? "Present"
-                          : `${experience.endDate?.month} ${experience.endDate?.year}`}
-                      </p>
+                <div key={experience._id} className="">
+                  <div
+                    className="flex items-start justify-between gap-4"
+                  >
+                    <div className="flex items-start gap-4">
+                      <GraduationCap className="md:block hidden mt-1 h-5 w-5" />
+                      <div>
+                        <h3 className="font-medium">{experience.title}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {experience.companyName}, {experience.location}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {experience.startDate.month} {experience.startDate.year}{" "}
+                          -{" "}
+                          {experience.currentlyWorking
+                            ? "Present"
+                            : `${experience.endDate?.month} ${experience.endDate?.year}`}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="lg:flex hidden gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => openEditModal(experience)}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          setFormData((prev) => ({ ...prev, id: experience._id }))
+                          handleExperienceAction("delete")
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+
+                  <div className="lg:hidden flex gap-2">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -218,15 +256,9 @@ const Experience = () => {
                     </Button>
                   </div>
                 </div>
+
               ))}
-              <Button
-                variant="outline"
-                className="gap-2"
-                onClick={() => openEditModal(null)}
-              >
-                <Pencil className="h-4 w-4" />
-                Add Experience
-              </Button>
+
             </>
           )}
         </CardContent>
