@@ -51,6 +51,8 @@ const fetchCities = async (divisionId: string): Promise<Option[]> => {
       }))
 }
 
+
+
 const Address = () => {
       const { theme } = useTheme()
       const [user, setUserData] = useUserData()
@@ -166,6 +168,7 @@ const Address = () => {
                         <div>
                               {Object.values(addressData).some((field) => field) ? (
                                     <div className="space-y-4 text-gray-600 dark:text-slate-200">
+                                          {/* @ts-ignore */}
                                           <ProfileAddressTable data={addressData} />
                                           <Button className="!bg-primary !text-white" onClick={() => setEditAddressOpen(true)} variant="outline">
                                                 <Pencil className="mr-2 h-4 w-4" />
