@@ -1,10 +1,11 @@
 import React from 'react';
 
 interface Address {
-    value: number;
-    label: string;
+    value: any;
+    label: any;
 }
 
+// @ts-ignore
 interface AddressData {
     presentCountry: Address;
     presentDivision: Address;
