@@ -1,8 +1,9 @@
+'use client';
+import { useTheme } from "next-themes"
 import Link from "next/link"
-
 import MaxWidthWrapper from "../MaxWidthWrapper"
-
 const Footer: React.FC = () => {
+      const { theme } = useTheme()
       return (
             <footer className="bg-[#f2f2f2] py-8 text-[#616161] dark:border-t dark:border-t-gray-500 dark:bg-transparent">
                   <MaxWidthWrapper className="z-50 divide-y">
@@ -14,7 +15,9 @@ const Footer: React.FC = () => {
                                           className="flex justify-center space-x-3 lg:justify-start"
                                     >
                                           <div>
-                                                <img className="h-auto w-48" src="/logo.png" alt="logo" />
+                                                <img className="h-auto w-48"
+                                                      src={theme === "dark" ? "/logo_dark.png" : "/icons/logo.svg"}
+                                                      alt="logo" />
                                           </div>
                                     </Link>
                               </div>

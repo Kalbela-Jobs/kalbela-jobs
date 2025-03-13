@@ -15,6 +15,10 @@ import { EditModal } from "./CommonModal"
 import { Checkbox } from "@/components/ui/checkbox"
 import { set_user_data, useUserData } from "@/utils/encript_decript"
 import useApiForPost from "@/app/hooks/useApiForPost"
+import dynamic from "next/dynamic"
+import "react-quill/dist/quill.snow.css"
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false })
 
 
 type Option = {
@@ -243,14 +247,7 @@ const Address = () => {
       }
 
       return (
-            <div className="mb-4">
-                  <div className="flex justify-end mb-4">
-
-                        <Button className="!bg-primary !text-white" onClick={() => setEditAddressOpen(true)} variant="outline">
-                              <Pencil className="mr-2 h-4 w-4" />
-                              Edit
-                        </Button>
-                  </div>
+            <div className="mb-4 px-4 py-2 w-full">
                   <div>
                         <div className="flex justify-between items-center mb-4">
                               <h3 className="font-bold text-lg">Present Address:</h3>
@@ -260,6 +257,12 @@ const Address = () => {
                               <h3 className="font-bold text-lg">Permanent Address:</h3>
 
                         </div>
+
+                        <Button className="!bg-primary !text-white" onClick={() => setEditAddressOpen(true)} variant="outline">
+                              <Pencil className="mr-2 h-4 w-4" />
+                              Edit
+                        </Button>
+
                         {Object.values(addressData).some((field) => field) ? (
                               <div className="space-y-4 text-gray-600 dark:text-slate-200">
                                     {/* <ProfileAddressTable data={addressData} /> */}
@@ -277,7 +280,7 @@ const Address = () => {
 
                   {editAddressOpen && (
                         <EditModal className="max-w-4xl" open={editAddressOpen} onOpenChange={setEditAddressOpen} title="Edit Address">
-                              <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-6">
+                              <form onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-6 mt-3">
 
                                     <div>
                                           <Label className="mb-2">Present Address</Label>
@@ -288,7 +291,7 @@ const Address = () => {
                                                             name="addressType"
                                                             checked={insideBangladesh}
                                                             onChange={() => setInsideBangladesh(true)}
-                                                            className="form-radio"
+                                                            className="form-radio !border-gray-900"
                                                       />
                                                       <span className="ml-2">Inside Bangladesh</span>
                                                 </label>
@@ -303,16 +306,25 @@ const Address = () => {
                                                       <span className="ml-2">Outside Bangladesh</span>
                                                 </label>
                                           </div>
-                                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                                                 {!insideBangladesh && (
-                                                      <Select className="w-full whitespace-nowrap" options={countries} value={addressData.presentCountry} onChange={(option) => setAddressData((prev) => ({ ...prev, presentCountry: option }))} isLoading={loadingCountries} placeholder="Select Country" styles={customStyles} />
+                                                      <Select className="w-full  whitespace-nowrap" options={countries} value={addressData.presentCountry} onChange={(option) => setAddressData((prev) => ({ ...prev, presentCountry: option }))} isLoading={loadingCountries} placeholder="Select Country" styles={customStyles} />
                                                 )}
                                                 <Select className="w-full whitespace-nowrap" options={presentDivisions} value={addressData.presentDivision} onChange={(option) => setAddressData((prev) => ({ ...prev, presentDivision: option }))} isLoading={loadingPresentDivisions} placeholder="Select Division" styles={customStyles} />
                                                 <Select className="w-full whitespace-nowrap" options={presentCities} value={addressData.presentCity} onChange={(option) => setAddressData((prev) => ({ ...prev, presentCity: option }))} isLoading={loadingPresentCities} placeholder="Select City" styles={customStyles} />
                                                 <Select className="w-full whitespace-nowrap" options={presentAreas} value={addressData.presentArea} onChange={(option) => setAddressData((prev) => ({ ...prev, presentArea: option }))} isLoading={loadingPresentAreas} placeholder="Select Area" styles={customStyles} />
 
                                           </div>
-                                          <textarea value={addressData.presentPostalCode} onChange={(e) => setAddressData((prev) => ({ ...prev, presentPostalCode: e.target.value }))} placeholder="Postal Code" className="input w-full mt-2 px-2 py-0.5 border rounded input-bordered" />
+
+                                          <div className="mt-4">
+                                                <ReactQuill
+                                                      value={addressData?.presentPostalCode}
+                                                      onChange={(value: string) => setAddressData((prev: any) => ({ ...prev, presentPostalCode: value }))}
+                                                      placeholder="Postal Code..."
+                                                />
+
+                                          </div>
+                                          {/* <textarea value={addressData.presentPostalCode} placeholder="Postal Code" className="input w-full mt-2 px-2 py-0.5 border rounded input-bordered" /> */}
                                     </div>
 
                                     <div>
@@ -323,7 +335,7 @@ const Address = () => {
                                                       <Checkbox className="ml-2" checked={sameAsPresent} onCheckedChange={handleSameAsPresent} />
                                                 </Label>
                                           </div>
-                                          <div className="flex my-2 items-center">
+                                          {!sameAsPresent && <div className="flex my-2 items-center">
                                                 <label className="flex items-center mr-4">
                                                       <input
                                                             type="radio"
@@ -344,7 +356,7 @@ const Address = () => {
                                                       />
                                                       <span className="ml-2">Outside Bangladesh</span>
                                                 </label>
-                                          </div>
+                                          </div>}
                                           {!sameAsPresent && (
                                                 <div >
                                                       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -355,7 +367,15 @@ const Address = () => {
                                                             <Select options={permanentCities} value={addressData.permanentCity} onChange={(option) => setAddressData((prev) => ({ ...prev, permanentCity: option }))} isLoading={loadingPermanentCities} placeholder="Select City" styles={customStyles} />
                                                             <Select options={permanentAreas} value={addressData.permanentArea} onChange={(option) => setAddressData((prev) => ({ ...prev, permanentArea: option }))} isLoading={loadingPermanentAreas} placeholder="Select Area" styles={customStyles} />
                                                       </div>
-                                                      <textarea value={addressData.permanentPostalCode} onChange={(e) => setAddressData((prev) => ({ ...prev, permanentPostalCode: e.target.value }))} placeholder="Postal Code" className="input w-full mt-2 px-2 py-0.5 border rounded input-bordered" />
+                                                      <div className="mt-4">
+                                                            <ReactQuill
+                                                                  value={addressData?.permanentPostalCode}
+                                                                  onChange={(value: string) => setAddressData((prev: any) => ({ ...prev, permanentPostalCode: value }))}
+                                                                  placeholder="Postal Code..."
+                                                            />
+
+                                                      </div>
+                                                      {/* <textarea value={addressData.permanentPostalCode} onChange={(e) => setAddressData((prev) => ({ ...prev, permanentPostalCode: e.target.value }))} placeholder="Postal Code" className="input w-full mt-2 px-2 py-0.5 border rounded input-bordered" /> */}
                                                 </div>
                                           )}
                                     </div>
