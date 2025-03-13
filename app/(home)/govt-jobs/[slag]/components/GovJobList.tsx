@@ -4,6 +4,7 @@ import { Select, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { User } from 'lucide-react';
 import { Star } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react'
 
 interface JobListProptype {
@@ -31,7 +32,8 @@ const GovJobList: React.FC<JobListProptype> = ({ all_org_jobs_loading = false, a
                         ))
                         :
                         all_org_jobs?.data?.map((org: any) => (
-                              <div
+                              <Link
+                                    href={`/govt-jobs/${org?.jobs[0]?._id}`}
                                     key={org._id}
                                     className="flex flex-col mb-2 justify-between rounded-lg border bg-white p-4 shadow-sm transition-all hover:shadow-md"
                               >
@@ -78,7 +80,7 @@ const GovJobList: React.FC<JobListProptype> = ({ all_org_jobs_loading = false, a
                                                 )}
                                           </div>
                                     </div>
-                              </div>
+                              </Link>
                         ))}
             </div>
       );
