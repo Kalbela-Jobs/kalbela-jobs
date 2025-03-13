@@ -26,7 +26,7 @@ const Page = () => {
       }
 
       return (
-            <div className="min-h-screen bg-gray-50 py-8">
+            <div className="min-h-screen bg-light-theme  dark:bg-dark-theme py-8">
                   <div className="container mx-auto px-4">
                         <h1 className="mb-8 text-center text-3xl font-bold">
                               <img
@@ -38,7 +38,7 @@ const Page = () => {
                         </h1>
 
                         <div className="mb-6 flex items-center justify-between">
-                              <div className="relative w-full max-w-md">
+                              <div className="relative bg-gray-50 rounded-md w-full max-w-md">
                                     <Input
                                           type="text"
                                           placeholder="Search organizations..."
