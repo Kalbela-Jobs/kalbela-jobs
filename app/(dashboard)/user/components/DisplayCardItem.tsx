@@ -24,14 +24,14 @@ const DisplayCardItem: React.FC<DisplayTabBoxProps> = ({
                   href={url}>
                   <div
                         style={{ backgroundColor: color }}
-                        className={`px-4 py-3 relative h-[140px] md:mb-0 !mb-4 bg-indigo-500" text-white rounded-lg flex gap-3 items-center`}>
+                        className={`px-4 py-3 relative h-[90px] md:mb-0 !mb-4 bg-indigo-500" text-white rounded-lg flex gap-3 items-center`}>
                         <div className="pr-2">
                               <h2 className="text-4xl font-semibold">
                                     {percentage}
                               </h2>
                         </div>
                         <div className="text-sm font-medium w-full text-white">
-                              <h2 className="font-semibold text-2xl">{title}</h2>
+                              <h2 className="font-semibold text-xl">{title}</h2>
                               <div className="flex items-center gap-1 hover:text-primary duration-300">
                                     View <ArrowRight strokeWidth={1.5} className="w-4 h-4" />
                               </div>

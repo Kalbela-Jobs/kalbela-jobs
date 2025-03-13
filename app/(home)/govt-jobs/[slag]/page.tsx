@@ -1,8 +1,8 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import Link from "next/link"
-import { Calendar, Eye, Globe, Star, User, Users } from "lucide-react"
+import { ArrowUpRight, BookmarkPlus, Calendar, CheckCircle, Download, Eye, Globe, Share2, X, } from "lucide-react"
 import { format } from "date-fns"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -21,6 +21,7 @@ import GovJobHeadLine from "./components/GovJobHeadLine"
 import GovJobList from "./components/GovJobList"
 import Image from "next/image"
 import GovJobHeader from "./components/GovJobHeader"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 
 const Page = ({ params }: { params: { slag: string } }) => {
       const { data: singleJobData, loading: singleJobLoading } = useApiRequest<Record<string, any>>(
@@ -32,6 +33,7 @@ const Page = ({ params }: { params: { slag: string } }) => {
 
       const [relatedJobs, setRelatedJobs] = React.useState<any>(null);
       const [relatedJobsLoading, setRelatedJobsLoading] = React.useState(false);
+      const [applyModalOpen, setApplyModalOpen] = React.useState(false);
 
       React.useEffect(() => {
             const fetchRelatedJobs = async () => {
@@ -54,7 +56,24 @@ const Page = ({ params }: { params: { slag: string } }) => {
             fetchRelatedJobs();
       }, [singleJobData?.data?.organization?.id, params.slag]);
 
-
+      const [pdfModalOpen, setPdfModalOpen] = useState(false)
+      const handleShare = async () => {
+            if (singleJobData?.data && navigator.share) {
+                  try {
+                        await navigator.share({
+                              title: singleJobData?.data?.title,
+                              text: `${singleJobData?.data?.title} - ${singleJobData?.data?.organization?.name}`,
+                              url: window.location.href,
+                        })
+                  } catch (error) {
+                        console.error("Error sharing:", error)
+                  }
+            } else {
+                  // Fallback for browsers that don't support the Web Share API
+                  navigator.clipboard.writeText(window.location.href)
+                  alert("Link copied to clipboard!")
+            }
+      }
 
 
       const get_org_all_jobs = (jobs: any) => {
@@ -77,6 +96,10 @@ const Page = ({ params }: { params: { slag: string } }) => {
             }
       ]
 
+      const handleDownload = () => {
+            window.open(singleJobData?.data?.pdf_url, "_blank")
+      }
+
       return (
             <section className="">
                   <MaxWidthWrapper>
@@ -85,7 +108,7 @@ const Page = ({ params }: { params: { slag: string } }) => {
                   </MaxWidthWrapper>
                   <MaxWidthWrapper>
                         <div className="mt-3">
-                              <div className=" p-2 grid md:grid-cols-4 gap-2">
+                              <div className=" grid md:grid-cols-4 gap-2">
                                     {/* aside */}
                                     <div className="">
                                           <GovJobList
@@ -98,35 +121,47 @@ const Page = ({ params }: { params: { slag: string } }) => {
                                     <div className={`md:col-span-3 ${addItem.length > 0 ? 'grid' : ''} md:grid-cols-4 gap-2  `}>
                                           <div className="md:col-span-3 ">
                                                 {singleJobData?.data && <GovJobHeader data={singleJobData?.data} />}
-                                                <div className="">
+                                                {console.log(singleJobData?.data)}
+                                                <div className="grid grid-cols-5 my-2 gap-3 w-full ">
+                                                      <Link href={singleJobData?.data.hyperlink || "#"} className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-white bg-[#001968]">
+                                                            <ArrowUpRight className="h-4 w-4" />
+                                                            <span>Apply</span>
+                                                      </Link>
 
-                                                      <div
-                                                            dangerouslySetInnerHTML={{ __html: singleJobData?.data?.description }}
-                                                            className="jodit-editor text-muted-foreground whitespace-break-spaces w-auto dark:prose-invert"
+                                                      <Button onClick={handleShare} variant="outline" className="w-full flex items-center justify-center gap-2">
+                                                            <Share2 className="h-4 w-4" />
+                                                            <span>Refer Job</span>
+                                                      </Button>
+
+                                                      <Button variant="secondary" className="w-full flex items-center justify-center gap-2">
+                                                            <BookmarkPlus className="h-4 w-4" />
+                                                            <span>Save</span>
+                                                      </Button>
+
+                                                      <Button onClick={() => setPdfModalOpen(true)} variant="secondary" className="w-full flex items-center justify-center gap-2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-down-to-line h-4 w-4"><path d="M12 17V3" /><path d="m6 11 6 6 6-6" /><path d="M19 21H5" /></svg>
+                                                            <span>Download Pdf</span>
+                                                      </Button>
+                                                      <Button variant="secondary" className="w-full flex items-center justify-center gap-2">
+                                                            <Eye className="h-4 w-4" />
+                                                            <span>{singleJobData?.data?.views}</span>
+                                                      </Button>
+                                                </div>
+                                                <div className=" mb-4">
+
+                                                      <Image
+                                                            src={singleJobData?.data?.image_url}
+                                                            alt=""
+                                                            width={400}
+                                                            height={500}
+                                                            className="w-full mt-4 h-full "
                                                       />
-                                                      <div className="aspect-[16/9] w-full rounded-lg bg flex items-center justify-center overflow-hidden">
-                                                            {singleJobData?.data?.uploadDocument ? (
-                                                                  singleJobData?.data?.uploadDocument.endsWith(".pdf") ? (
-                                                                        <iframe
-                                                                              src={singleJobData.data.uploadDocument + "#toolbar=0"}
-                                                                              title="Document"
-                                                                              className="w-full h-full rounded-lg object-contain"
-                                                                        />
-                                                                  ) : (
-                                                                        <img
-                                                                              src={singleJobData.data.uploadDocument}
-                                                                              alt="Advertisement Document"
-                                                                              className="w-full h-full object-cover rounded-lg"
-                                                                        />
-                                                                  )
-                                                            ) : (
-                                                                  <p className="text-center text-white text-sm">No document available</p>
-                                                            )}
-                                                      </div>
+
+
 
                                                 </div>
                                           </div>
-                                          {addItem.length > 0 && <div className="space-y-4">
+                                          {addItem.length > 0 && <div className="space-y-4 ">
                                                 {addItem?.map((item) => (
                                                       <Image
                                                             key={item.id}
@@ -137,13 +172,41 @@ const Page = ({ params }: { params: { slag: string } }) => {
                                                       />
                                                 ))}
                                           </div>}
+
+
                                     </div>
                               </div>
                         </div>
                   </MaxWidthWrapper>
 
 
+                  <Dialog open={pdfModalOpen} onOpenChange={setPdfModalOpen}>
+                        <DialogContent className="max-w-4xl w-[90vw] h-[90vh] p-0 gap-0">
+                              <div className="flex flex-col h-full w-full">
+                                    {/* Header */}
+                                    <div className="flex items-center justify-between p-4 border-b">
+                                          <h2 className="text-lg font-semibold truncate max-w-[60%]">Pdf view and download</h2>
+                                          <div className="flex items-center mr-8  gap-2">
+                                                <Button onClick={handleDownload} className="flex items-center gap-2" variant="outline">
+                                                      <Download className="h-4 w-4" />
+                                                      <span className="hidden sm:inline">Download</span>
+                                                </Button>
 
+                                          </div>
+                                    </div>
+
+                                    {/* PDF Content */}
+                                    <div className="relative flex-1">
+
+                                          <iframe
+                                                src={`${singleJobData?.data?.pdf_url}#toolbar=0`}
+                                                className="w-full h-full"
+                                                title={`${singleJobData?.data?.title} PDF`}
+                                          />
+                                    </div>
+                              </div>
+                        </DialogContent>
+                  </Dialog>
 
 
 

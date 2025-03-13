@@ -21,16 +21,11 @@ import {
       DialogOverlay,
       DialogPortal
 } from "@/components/ui/dialog"
-import { AccomplishmentDialog } from "./small_components/accomplishment-dialog"
-import { useMediaQuery } from "@/app/hooks/use_media_query"
+
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/collapsible"
 import { useUserData } from "@/utils/encript_decript"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 import Address from "./Address"
-import PersonalDetailsEdit from "./small_components/PersonalDetailsEdit"
-import Profile_update from "./small_components/Profile_update"
-import ContactUpdate from "./small_components/Contact_update"
-import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import { useRouter } from "next/navigation"
 import { encryptId } from "@/utils/encriptDecriptGenarator"
 import ProfileTabList from "./ProfileTabList"
@@ -41,6 +36,12 @@ import PreferredAreas from "./PreferredAreas"
 import OtherReleventInfo from "./OtherReleventInfo"
 import DisabilityInformation from "./DisabilityInformation"
 import EducationTraining from "./EducationTraining"
+import { useMediaQuery } from "@/app/hooks/use_media_query"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import PersonalDetailsEdit from "./small_components/PersonalDetailsEdit"
+import ProfileUpdate from "./small_components/Profile_update"
+import ContactUpdate from "./small_components/Contact_update"
+import { AccomplishmentDialog } from "./small_components/accomplishment-dialog"
 
 
 export default function ProfileForm() {
@@ -132,7 +133,7 @@ function MobileProfileView({
       }
       if (activeSection === "profilePhoto") {
             return (
-                  <Profile_update setActiveSection={setActiveSection} />
+                  <ProfileUpdate setActiveSection={setActiveSection} />
             )
       }
       if (activeSection === "contactDetails") {
