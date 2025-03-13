@@ -40,6 +40,7 @@ import CareerObjective from "./CareerObjective"
 import PreferredAreas from "./PreferredAreas"
 import OtherReleventInfo from "./OtherReleventInfo"
 import DisabilityInformation from "./DisabilityInformation"
+import EducationTraining from "./EducationTraining"
 
 
 export default function ProfileForm() {
@@ -382,73 +383,17 @@ function DesktopProfileView({
 
 
                                     </Accordion>
-
-
-
-
-
                               </TabsContent>
 
                               <TabsContent value="education" className="m-0">
-                                    <div className="p-4 border-b flex items-center justify-between">
-                                          <h1 className="text-lg font-medium">Education & Training</h1>
-                                          {isEditing ? (
-                                                <div className="flex items-center space-x-2">
-                                                      <Button variant="outline" size="sm" onClick={handleSave}>
-                                                            <Save className="h-4 w-4 mr-2" />
-                                                            Save
-                                                      </Button>
-                                                      <Button variant="outline" size="sm" onClick={toggleEditMode}>
-                                                            <X className="h-4 w-4 mr-2" />
-                                                            Cancel
-                                                      </Button>
-                                                </div>
-                                          ) : (
-                                                <Button variant="outline" size="sm" onClick={toggleEditMode}>
-                                                      <Pencil className="h-4 w-4 mr-2" />
-                                                      Edit
-                                                </Button>
-                                          )}
-                                    </div>
-                                    <div className="p-6">
-                                          <div className="space-y-6">
-                                                <div>
-                                                      <h2 className="text-lg font-medium mb-4">Academic Qualification</h2>
-                                                      <div className="bg-gray-50 p-4 rounded-md">
-                                                            <p className="text-gray-500">No academic qualifications added yet.</p>
-                                                            {isEditing && (
-                                                                  <Button variant="outline" size="sm" className="mt-2">
-                                                                        Add Qualification
-                                                                  </Button>
-                                                            )}
-                                                      </div>
-                                                </div>
-
-                                                <div>
-                                                      <h2 className="text-lg font-medium mb-4">Training Summary</h2>
-                                                      <div className="bg-gray-50 p-4 rounded-md">
-                                                            <p className="text-gray-500">No training records added yet.</p>
-                                                            {isEditing && (
-                                                                  <Button variant="outline" size="sm" className="mt-2">
-                                                                        Add Training
-                                                                  </Button>
-                                                            )}
-                                                      </div>
-                                                </div>
-
-                                                <div>
-                                                      <h2 className="text-lg font-medium mb-4">Professional Certification</h2>
-                                                      <div className="bg-gray-50 p-4 rounded-md">
-                                                            <p className="text-gray-500">No certifications added yet.</p>
-                                                            {isEditing && (
-                                                                  <Button variant="outline" size="sm" className="mt-2">
-                                                                        Add Certification
-                                                                  </Button>
-                                                            )}
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
+                                    <Accordion defaultValue="academic" type="single" collapsible className="w-full mt-6 space-y-3">
+                                          <AccordionItem className="border" value="academic">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Academic Summary</AccordionTrigger>
+                                                <AccordionContent>
+                                                      <EducationTraining />
+                                                </AccordionContent>
+                                          </AccordionItem>
+                                    </Accordion>
                               </TabsContent>
 
                               <TabsContent value="employment" className="m-0">
