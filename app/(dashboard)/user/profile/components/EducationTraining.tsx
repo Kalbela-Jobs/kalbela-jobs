@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { DialogContent, DialogOverlay, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectContent, SelectGroup, SelectLabel, SelectItem, SelectValue } from '@/components/ui/select';
-import { GraduationCap } from 'lucide-react';
+import { GraduationCap, Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import { EditModal } from './CommonModal';
 
@@ -84,6 +84,8 @@ const EducationTraining = () => {
                 <div className="text-center text-xl bg-gray-50  py-16 text-gray-500">
                     <GraduationCap size={50} strokeWidth={1} className="mx-auto text-primary" />
                     <p>No educations found.</p>
+                    {educations.length === 0 && <Button className='px-6 mt-4' onClick={handleAddClick}><Plus /> Add </Button>}
+
                 </div>
             ) : (
                 educations.map((education, index) => (
@@ -125,7 +127,7 @@ const EducationTraining = () => {
                 ))
             )}
 
-            <Button className='px-6' onClick={handleAddClick}>+ Add</Button>
+            {educations.length !== 0 && <Button className='px-6' onClick={handleAddClick}><Plus /> Add </Button>}
 
             <EditModal
                 open={isDialogOpen}
@@ -181,7 +183,7 @@ const EducationTraining = () => {
                     </div>
                     <div className="space-y-2 flex flex-col">
                         <label className='font-semibold' htmlFor="year">Passing Year</label>
-                        <Input className='w-full' name="year" value={currentEducation.year} onChange={handleInputChange} type="date" />
+                        <Input type="date" className='w-full' name="year" value={currentEducation.year} onChange={handleInputChange} />
                     </div>
                 </div>
                 <div className="mt-4 flex justify-end">

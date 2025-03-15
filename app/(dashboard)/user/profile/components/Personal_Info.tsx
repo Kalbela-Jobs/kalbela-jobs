@@ -9,22 +9,7 @@ import { Button } from "@/components/ui/button"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Image from "next/image"
-import {
-      Dialog,
-      DialogTrigger,
-      DialogContent,
-      DialogHeader,
-      DialogFooter,
-      DialogTitle,
-      DialogDescription,
-      DialogClose,
-      DialogOverlay,
-      DialogPortal
-} from "@/components/ui/dialog"
-
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/collapsible"
 import { useUserData } from "@/utils/encript_decript"
-import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 import Address from "./Address"
 import { useRouter } from "next/navigation"
 import { encryptId } from "@/utils/encriptDecriptGenarator"
@@ -41,7 +26,10 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import PersonalDetailsEdit from "./small_components/PersonalDetailsEdit"
 import ProfileUpdate from "./small_components/Profile_update"
 import ContactUpdate from "./small_components/Contact_update"
+import TrainingSummary from "./Traning_summary";
 import { AccomplishmentDialog } from "./small_components/accomplishment-dialog"
+import CitificationSummary from "./CirtificationSummary"
+import EmploymentHistory from "./EmployeementHistory"
 
 
 export default function ProfileForm() {
@@ -52,8 +40,6 @@ export default function ProfileForm() {
       const [isEditing, setIsEditing] = useState(false)
 
 
-
-      // Load active tab from localStorage on component mount
       useEffect(() => {
             const savedTab = localStorage.getItem("activeProfileTab")
             if (savedTab) {
@@ -61,7 +47,6 @@ export default function ProfileForm() {
             }
       }, [])
 
-      // Save active tab to localStorage when it changes
       useEffect(() => {
             localStorage.setItem("activeProfileTab", activeTab)
       }, [activeTab])
@@ -75,7 +60,6 @@ export default function ProfileForm() {
       }
 
       const handleSave = () => {
-            // Here you would typically save the form data
             setIsEditing(false)
       }
 
@@ -394,41 +378,36 @@ function DesktopProfileView({
                                                       <EducationTraining />
                                                 </AccordionContent>
                                           </AccordionItem>
+
+                                          <AccordionItem className="border" value="trining">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Training Summary</AccordionTrigger>
+                                                <AccordionContent>
+                                                      <TrainingSummary />
+                                                </AccordionContent>
+                                          </AccordionItem>
+
+                                          <AccordionItem className="border" value="cirtification">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Professional Certification Summary</AccordionTrigger>
+                                                <AccordionContent>
+                                                      <CitificationSummary />
+                                                </AccordionContent>
+                                          </AccordionItem>
                                     </Accordion>
                               </TabsContent>
 
                               <TabsContent value="employment" className="m-0">
-                                    <div className="p-4 border-b flex items-center justify-between">
-                                          <h1 className="text-lg font-medium">Employment History</h1>
-                                          {isEditing ? (
-                                                <div className="flex items-center space-x-2">
-                                                      <Button variant="outline" size="sm" onClick={handleSave}>
-                                                            <Save className="h-4 w-4 mr-2" />
-                                                            Save
-                                                      </Button>
-                                                      <Button variant="outline" size="sm" onClick={toggleEditMode}>
-                                                            <X className="h-4 w-4 mr-2" />
-                                                            Cancel
-                                                      </Button>
-                                                </div>
-                                          ) : (
-                                                <Button variant="outline" size="sm" onClick={toggleEditMode}>
-                                                      <Pencil className="h-4 w-4 mr-2" />
-                                                      Edit
-                                                </Button>
-                                          )}
-                                    </div>
-                                    <div className="p-6">
-                                          <div className="bg-gray-50 p-4 rounded-md">
-                                                <p className="text-gray-500">No employment history added yet.</p>
-                                                {isEditing && (
-                                                      <Button variant="outline" size="sm" className="mt-2">
-                                                            Add Employment
-                                                      </Button>
-                                                )}
-                                          </div>
-                                    </div>
+                                    <Accordion defaultValue="academic" type="single" collapsible className="w-full mt-6 space-y-3">
+                                          <AccordionItem className="border" value="academic">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Employment History</AccordionTrigger>
+                                                <AccordionContent>
+                                                      <EmploymentHistory />
+                                                </AccordionContent>
+                                          </AccordionItem>
+
+                                    </Accordion>
                               </TabsContent>
+
+
 
                               <TabsContent value="other" className="m-0">
                                     <div className="p-4 border-b flex items-center justify-between">
