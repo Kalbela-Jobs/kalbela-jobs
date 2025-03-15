@@ -5,7 +5,7 @@ const uploadImage = async (file: any) => {
     const formData = new FormData()
     formData.append("image", file)
 
-    const url = `https://server.kalbelajobs.com/api/v1/image/upload-image`
+    const url = `https://server.kalbelajobs.com/api/v2/image/upload-image`
     const response = await fetch(url, {
       method: "PUT",
       body: formData,
