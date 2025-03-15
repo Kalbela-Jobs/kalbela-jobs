@@ -16,7 +16,7 @@ interface JobListProptype {
 
 const GovJobList: React.FC<JobListProptype> = ({ all_org_jobs_loading = false, all_org_jobs, get_org_all_jobs, handleJobSelect }) => {
       return (
-            <div className=" chat-bot h-screen md:pr-3 overflow-y-auto">
+            <div className=" chat-bot md:h-screen md:pr-3 overflow-y-auto">
                   {all_org_jobs_loading
                         ? Array.from({ length: 4 }).map((_, index) => (
                               <Card key={index} className="p-4">
