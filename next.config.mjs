@@ -39,6 +39,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "img.freepik.com",
       },
+      {
+        protocol: "https",
+        hostname: "image.kalbelajobs.com",
+      },
     ],
   },
   env: {

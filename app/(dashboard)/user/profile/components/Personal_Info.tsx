@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ChevronLeft, Camera, User, Phone, Briefcase, MapPin, FileText, GraduationCap, BarChart2, Award, Building, Globe, LinkIcon, Users, Trophy, Pencil, Save, X, Monitor, View, Eye } from 'lucide-react'
+import { ChevronLeft, Camera, User, Phone, Briefcase, MapPin, FileText, GraduationCap, BarChart2, Award, Building, Globe, LinkIcon, Users, Trophy, Pencil, Save, X, Monitor, View, Eye, Home } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -30,6 +30,12 @@ import TrainingSummary from "./Traning_summary";
 import { AccomplishmentDialog } from "./small_components/accomplishment-dialog"
 import CitificationSummary from "./CirtificationSummary"
 import EmploymentHistory from "./EmployeementHistory"
+import EmployeeHistoryForRetired from "./EmploymentHistoryForRetire"
+import OtherSkills from "./OtherSkills"
+import LanguageProficiency from "./LanguageProficency"
+import ReferenceInput from "./Reference"
+import LinkAccounts from "./LinksAccount"
+import UserAssets from "./UserAssets"
 
 
 export default function ProfileForm() {
@@ -303,12 +309,7 @@ function DesktopProfileView({
       toggleEditMode: () => void
       handleSave: () => void
 }) {
-      const [activeDialog, setActiveDialog] = useState<"portfolio" | "publication" | "award" | "project" | "other" | null>(null)
 
-      const handleSaveAccomplishment = (data: any) => {
-            console.log("Saving accomplishment:", data)
-            // Handle saving the accomplishment data here
-      }
 
       return (
             <div>
@@ -319,7 +320,29 @@ function DesktopProfileView({
                               <TabsContent value="home" className="m-0">
                                     <Accordion defaultValue="item-1" type="single" collapsible className="w-full mt-6 space-y-3">
                                           <AccordionItem className="border" value="item-1">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Personal Details</AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50 flex items-center gap-2">
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-shield-user"
+                                                            >
+                                                                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                                                                  <path d="M6.376 18.91a6 6 0 0 1 11.249.003" />
+                                                                  <circle cx={12} cy={11} r={4} />
+                                                            </svg>
+
+
+                                                            Personal Details
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <PersonalDetailsContent
                                                             isEditing={isEditing}
@@ -330,21 +353,84 @@ function DesktopProfileView({
                                           </AccordionItem>
 
                                           <AccordionItem className="border" value="item-2">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Address Details </AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-shield-user"
+                                                            >
+                                                                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                                                                  <path d="M6.376 18.91a6 6 0 0 1 11.249.003" />
+                                                                  <circle cx={12} cy={11} r={4} />
+                                                            </svg>
+
+
+                                                            Address Details
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <Address />
                                                 </AccordionContent>
                                           </AccordionItem>
 
                                           <AccordionItem className="border" value="item-3">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Career and Application Information </AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-shield-user"
+                                                            >
+                                                                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                                                                  <path d="M6.376 18.91a6 6 0 0 1 11.249.003" />
+                                                                  <circle cx={12} cy={11} r={4} />
+                                                            </svg>
+                                                            Career and Application Information
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <CareerObjective isEditing={isEditing} />
                                                 </AccordionContent>
                                           </AccordionItem>
 
                                           <AccordionItem className="border" value="item-4">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Preferred Areas</AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-shield-user"
+                                                            >
+                                                                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                                                                  <path d="M6.376 18.91a6 6 0 0 1 11.249.003" />
+                                                                  <circle cx={12} cy={11} r={4} />
+                                                            </svg>
+                                                            Preferred Areas
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <PreferredAreas />
                                                 </AccordionContent>
@@ -352,7 +438,27 @@ function DesktopProfileView({
 
 
                                           <AccordionItem className="border" value="item-5">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Other Relevant Information</AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-shield-user"
+                                                            >
+                                                                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                                                                  <path d="M6.376 18.91a6 6 0 0 1 11.249.003" />
+                                                                  <circle cx={12} cy={11} r={4} />
+                                                            </svg>
+                                                            Other Relevant Information
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <OtherReleventInfo />
                                                 </AccordionContent>
@@ -360,34 +466,116 @@ function DesktopProfileView({
 
 
                                           <AccordionItem className="border" value="item-6">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Disability Information (if any)</AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-unplug"
+                                                            >
+                                                                  <path d="m19 5 3-3" />
+                                                                  <path d="m2 22 3-3" />
+                                                                  <path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z" />
+                                                                  <path d="M7.5 13.5 10 11" />
+                                                                  <path d="M10.5 16.5 13 14" />
+                                                                  <path d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z" />
+                                                            </svg>
+                                                            Disability Information (if any)
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <DisabilityInformation />
                                                 </AccordionContent>
                                           </AccordionItem>
-
-
                                     </Accordion>
                               </TabsContent>
 
                               <TabsContent value="education" className="m-0">
                                     <Accordion defaultValue="academic" type="single" collapsible className="w-full mt-6 space-y-3">
                                           <AccordionItem className="border" value="academic">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Academic Summary</AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-graduation-cap"
+                                                            >
+                                                                  <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+                                                                  <path d="M22 10v6" />
+                                                                  <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+                                                            </svg>
+
+                                                            Academic Summary
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <EducationTraining />
                                                 </AccordionContent>
                                           </AccordionItem>
 
                                           <AccordionItem className="border" value="trining">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Training Summary</AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-graduation-cap"
+                                                            >
+                                                                  <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+                                                                  <path d="M22 10v6" />
+                                                                  <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+                                                            </svg>
+                                                            Training Summary
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <TrainingSummary />
                                                 </AccordionContent>
                                           </AccordionItem>
 
                                           <AccordionItem className="border" value="cirtification">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Professional Certification Summary</AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-graduation-cap"
+                                                            >
+                                                                  <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+                                                                  <path d="M22 10v6" />
+                                                                  <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+                                                            </svg>
+                                                            Professional Certification Summary
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <CitificationSummary />
                                                 </AccordionContent>
@@ -398,9 +586,60 @@ function DesktopProfileView({
                               <TabsContent value="employment" className="m-0">
                                     <Accordion defaultValue="academic" type="single" collapsible className="w-full mt-6 space-y-3">
                                           <AccordionItem className="border" value="academic">
-                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">Employment History</AccordionTrigger>
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            {/* @ts-ignore */}
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-users"
+                                                            >
+                                                                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                                                  <circle cx={9} cy={7} r={4} />
+                                                                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                                                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                                            </svg>
+
+                                                            Employment History
+                                                      </div>
+                                                </AccordionTrigger>
                                                 <AccordionContent>
                                                       <EmploymentHistory />
+                                                </AccordionContent>
+                                          </AccordionItem>
+                                          <AccordionItem className="border" value="retired">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            {/* @ts-ignore */}
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-users"
+                                                            >
+                                                                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                                                  <circle cx={9} cy={7} r={4} />
+                                                                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                                                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                                            </svg>
+                                                            Employment History (For Retired Army Person)
+                                                      </div>
+                                                </AccordionTrigger>
+                                                <AccordionContent>
+                                                      <EmployeeHistoryForRetired />
                                                 </AccordionContent>
                                           </AccordionItem>
 
@@ -410,122 +649,136 @@ function DesktopProfileView({
 
 
                               <TabsContent value="other" className="m-0">
-                                    <div className="p-4 border-b flex items-center justify-between">
-                                          <h1 className="text-lg font-medium">Skills & Other Information</h1>
-                                          {isEditing ? (
-                                                <div className="flex items-center space-x-2">
-                                                      <Button variant="outline" size="sm" onClick={handleSave}>
-                                                            <Save className="h-4 w-4 mr-2" />
-                                                            Save
-                                                      </Button>
-                                                      <Button variant="outline" size="sm" onClick={toggleEditMode}>
-                                                            <X className="h-4 w-4 mr-2" />
-                                                            Cancel
-                                                      </Button>
-                                                </div>
-                                          ) : (
-                                                <Button variant="outline" size="sm" onClick={toggleEditMode}>
-                                                      <Pencil className="h-4 w-4 mr-2" />
-                                                      Edit
-                                                </Button>
-                                          )}
-                                    </div>
-                                    <div className="p-6">
-                                          <div className="space-y-6">
-                                                <div>
-                                                      <h2 className="text-lg font-medium mb-4">Skills</h2>
-                                                      <div className="bg-gray-50 p-4 rounded-md">
-                                                            <p className="text-gray-500">No skills added yet.</p>
-                                                            {isEditing && (
-                                                                  <Button variant="outline" size="sm" className="mt-2">
-                                                                        Add Skills
-                                                                  </Button>
-                                                            )}
-                                                      </div>
-                                                </div>
+                                    <Accordion defaultValue="skill_info" type="single" collapsible className="w-full mt-6 space-y-3">
+                                          <AccordionItem className="border" value="skill_info">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            {/* @ts-ignore */}
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-brain"
+                                                            >
+                                                                  <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
+                                                                  <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
+                                                                  <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
+                                                                  <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
+                                                                  <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" />
+                                                                  <path d="M3.477 10.896a4 4 0 0 1 .585-.396" />
+                                                                  <path d="M19.938 10.5a4 4 0 0 1 .585.396" />
+                                                                  <path d="M6 18a4 4 0 0 1-1.967-.516" />
+                                                                  <path d="M19.967 17.484A4 4 0 0 1 18 18" />
+                                                            </svg>
 
-                                                <div>
-                                                      <h2 className="text-lg font-medium mb-4">Language Proficiency</h2>
-                                                      <div className="bg-gray-50 p-4 rounded-md">
-                                                            <p className="text-gray-500">No languages added yet.</p>
-                                                            {isEditing && (
-                                                                  <Button variant="outline" size="sm" className="mt-2">
-                                                                        Add Language
-                                                                  </Button>
-                                                            )}
+                                                            Skills
                                                       </div>
-                                                </div>
+                                                </AccordionTrigger>
+                                                <AccordionContent>
+                                                      <OtherSkills />
+                                                </AccordionContent>
+                                          </AccordionItem>
 
-                                                <div>
-                                                      <h2 className="text-lg font-medium mb-4">References</h2>
-                                                      <div className="bg-gray-50 p-4 rounded-md">
-                                                            <p className="text-gray-500">No references added yet.</p>
-                                                            {isEditing && (
-                                                                  <Button variant="outline" size="sm" className="mt-2">
-                                                                        Add Reference
-                                                                  </Button>
-                                                            )}
+                                          <AccordionItem className="border" value="language">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            {/* @ts-ignore */}
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-languages"
+                                                            >
+                                                                  <path d="m5 8 6 6" />
+                                                                  <path d="m4 14 6-6 2-3" />
+                                                                  <path d="M2 5h12" />
+                                                                  <path d="M7 2h1" />
+                                                                  <path d="m22 22-5-10-5 10" />
+                                                                  <path d="M14 18h6" />
+                                                            </svg>
+
+                                                            Language Proficiency
                                                       </div>
-                                                </div>
-                                          </div>
-                                    </div>
+                                                </AccordionTrigger>
+                                                <AccordionContent>
+                                                      <LanguageProficiency />
+                                                </AccordionContent>
+                                          </AccordionItem>
+
+                                          <AccordionItem className="border" value="link">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            {/* @ts-ignore */}
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-link"
+                                                            >
+                                                                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                                                                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                                                            </svg>
+
+
+                                                            Links Account
+                                                      </div>
+                                                </AccordionTrigger>
+                                                <AccordionContent>
+                                                      <LinkAccounts />
+                                                </AccordionContent>
+                                          </AccordionItem>
+
+                                          <AccordionItem className="border" value="references">
+                                                <AccordionTrigger className="font-regular text-lg  px-4 bg-gray-50">
+                                                      <div className="flex items-center gap-2">
+                                                            {/* @ts-ignore */}
+                                                            <svg
+                                                                  xmlns="http://www.w3.org/2000/svg"
+                                                                  width={28}
+                                                                  height={28}
+                                                                  viewBox="0 0 24 24"
+                                                                  fill="none"
+                                                                  stroke="currentColor"
+                                                                  strokeWidth={1}
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
+                                                                  className="lucide lucide-user-round-check"
+                                                            >
+                                                                  <path d="M2 21a8 8 0 0 1 13.292-6" />
+                                                                  <circle cx={10} cy={8} r={5} />
+                                                                  <path d="m16 19 2 2 4-4" />
+                                                            </svg>
+
+                                                            References
+                                                      </div>
+                                                </AccordionTrigger>
+                                                <AccordionContent>
+                                                      <ReferenceInput />
+                                                </AccordionContent>
+                                          </AccordionItem>
+
+                                    </Accordion>
                               </TabsContent>
-
                               <TabsContent value="accomplishment" className="m-0">
-                                    <div className="p-6">
-                                          <div className="flex flex-col items-center justify-center text-center space-y-6">
-                                                <div className="w-16 h-16 bg-[#001968]/10 rounded-full flex items-center justify-center">
-                                                      <Monitor className="w-8 h-8 text-[#001968]" />
-                                                </div>
-                                                <p className="text-gray-600 max-w-lg">
-                                                      Currently no data exists! Select & add your portfolio url, Papers/Journal, Publications, etc to enhance your profile
-                                                </p>
-                                                <div className="flex flex-wrap gap-3 justify-center">
-                                                      <Button
-                                                            variant="outline"
-                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
-                                                            onClick={() => setActiveDialog("portfolio")}
-                                                      >
-                                                            Portfolio
-                                                      </Button>
-                                                      <Button
-                                                            variant="outline"
-                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
-                                                            onClick={() => setActiveDialog("publication")}
-                                                      >
-                                                            Publications
-                                                      </Button>
-                                                      <Button
-                                                            variant="outline"
-                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
-                                                            onClick={() => setActiveDialog("award")}
-                                                      >
-                                                            Awards/Honors
-                                                      </Button>
-                                                      <Button
-                                                            variant="outline"
-                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
-                                                            onClick={() => setActiveDialog("project")}
-                                                      >
-                                                            Projects
-                                                      </Button>
-                                                      <Button
-                                                            variant="outline"
-                                                            className="border-[#001968] text-[#001968] hover:bg-[#001968]/10"
-                                                            onClick={() => setActiveDialog("other")}
-                                                      >
-                                                            Others
-                                                      </Button>
-                                                </div>
-                                          </div>
-
-                                          <AccomplishmentDialog
-                                                type={activeDialog || "portfolio"}
-                                                open={!!activeDialog}
-                                                onOpenChange={(open) => !open && setActiveDialog(null)}
-                                                onSave={handleSaveAccomplishment}
-                                          />
-                                    </div>
+                                    <UserAssets />
                               </TabsContent>
                         </Tabs>
                   </div>
